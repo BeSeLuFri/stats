@@ -9,9 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Benedikt Fritz &amp; Marcel Schliebs" />
 
 
-<title>My Website</title>
+<title>Econometrics with R</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +20,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -161,6 +165,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -171,15 +270,24 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">My Website</a>
+      <a class="navbar-brand" href="index.html">Econometrics with R</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="website/index.html">Home</a>
+  <a href="index.html">Introduction</a>
 </li>
 <li>
-  <a href="website/about.html">About</a>
+  <a href="linreg.html">Linear Regression</a>
+</li>
+<li>
+  <a href="dataviz.html">DataViz</a>
+</li>
+<li>
+  <a href="econometrics.html">Applied Econometrics</a>
+</li>
+<li>
+  <a href="about.html">About</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -193,15 +301,86 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">My Website</h1>
+<h1 class="title toc-ignore">Econometrics with R</h1>
+<h4 class="author"><em>Benedikt Fritz &amp; Marcel Schliebs</em></h4>
+<h4 class="date"><em>1 Februar 2018</em></h4>
 
 </div>
 
 
-<p>Hello, Website!</p>
+<hr />
+<div id="hello" class="section level1">
+<h1>Hello</h1>
+<p>Hi everyone from Benedikt and Marcel and welcome to this introductory <strong>Applied Econometrics with R</strong> tutorial. The following paragraphs shall get you familiar with R and hopefully make you full-fledged data scientists in no time. So let’s get started.</p>
+<p>hier noch bisschen motivational stuff why R geil ist</p>
+<hr />
+</div>
+<div id="technical-set-up" class="section level1">
+<h1>Technical Set-Up</h1>
+<hr />
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>Hier Erklärung was was und links R-Studio + R download für windows und mac</p>
+<hr />
+</div>
+<div id="first-steps" class="section level2">
+<h2>First Steps</h2>
+<p>Oberfläche erklären. Skript/Concole, usw. Evtl. screenshots</p>
+<hr />
+</div>
+<div id="working-directoriesprojects" class="section level2">
+<h2>Working Directories/PROJECTS</h2>
+<p>ordner erstellen mit projekt</p>
+<hr />
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>was sind packages (sammlungen von funktionen, wie installiere und lade ich blabla)</p>
+<hr />
+</div>
+</div>
+<div id="taschenrechner" class="section level1">
+<h1>taschenrechneR</h1>
+<hr />
+<div id="lorem-ipsum" class="section level3">
+<h3><code># lorem ipsum</code></h3>
+<p>Kommentar. Alles was nach dem Kommentarzeichen in der Zeile erscheint wird von R nicht interpretiert</p>
+<pre class="r"><code>1+1 #Hier habe ich eins und eins zusammengezählt</code></pre>
+<pre><code>## [1] 2</code></pre>
+<hr />
+</div>
+<div id="y---x" class="section level3">
+<h3><code>y &lt;- x</code></h3>
+<p>Zuweisung, y wird x zugewiesen.</p>
+<pre class="r"><code>a &lt;- &quot;hello world&quot;
+a</code></pre>
+<pre><code>## [1] &quot;hello world&quot;</code></pre>
+<p>Anwendung: Datensatz einlesen. Zuweisung des Rückgabewertes der Funktion read_spss zu einem Objekt in R.</p>
+<pre><code>ess &lt;- read_spss(blabla SOEP) </code></pre>
+<hr />
+</div>
+<div id="x." class="section level3">
+<h3><code>x[.]</code></h3>
+<p>Indizieren eines Vektors</p>
+<pre class="r"><code>a &lt;- c(1,2,3)
+names(a) &lt;- c(&quot;q&quot;,&quot;r&quot;,&quot;s&quot;)
+a[1]</code></pre>
+<pre><code>## q 
+## 1</code></pre>
+<pre class="r"><code>a[c(TRUE,TRUE,FALSE)]</code></pre>
+<pre><code>## q r 
+## 1 2</code></pre>
+<pre class="r"><code>a[&quot;s&quot;]</code></pre>
+<pre><code>## s 
+## 3</code></pre>
+<p>Anwendung: Selektieren, Programmieren, Rekodieren</p>
+</div>
+</div>
 
 
 
+</div>
+</div>
 
 </div>
 

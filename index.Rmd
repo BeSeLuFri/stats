@@ -1,5 +1,78 @@
 ---
-title: "My Website"
+title: "Econometrics with R"
+author: "Benedikt Fritz & Marcel Schliebs"
+date: "1 Februar 2018"
 ---
 
-Hello, Website!
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+***
+# Hello
+
+Hi everyone from Benedikt and Marcel and welcome to this introductory **Applied Econometrics with R** tutorial. The following paragraphs shall get you familiar with R and hopefully make you full-fledged data scientists in no time. So let's get started. 
+
+hier noch bisschen motivational stuff why R geil ist
+
+
+***
+# Technical Set-Up
+***
+## Installation
+
+Hier Erklärung was was und links R-Studio + R download für windows und mac
+
+***
+## First Steps
+
+Oberfläche erklären. Skript/Concole, usw. Evtl. screenshots
+
+***
+## Working Directories/PROJECTS
+
+ordner erstellen mit projekt
+
+***
+## Packages
+
+was sind packages (sammlungen von funktionen, wie installiere und lade ich blabla)
+
+
+
+***
+# taschenrechneR
+
+***
+### ```# lorem ipsum```
+Kommentar. Alles was nach dem Kommentarzeichen in der Zeile erscheint wird von 
+R nicht interpretiert  
+
+```{r}
+1+1 #Hier habe ich eins und eins zusammengezählt
+```	
+  
+***
+### ```y <- x```  
+Zuweisung, y wird x zugewiesen.	
+```{r}
+a <- "hello world"
+a
+```	
+Anwendung: Datensatz einlesen. Zuweisung des Rückgabewertes der Funktion 
+read_spss zu einem Objekt in R.
+```
+ess <- read_spss(blabla SOEP) 
+```
+
+***
+### ```x[.]```  
+Indizieren eines Vektors	
+```{r}
+a <- c(1,2,3)
+names(a) <- c("q","r","s")
+a[1]
+a[c(TRUE,TRUE,FALSE)]
+a["s"]
+```	
+Anwendung: Selektieren, Programmieren, Rekodieren
+
