@@ -40,7 +40,7 @@ head(SOEP_data)
 
 # Einfache Scatterplots
 
-## Zusammenhang Sympathie Jamaika ~ Migrationseinstellung
+## Zusammenhang Sympathie Netincome ~ Alter
 
 ```{r,warning = FALSE}
 ggplot(data = SOEP_data,               # GGplot starten und Datensatz angeben
@@ -61,7 +61,7 @@ ggplot(data = SOEP_data,
 
 
 
-## Unterscheiden nach Parteiidentifikation (farblich)
+## Unterscheiden nach Geschlecht (farblich)
 
 ```{r,warning = FALSE}
 ggplot(data = SOEP_data,                          
@@ -131,7 +131,7 @@ gg1 <-  # zuweisen
        caption = "whatever")#+
  theme_ipsum(grid = "Y") #Theme mit schöner Schrit und mit horizontalen Grid-Linien
 
-gg1 #print
+plot(gg1) #print
 ```
 
 
@@ -164,14 +164,14 @@ ggsave(filename = "results/soep_jitterplot.png",
 
 #######################################################################
 
-# Barplots Wahlentscheidung
+# Barplots Einkommenskategorien
 
 ## Eindimensional
 ```{r,warning = FALSE}
-table(SOEP_data$netinc)
+table(SOEP_data$netinc) %>% head()
 ```
 
-## Haeufigkeitsverteilung der Zweitstimme
+## Haeufigkeitsverteilung der Einkommenskategorien
 ```{r,warning = FALSE}
 ggplot(data = SOEP_data) + 
   geom_bar(aes(x = inc_kat))
