@@ -1,5 +1,75 @@
 ---
-title: "Linear ss"
+title: "Datamanagemnet"
 ---
 
-More about this website.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, eval=FALSE}
+# 1: Packages Laden 
+# (falls einige noch nicht installiert sind, jeweils install.packages("....."))
+
+# Visualisierung:
+library(ggplot2)
+library(hrbrthemes) # install.packages("hrbrthemes")
+library(extrafont)
+
+# Laden des Datensatzes
+library(readstata13)
+
+# Datenrekodieren:
+library(car)
+
+
+# Daten als Objekt importieren
+SOEP2 <- read.dta13(file="data/offline/soep/new8.dta" , convert.factors=F,nonint.factors = F)
+
+# Variable Alter generieren
+SOEP2$alter = 2003 - SOEP2$gebjahr
+SOEP2$alter [SOEP2$alter == 2004] <- NA # entfernen der fehlerhaften
+
+#sex 
+
+SOEP2$sex <- factor(SOEP2$sex,levels = c(1,2),labels = c("männlich","weiblich"))
+
+# Ueberstunden recodieren 0=nein, 1=ja
+SOEP2$over = recode(SOEP2$tp72,"2=0;-2=NA;-1=NA; 3=NA")
+
+# Vertragliche und tatsaechliche Wochenarbeitszeit
+# Missings bereinigen
+SOEP2$contract = recode(SOEP2$tp7001,"-3=NA;-2=NA;-1=NA")
+SOEP2$actual = recode(SOEP2$tp7003,"-3=NA;-2=NA;-1=NA")
+SOEP2$contract = SOEP2$contract/10
+SOEP2$actual = SOEP2$actual/10
+
+# Vertrauen 
+# "Trust in people" und "Can't rely on anybody" recodieren
+SOEP2$trust = recode(SOEP2$tp0301,"-1=NA")
+SOEP2$rely = recode(SOEP2$tp0302,"-1=NA")
+
+SOEP2$netinc = recode(SOEP2$tp7602,"-3=NA;-2=NA;-1=NA")
+
+
+
+# Nur relevante Variablen werden übernommen
+SOEP2_data <- SOEP2[,c("netinc","alter","sex","contract","actual","trust","rely")]
+head(SOEP2_data)
+
+# Delete NAs
+SOEP2_data <- na.omit(SOEP2_data)
+
+# Einkommen Kategorisiert in Quartile
+
+hist(SOEP2$netinc)
+quantile(SOEP2_data$netinc)
+
+SOEP2_data$inc_kat <- NA
+SOEP2_data$inc_kat [SOEP2_data$netinc < quantile(SOEP2_data$netinc)[2]] <- "Q1"
+SOEP2_data$inc_kat [SOEP2_data$netinc >= quantile(SOEP2_data$netinc)[2] & SOEP2_data$netinc < quantile(SOEP2_data$netinc)[3]] <- "Q2"
+SOEP2_data$inc_kat [SOEP2_data$netinc >= quantile(SOEP2_data$netinc)[3] & SOEP2_data$netinc < quantile(SOEP2_data$netinc)[4]] <- "Q3"
+SOEP2_data$inc_kat [SOEP2_data$netinc >= quantile(SOEP2_data$netinc)[4] ] <- "Q4"
+
+table(SOEP2_data$inc_kat)
+```

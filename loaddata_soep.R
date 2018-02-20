@@ -29,7 +29,7 @@ SOEP$over = recode(SOEP$tp72,"2=0;-2=NA;-1=NA; 3=NA")
 
 # Vertragliche und tatsaechliche Wochenarbeitszeit
 # Missings bereinigen
-SOEP$contract = recode(SOEP$tp7001,"-3=NA;-2=NA;-1=NA")
+SOEP$contract = recode(SOEP$tp7001,"-3=NA;-2=NA;-1=NA") 
 SOEP$actual = recode(SOEP$tp7003,"-3=NA;-2=NA;-1=NA")
 SOEP$contract = SOEP$contract/10
 SOEP$actual = SOEP$actual/10
@@ -62,3 +62,5 @@ SOEP_data$inc_kat [SOEP_data$netinc >= quantile(SOEP_data$netinc)[3] & SOEP_data
 SOEP_data$inc_kat [SOEP_data$netinc >= quantile(SOEP_data$netinc)[4] ] <- "Q4"
 
 table(SOEP_data$inc_kat)
+
+#save(list = c("SOEP"),file = "soepdata.rdata")
