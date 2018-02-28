@@ -12,7 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Hi everyone from Benedikt and Marcel and welcome to this introductory **Applied Econometrics with R** tutorial. The following paragraphs shall get you familiar with R and hopefully make you full-fledged data scientists in no time. So let's get started. 
 
-hier noch bisschen motivational stuff why R geil ist
+R is a powerful prgramming language that is expecially well-suited for statistical analyses and the creation of graphics. It is one of the most widely used software packages in Econometrics and Applied Statistics.
+It is free and constantly adjusted and extended by a large user community which is why it is always u
 
 
 ***
