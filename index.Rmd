@@ -13,18 +13,53 @@ knitr::opts_chunk$set(echo = TRUE)
 Hi everyone from Benedikt and Marcel and welcome to this introductory **Applied Econometrics with R** tutorial. The following paragraphs shall get you familiar with R and hopefully make you full-fledged data scientists in no time. So let's get started. 
 
 R is a powerful prgramming language that is expecially well-suited for statistical analyses and the creation of graphics. It is one of the most widely used software packages in Econometrics and Applied Statistics.
-It is free and constantly adjusted and extended by a large user community which is why it is always u
+It is free and constantly adjusted and extended by a large user community which is why it is always up to date when it comes to the latest statistical developments. 
 
 
-***
+*****
 # Technical Set-Up
 ***
 ## Installation
+R is the software executing your commands 
 
-Hier Erklärung was was und links R-Studio + R download für windows und mac
+BUT: R itself is not quite userfriendly - the pane is inconvenient to maneuver. Therefore, there are various interfaces that can be added on top on the plain R. 
+The most common one is R-Studio. 
+
+
+**Download R**: 
+
+[MACOSX](https://cran.rstudio.com/bin/macosx/)
+
+[Windows](https://cran.r-project.org/bin/windows/)
+
+
+**Download R Studio**: 
+
+[Link](https://www.rstudio.com/products/rstudio/download/)
+
+
+**Trouble Shooting**
+
+If you have any problems with the installation process follow these pages
+
+[MACOSX](https://www.r-bloggers.com/installing-r-on-os-x/)
+
+[Windows](https://www.r-bloggers.com/download-and-install-r-in-windows/)
+
 
 ***
 ## First Steps
+After having succesfully installed R and R-Studio open RStudio (*never open R directly, always access it through RStudio*). 
+You should see something like this: 
+![Test](Test4.png)
+
+
+```{r echo=FALSE}
+
+
+```
+
+
 
 Oberfläche erklären. Skript/Concole, usw. Evtl. screenshots
 
