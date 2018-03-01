@@ -280,6 +280,9 @@ div.tocify {
   <a href="index.html">Introduction</a>
 </li>
 <li>
+  <a href="objectsndata.html">Objects and Data</a>
+</li>
+<li>
   <a href="datamanagement.html">Data Management</a>
 </li>
 <li>
@@ -338,8 +341,8 @@ div.tocify {
 <p><a href="https://www.r-bloggers.com/download-and-install-r-in-windows/">Windows</a></p>
 <hr />
 </div>
-<div id="first-steps" class="section level2">
-<h2>First Steps</h2>
+<div id="first-step" class="section level2">
+<h2>First Step</h2>
 <p>After having succesfully installed R and R-Studio open RStudio (<em>never open R directly, always access it through RStudio</em>), you should see something like this: <img src="Files/Screen1.png" alt="Test" /></p>
 <p>The big one on the left is called <em>Console</em> and it is the plain R execution window: You can type single lines of code in there and they are executed immediately after pressing Enter.</p>
 <p>On the right hand side you see the <em>Envivonment</em>. The Environment is just a place to store variables – a set of bindings between symbols and objects. If you start up R and make an assignment, you’re adding an entry in the global environment (we’ll come back to that shortly)</p>
@@ -354,8 +357,9 @@ div.tocify {
 <p>When you simply quit a project by clsing RStudio or the project directly all files, code, .RData and RStudio settings are saved.</p>
 <hr />
 </div>
-<div id="taschenrechner-1" class="section level2">
-<h2>taschenrechneR 1</h2>
+</div>
+<div id="taschenrechner-1" class="section level1">
+<h1>TaschenrechneR 1</h1>
 <p>Ok - by now we have invested a lot of time potentially doing nothing else but setting up stuff we have no use for. Can’t we get startetd right a way?</p>
 <p>Of course - let’s do some calculations. Type the following into the Console:</p>
 <pre class="r"><code>1+1 #What might be the result</code></pre>
@@ -364,242 +368,54 @@ div.tocify {
 <p>Wow - by now we know that R has the same power as a very simple calculator. As every simple calculator, you can write only one line of code at once and cannot save anything in a larger context. This is of course problematic because we will want R to execute larger chunks of code. If we would want to multiply 1+1 in a next step by two and then in a third step divide it by four, we would have to write everything in the only available calculator line. There must be a better way around this.</p>
 <hr />
 </div>
-<div id="r-scripts" class="section level2">
-<h2>R Scripts</h2>
+<div id="r-scripts" class="section level1">
+<h1>R Scripts</h1>
 <p>Of course there is - RScripts! An RRScript contains all commands including those for reading the reaw data, data manipulation, estimation, post-estimation analyses, and the creation of graphs and tables. We can ask R to run all or some ot the commands listed in the R script at once. This is key becaus the key feature of every scientific methods is reproducibility. When relying on R Scripts we can backtrack all the changes we made to our data and the assumptions we were relying on in our analysis with a simple mouse click.</p>
 <p>To open the editor for creating a new R script click on the symbol in the top left corner and choose open a new R script. Be sure to save it in the same folder where also your RProject is saved.</p>
 <p>As discovered above, the # Symbol is extremely useful because thereby we can comment on stuff without our comments being evaluated by R.</p>
 <p>Given an R script, we can send lines of code to R to be evaluated. To run the line in which the cursor is, press <strong>Ctrl+Enter</strong>. To run several lines of code, mark them with the mouse and do the same.</p>
 <p>Try it out with running the following code at once:</p>
-<p>ordner erstellen mit projekt</p>
-<hr />
-</div>
-</div>
-<div id="taschenrechner" class="section level1">
-<h1>taschenrechneR</h1>
-<hr />
-<hr />
-<div id="lorem-ipsum" class="section level3">
-<h3><code># lorem ipsum</code></h3>
-<p>Comment. Everything behind a hashtag is not run by the program</p>
-<pre class="r"><code>1+1 #Hier habe ich eins und eins zusammengezählt</code></pre>
+<pre class="r"><code>1+1</code></pre>
 <pre><code>## [1] 2</code></pre>
+<pre class="r"><code>5+(4-1)^2</code></pre>
+<pre><code>## [1] 14</code></pre>
+<pre class="r"><code># Let&#39;s try some Count Zeppelin
+# Man muß nur wollen und daran glauben, dann wird es gelingen. # This doesn&#39;t work because R doesn&#39;t know this text
+#But R does know text. Text which R knows is called a function. Very intuitive functions are:
+sqrt(4)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>log(10)</code></pre>
+<pre><code>## [1] 2.302585</code></pre>
 <hr />
 </div>
-<div id="y---x" class="section level3">
-<h3><code>y &lt;- x</code></h3>
-<p>Attribute x to y</p>
-<pre class="r"><code>a &lt;- &quot;hello world&quot;
-a</code></pre>
-<pre><code>## [1] &quot;hello world&quot;</code></pre>
-<hr />
-</div>
-<div id="xy" class="section level3">
-<h3><code>x:y</code></h3>
-<p>Generates sequence of ganzzahlen</p>
-<pre class="r"><code>1:3</code></pre>
-<pre><code>## [1] 1 2 3</code></pre>
-<hr />
-<hr />
-</div>
-</div>
-<div id="r-algebra" class="section level1">
-<h1>R algebra</h1>
-<hr />
-<div id="classes" class="section level2">
-<h2>Classes</h2>
-<hr />
-<div id="vectors" class="section level3">
-<h3>Vectors</h3>
-<p>numeric,character,factor</p>
-<hr />
-</div>
-<div id="matrices" class="section level3">
-<h3>Matrices</h3>
-<hr />
-</div>
-<div id="data-frames" class="section level3">
-<h3>Data Frames</h3>
-<hr />
-</div>
-<div id="lists" class="section level3">
-<h3>Lists</h3>
-<hr />
-</div>
-</div>
-<div id="indexing" class="section level2">
-<h2>Indexing</h2>
-<div id="x." class="section level3">
-<h3><code>x[.]</code></h3>
-<p>Indexing of a vector</p>
-<pre class="r"><code>a &lt;- c(1,2,3)
-names(a) &lt;- c(&quot;q&quot;,&quot;r&quot;,&quot;s&quot;)
-a[1]</code></pre>
-<pre><code>## q 
-## 1</code></pre>
-<pre class="r"><code>a[c(TRUE,TRUE,FALSE)]</code></pre>
-<pre><code>## q r 
-## 1 2</code></pre>
-<pre class="r"><code>a[&quot;s&quot;]</code></pre>
-<pre><code>## s 
-## 3</code></pre>
-</div>
-<div id="x.." class="section level3">
-<h3><code>x[.,.]</code></h3>
-<p>Indexing of data.frames (matix)</p>
-<pre class="r"><code>data(iris)
-iris[1,1]</code></pre>
-<pre><code>## [1] 5.1</code></pre>
-<pre class="r"><code>iris[1:2,1:2]</code></pre>
-<pre><code>##   Sepal.Length Sepal.Width
-## 1          5.1         3.5
-## 2          4.9         3.0</code></pre>
-<pre class="r"><code>iris[1,]</code></pre>
-<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-## 1          5.1         3.5          1.4         0.2  setosa</code></pre>
-<hr />
-</div>
-<div id="section" class="section level3">
-<h3><code>$</code></h3>
-<p>data(iris)</p>
-<pre class="r"><code>data(iris)
-table(iris$Species)</code></pre>
-<pre><code>## 
-##     setosa versicolor  virginica 
-##         50         50         50</code></pre>
-<hr />
-</div>
-<div id="x-y-x-y-x-y-x-y-x-y-x-y" class="section level3">
-<h3><code>x == y; ; x != y ,x &lt; y; x &gt; y; x &lt;= y; x &gt;= y</code></h3>
-<p>Logical operators. Return TRUE/FALSE VALUES.</p>
-<pre class="r"><code>1 == 2 #Gleichheit</code></pre>
-<pre><code>## [1] FALSE</code></pre>
-<pre class="r"><code>2 != 3 #Ungleichheit</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>2 &lt; 3 #Kleiner</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>2 &lt;= 3 #Kleiner gleich</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<p>vectorisation possible ***</p>
-<pre class="r"><code>1 == c(1,2,3)</code></pre>
-<pre><code>## [1]  TRUE FALSE FALSE</code></pre>
-<hr />
-</div>
-</div>
-<div id="packages" class="section level2">
-<h2>Packages</h2>
-<p>R itself can operate only very basic tasks. Even you as a novice will soon discover that you need extensions to run your stuff. This extensions are called packages. was sind packages (sammlungen von funktionen, wie installiere und lade ich blabla)</p>
-<div id="x-in-y" class="section level3">
-<h3><code>x %in% y</code></h3>
-<p>Checks which elements of vector x are included in y</p>
-<pre class="r"><code>1:3 %in% 2:4</code></pre>
-<pre><code>## [1] FALSE  TRUE  TRUE</code></pre>
-<hr />
-<hr />
-</div>
-</div>
-</div>
-<div id="the-tidyverse" class="section level1">
-<h1>The tidyverse</h1>
-<p>Welcome to the tidyverse!</p>
-<hr />
+<div id="packages" class="section level1">
+<h1>Packages</h1>
+<p>One more thing… R itself can operate only very basic tasks. Even you as a novice will soon discover that you need extensions to run your stuff. This extensions are called packages. They are developed by the large R users community and for free, too. If they meet certain quality criteria, they are published on the official “Comprehensive R Archive Network” (CRAN). You only have to install packages once on your computer - all you need is a simple line of code.</p>
+<pre class="r"><code>install.packages(&quot;package name&quot;)
+# But installing a project implies just that you have saved it on your computer.
+# To make it useable for your session you still have to open it every time (e.g. you need the following line in your script:)
+library(packagename)</code></pre>
+<p>Let’s introduce only one small package for now to understand the package functionality. The pipe %&gt;% operator from the magrittr package (which in turn is part of the <a href="https://www.tidyverse.org/">tidyverse</a>)</p>
 <div id="x-f-x-f-magrittr" class="section level3">
 <h3><code>x %&gt;% f(); x %&lt;&gt;% f() {magrittr}</code></h3>
 <p>The Pipe operator from the magrittr package pipes the last element of something into the first one of the next.<br />
 <code>x %&gt;% f()</code> .</p>
-<pre class="r"><code>library(magrittr)
-mean(c(1,2,3,5))</code></pre>
+<pre class="r"><code># Lets say we want to collect many numbers, perhaps all numbers from 1 to 5.
+# How do we do that? With a vector.
+# You can tell R to collect numbers in a vector with c(number, number, number)
+c(1,2,3,4, 5)</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<pre class="r"><code># A cooler way to write this is:
+c(1:5)</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<pre class="r"><code># Now lets say, we want to get the mean from that list
+mean(c(1:5))</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code># And here comes the power of the pipe:
+# install.packages(magrittr)
+library(magrittr)
+c(1,2,3,5) %&gt;% mean()</code></pre>
 <pre><code>## [1] 2.75</code></pre>
-<pre class="r"><code>c(1,2,3,5) %&gt;% mean()</code></pre>
-<pre><code>## [1] 2.75</code></pre>
-<p>… and <code>x %&lt;&gt;% f()</code> pipes elements and overwrites in the end the initial object with the result of the calculations.</p>
-<p><code>r  a &lt;- c(1,2,3)  a</code></p>
-<p><code>## [1] 1 2 3</code></p>
-<p><code>r  a %&lt;&gt;% mean()  a</code></p>
-<p><code>## [1] 2</code></p>
-<hr />
-</div>
-<div id="mutate" class="section level3">
-<h3>Mutate</h3>
-<hr />
-</div>
-<div id="summarise" class="section level3">
-<h3>Summarise</h3>
-<hr />
-</div>
-<div id="group_by" class="section level3">
-<h3>group_by</h3>
-<hr />
-</div>
-</div>
-<div id="useful-functions" class="section level1">
-<h1>Useful functions</h1>
-<div id="c" class="section level3">
-<h3><code>c()</code></h3>
-<p>Combines elements to a vector</p>
-<pre class="r"><code>c(1,2)</code></pre>
-<pre><code>## [1] 1 2</code></pre>
-</div>
-<div id="read_spsshaven" class="section level3">
-<h3><code>read_spss(){haven}</code></h3>
-<p>Read spss files via haven (DIE HIER EHER DATAMANAGEMENT)</p>
-<pre><code>ess &lt;- read_spss(file = &quot;data/ESS7e02_1.sav&quot;,
-                 user_na = TRUE)</code></pre>
-<hr />
-</div>
-<div id="read_dtareadstata13" class="section level3">
-<h3><code>read_dta(){readstata13}</code></h3>
-<p>Read dta files</p>
-<pre><code>lala &lt;- read_dta(file = &quot;blabla&quot;,version = 13)</code></pre>
-<hr />
-</div>
-<div id="withindatabefehl" class="section level3">
-<h3><code>within(data,{befehl})</code></h3>
-<p>Execute r command within data environment. Returns modified dataset.<code>{}</code> make sure that commands are executed across several lines.</p>
-<pre class="r"><code>data(iris)
-summary(iris$Sepal.Length)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   4.300   5.100   5.800   5.843   6.400   7.900</code></pre>
-<pre class="r"><code>iris &lt;- within(iris,{
-  Sepal.Length &lt;- Sepal.Length + 10
-})
-summary(iris$Sepal.Length)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   14.30   15.10   15.80   15.84   16.40   17.90</code></pre>
-<hr />
-</div>
-<div id="tablex" class="section level3">
-<h3>`<code>table(x)</code></h3>
-<hr />
-</div>
-<div id="prop.table" class="section level3">
-<h3><code>prop.table()</code></h3>
-<hr />
-</div>
-<div id="summaryx" class="section level3">
-<h3><code>summary(x)</code></h3>
-<hr />
-</div>
-<div id="meanx" class="section level3">
-<h3><code>mean(x)</code></h3>
-<hr />
-</div>
-<div id="sumx" class="section level3">
-<h3><code>sum(x)</code></h3>
-<hr />
-</div>
-<div id="sdx" class="section level3">
-<h3><code>sd(x)</code></h3>
-<hr />
-</div>
-<div id="medianx" class="section level3">
-<h3><code>median(x)</code></h3>
-</div>
-<div id="round2" class="section level3">
-<h3><code>round(2)</code></h3>
-</div>
-<div id="factor" class="section level3">
-<h3><code>factor()</code></h3>
 </div>
 </div>
 
