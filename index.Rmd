@@ -131,7 +131,7 @@ Let's introduce only one small package for now to understand the package functio
 The pipe %>% operator from the magrittr package (which in turn is part of the [tidyverse](https://www.tidyverse.org/))
 
 
-### ``` x %>% f(); x %<>% f() {magrittr}```	
+``` x %>% f(); x %<>% f() {magrittr}```	
 The Pipe operator from the magrittr package pipes the last element of something into the first one of the next.  
 ```x %>% f()``` .
 ```{r}
@@ -154,3 +154,16 @@ c(1,2,3,5) %>% mean()
 # Style
 
 Maybe here short intro into R style or link to google style sheet. 
+
+# Important Ressources
+[Stackoberflow](https://www.stackoverflow.com/))
+A general discussion forum for programmers, including many R users.
+Just google your question and make sure to place an "R" in the beginning of your question. Most often you will be directed to stackoverflow.
+
+[Econometrics for R](http://www.urfie.net/)
+Great book - this class is mainly based upon it.
+Has some 60pages of introduction into R.
+
+[CodeSchool](http://tryr.codeschool.com/)
+A fun way to learn the basics of R. 
+
