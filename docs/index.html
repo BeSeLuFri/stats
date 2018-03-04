@@ -24,8 +24,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -34,10 +34,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -394,9 +396,7 @@ sqrt(4)</code></pre>
 # To make it useable for your session you still have to open it every time (e.g. you need the following line in your script:)
 library(packagename)</code></pre>
 <p>Let’s introduce only one small package for now to understand the package functionality. The pipe %&gt;% operator from the magrittr package (which in turn is part of the <a href="https://www.tidyverse.org/">tidyverse</a>)</p>
-<div id="x-f-x-f-magrittr" class="section level3">
-<h3><span class="header-section-number">5.0.1</span> <code>x %&gt;% f(); x %&lt;&gt;% f() {magrittr}</code></h3>
-<p>The Pipe operator from the magrittr package pipes the last element of something into the first one of the next.<br />
+<p><code>x %&gt;% f(); x %&lt;&gt;% f() {magrittr}</code> The Pipe operator from the magrittr package pipes the last element of something into the first one of the next.<br />
 <code>x %&gt;% f()</code> .</p>
 <pre class="r"><code># Lets say we want to collect many numbers, perhaps all numbers from 1 to 5.
 # How do we do that? With a vector.
@@ -415,10 +415,15 @@ library(magrittr)
 c(1,2,3,5) %&gt;% mean()</code></pre>
 <pre><code>## [1] 2.75</code></pre>
 </div>
-</div>
 <div id="style" class="section level1">
-<h1>Style</h1>
+<h1><span class="header-section-number">6</span> Style</h1>
 <p>Maybe here short intro into R style or link to google style sheet.</p>
+</div>
+<div id="important-ressources" class="section level1">
+<h1><span class="header-section-number">7</span> Important Ressources</h1>
+<p><a href="https://www.stackoverflow.com/">Stackoberflow</a>) A general discussion forum for programmers, including many R users. Just google your question and make sure to place an “R” in the beginning of your question. Most often you will be directed to stackoverflow.</p>
+<p><a href="http://www.urfie.net/">Econometrics for R</a> Great book - this class is mainly based upon it. Has some 60pages of introduction into R.</p>
+<p><a href="http://tryr.codeschool.com/">CodeSchool</a> A fun way to learn the basics of R.</p>
 </div>
 
 

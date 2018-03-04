@@ -9,9 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Bene" />
 
 
-<title>Datamanagemnet</title>
+<title>Untitled</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -308,75 +309,41 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Datamanagemnet</h1>
+<h1 class="title toc-ignore">Untitled</h1>
+<h4 class="author"><em>Bene</em></h4>
+<h4 class="date"><em>March 1, 2018</em></h4>
 
 </div>
 
 
-<pre class="r"><code># 1: Packages Laden 
-# (falls einige noch nicht installiert sind, jeweils install.packages(&quot;.....&quot;))
-
-# Visualisierung:
-library(ggplot2)
-library(hrbrthemes) # install.packages(&quot;hrbrthemes&quot;)
-library(extrafont)
-
-# Laden des Datensatzes
-library(readstata13)
-
-# Datenrekodieren:
-library(car)
-
-
-# Daten als Objekt importieren
-SOEP2 &lt;- read.dta13(file=&quot;data/offline/soep/new8.dta&quot; , convert.factors=F,nonint.factors = F)
-
-# Variable Alter generieren
-SOEP2$alter = 2003 - SOEP2$gebjahr
-SOEP2$alter [SOEP2$alter == 2004] &lt;- NA # entfernen der fehlerhaften
-
-#sex 
-
-SOEP2$sex &lt;- factor(SOEP2$sex,levels = c(1,2),labels = c(&quot;männlich&quot;,&quot;weiblich&quot;))
-
-# Ueberstunden recodieren 0=nein, 1=ja
-SOEP2$over = recode(SOEP2$tp72,&quot;2=0;-2=NA;-1=NA; 3=NA&quot;)
-
-# Vertragliche und tatsaechliche Wochenarbeitszeit
-# Missings bereinigen
-SOEP2$contract = recode(SOEP2$tp7001,&quot;-3=NA;-2=NA;-1=NA&quot;)
-SOEP2$actual = recode(SOEP2$tp7003,&quot;-3=NA;-2=NA;-1=NA&quot;)
-SOEP2$contract = SOEP2$contract/10
-SOEP2$actual = SOEP2$actual/10
-
-# Vertrauen 
-# &quot;Trust in people&quot; und &quot;Can&#39;t rely on anybody&quot; recodieren
-SOEP2$trust = recode(SOEP2$tp0301,&quot;-1=NA&quot;)
-SOEP2$rely = recode(SOEP2$tp0302,&quot;-1=NA&quot;)
-
-SOEP2$netinc = recode(SOEP2$tp7602,&quot;-3=NA;-2=NA;-1=NA&quot;)
-
-
-
-# Nur relevante Variablen werden übernommen
-SOEP2_data &lt;- SOEP2[,c(&quot;netinc&quot;,&quot;alter&quot;,&quot;sex&quot;,&quot;contract&quot;,&quot;actual&quot;,&quot;trust&quot;,&quot;rely&quot;)]
-head(SOEP2_data)
-
-# Delete NAs
-SOEP2_data &lt;- na.omit(SOEP2_data)
-
-# Einkommen Kategorisiert in Quartile
-
-hist(SOEP2$netinc)
-quantile(SOEP2_data$netinc)
-
-SOEP2_data$inc_kat &lt;- NA
-SOEP2_data$inc_kat [SOEP2_data$netinc &lt; quantile(SOEP2_data$netinc)[2]] &lt;- &quot;Q1&quot;
-SOEP2_data$inc_kat [SOEP2_data$netinc &gt;= quantile(SOEP2_data$netinc)[2] &amp; SOEP2_data$netinc &lt; quantile(SOEP2_data$netinc)[3]] &lt;- &quot;Q2&quot;
-SOEP2_data$inc_kat [SOEP2_data$netinc &gt;= quantile(SOEP2_data$netinc)[3] &amp; SOEP2_data$netinc &lt; quantile(SOEP2_data$netinc)[4]] &lt;- &quot;Q3&quot;
-SOEP2_data$inc_kat [SOEP2_data$netinc &gt;= quantile(SOEP2_data$netinc)[4] ] &lt;- &quot;Q4&quot;
-
-table(SOEP2_data$inc_kat)</code></pre>
+<div id="r-markdown" class="section level2">
+<h2><span class="header-section-number">0.1</span> R Markdown</h2>
+<p>This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.</p>
+</div>
+<div id="slide-with-bullets" class="section level2">
+<h2><span class="header-section-number">0.2</span> Slide with Bullets</h2>
+<ul>
+<li>Bullet 1</li>
+<li>Bullet 2</li>
+<li>Bullet 3</li>
+</ul>
+</div>
+<div id="slide-with-r-output" class="section level2">
+<h2><span class="header-section-number">0.3</span> Slide with R Output</h2>
+<pre class="r"><code>summary(cars)</code></pre>
+<pre><code>##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00</code></pre>
+</div>
+<div id="slide-with-plot" class="section level2">
+<h2><span class="header-section-number">0.4</span> Slide with Plot</h2>
+<p><img src="bene_files/figure-html/pressure-1.png" width="672" /></p>
+</div>
 
 
 
