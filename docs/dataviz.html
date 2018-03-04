@@ -277,6 +277,9 @@ div.tocify {
   <a href="index.html">Introduction</a>
 </li>
 <li>
+  <a href="objectsndata.html">Objects and Data</a>
+</li>
+<li>
   <a href="datamanagement.html">Data Management</a>
 </li>
 <li>
@@ -315,31 +318,30 @@ div.tocify {
 <pre class="r"><code>library(ggplot2)
 library(hrbrthemes) 
 library(extrafont)</code></pre>
+<pre><code>## Registering fonts with R</code></pre>
 </div>
 <div id="laden-des-datensatzes" class="section level1">
 <h1>Laden des Datensatzes:</h1>
 <p>Hierfür verwenden wir die Daten, die wir bereits im Datamanagement-Teil eingelesen haben.</p>
 <p>Ein erster Überblick</p>
 <pre class="r"><code>str(SOEP_data)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    4910 obs. of  8 variables:
-##  $ netinc  : int  800 3600 900 2400 600 2378 4500 1400 1531 677 ...
-##  $ alter   : num  55 57 47 62 31 39 43 53 54 50 ...
-##  $ sex     : Factor w/ 2 levels &quot;maennlich&quot;,&quot;weiblich&quot;: 2 1 2 1 2 1 1 2 1 2 ...
-##  $ contract: num  38.5 40 42.5 38.5 40 37.5 40 35 38.5 28 ...
-##  $ actual  : num  41.5 42 48 40 40 37.5 45 38 38.5 30 ...
-##  $ trust   : int  2 2 3 2 3 3 2 2 2 3 ...
-##  $ rely    : int  3 4 2 3 2 1 3 3 3 2 ...
-##  $ inc_kat : chr  &quot;Q1&quot; &quot;Q4&quot; &quot;Q2&quot; &quot;Q4&quot; ...
-##  - attr(*, &quot;na.action&quot;)=Class &#39;omit&#39;  Named int [1:9571] 1 2 4 6 7 8 9 10 11 13 ...
-##   .. ..- attr(*, &quot;names&quot;)= chr [1:9571] &quot;1&quot; &quot;2&quot; &quot;4&quot; &quot;6&quot; ...</code></pre>
+<pre><code>## &#39;data.frame&#39;:    14481 obs. of  8 variables:
+##  $ netinc  : int  NA NA 800 NA 3600 NA NA NA NA NA ...
+##  $ alter   : num  52 NA 55 25 57 81 70 84 78 48 ...
+##  $ sex     : Factor w/ 2 levels &quot;maennlich&quot;,&quot;weiblich&quot;: 2 1 2 1 1 1 2 2 2 1 ...
+##  $ contract: num  37 NA 38.5 NA 40 NA NA NA NA NA ...
+##  $ actual  : num  37 NA 41.5 NA 42 NA NA NA NA NA ...
+##  $ trust   : int  3 NA 2 2 2 NA 2 2 3 3 ...
+##  $ rely    : int  2 NA 3 3 4 NA 4 3 2 2 ...
+##  $ inc_kat : chr  NA NA &quot;Q2&quot; NA ...</code></pre>
 <pre class="r"><code>head(SOEP_data)</code></pre>
-<pre><code>##    netinc alter       sex contract actual trust rely inc_kat
-## 3     800    55  weiblich     38.5   41.5     2    3      Q1
-## 5    3600    57 maennlich     40.0   42.0     2    4      Q4
-## 12    900    47  weiblich     42.5   48.0     3    2      Q2
-## 26   2400    62 maennlich     38.5   40.0     2    3      Q4
-## 31    600    31  weiblich     40.0   40.0     3    2      Q1
-## 32   2378    39 maennlich     37.5   37.5     3    1      Q4</code></pre>
+<pre><code>##   netinc alter       sex contract actual trust rely inc_kat
+## 1     NA    52  weiblich     37.0   37.0     3    2    &lt;NA&gt;
+## 2     NA    NA maennlich       NA     NA    NA   NA    &lt;NA&gt;
+## 3    800    55  weiblich     38.5   41.5     2    3      Q2
+## 4     NA    25 maennlich       NA     NA     2    3    &lt;NA&gt;
+## 5   3600    57 maennlich     40.0   42.0     2    4      Q4
+## 6     NA    81 maennlich       NA     NA    NA   NA    &lt;NA&gt;</code></pre>
 </div>
 <div id="einfache-scatterplots" class="section level1">
 <h1>Einfache Scatterplots</h1>
@@ -853,8 +855,8 @@ library(extrafont)</code></pre>
 <h2>Eindimensional</h2>
 <pre class="r"><code>table(SOEP_data$netinc) %&gt;% head()</code></pre>
 <pre><code>## 
-##  0 30 35 45 48 50 
-##  5  1  1  1  1  1</code></pre>
+##  0 30 35 36 40 45 
+## 21  1  1  1  1  1</code></pre>
 </div>
 <div id="haeufigkeitsverteilung-der-einkommenskategorien" class="section level2">
 <h2>Haeufigkeitsverteilung der Einkommenskategorien</h2>
@@ -878,9 +880,9 @@ round(
         erst = SOEP_data$sex),margin = 1),2)</code></pre>
 <pre><code>##      erst
 ## zweit maennlich weiblich
-##    Q1      0.23     0.77
+##    Q1      0.24     0.76
 ##    Q2      0.41     0.59
-##    Q3      0.65     0.35
+##    Q3      0.67     0.33
 ##    Q4      0.81     0.19</code></pre>
 <pre class="r"><code># In plot
 gg1 &lt;- #objekt zuweisen

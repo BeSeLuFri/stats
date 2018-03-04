@@ -7,8 +7,7 @@ More about this website.
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-#source("C:/Users/Schliebs/OneDrive/github/Applied_Econometrics_with_R/loaddata_soep.R")
-source("loaddata_soep.R")
+SOEP_data <- readRDS("data/offline/soepdata.rds")
 
 ```
 

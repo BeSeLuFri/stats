@@ -1,45 +1,118 @@
 ---
 title: "Linear Regression"
 ---
-```{r setup, include=FALSE,eval=FALSE}
+```{r setup, include=FALSE,eval=T}
 knitr::opts_chunk$set(echo = TRUE)
 
-#source("C:/Users/Schliebs/OneDrive/github/Applied_Econometrics_with_R/loaddata_soep.R")
-source("loaddata_soep.R")
-
+SOEP_data <- readRDS("data/offline/soepdata.rds")
+library(tidyverse)
+library(magrittr)
 ```
 
 
-```{r,eval=FALSE}
+
+In this chapter, we want to introduce you to the possibly most popular technique/tool of modern statistics, Linear Regression. 
+
+# Data Preparation
+
+After having recoded your variables as in the datamanagement section, you will need to make some further preparatory steps before we can begin the regression. 
+```{r,warning = FALSE}
+SOEP_data %>% str()
+```
+Our dataset contains `r nrow(SOEP_data)` observations/cases and (in the reduced form) 8 variables. We immediately see that many variables contain a high number of so called *NAs* (standing for Non-attitude/No Answer/...). 
+
+## NA/Missing Values 
+
+Lets look at the first 10 rows:
+```{r,warning = FALSE}
+SOEP_data %>% head(10)
+```
+
+A multivariate regression model cannot handle NAs and will thus automatically remove all observations containing at least one single NA per row for the whole regression. Since this happens in a bit of a shady process, we will proceed by eliminating each row containing one or more NAs right away. You should always do this before you begin your analysis. 
+
+```{r,warning = FALSE}
+SOEP_data %<>% na.omit()
+```
+
+We now see that we keep only "complete" rows in our now much smaller subdataset with `r nrow(SOEP_data)` observations. 
+```{r,warning = FALSE}
+SOEP_data %>% head(10)
+```
+
+# Decriptive Inspection 
+
+## Table
+
+```{r,warning = FALSE}
+SOEP_data$sex %>% table() %>% prop.table() %>% round()
+```
+
+## Histogram
+
+```{r,warning = FALSE}
+SOEP_data$alter %>% hist()
+```
+
+
+# Linear Regression
+
+Let's look into regression. 
+
+We first want to estimate a bivariate regression of logged netincome on age.
+
+Therefore, we first create a new variable called log_netinc
+```{r,warning = FALSE}
+SOEP_data$log_netinc <- SOEP_data$netinc
+
+# log(0) is not possible => manually correct created NAs
+SOEP_data$log_netinc [is.na(SOEP_data$log_netinc)] <- 0
+```
+
+```{r,warning = FALSE}
+model1 <- lm(log_netinc ~ alter,data = SOEP_data)
+summary(model1)
+```
+
+The regression can easily be expanded to a multivariate context by adding more variables, such as gender or a quadratic age term. 
+
+```{r,warning = FALSE}
+model2 <- lm(log_netinc ~ alter + I(alter^2) ,
+            data = SOEP_data)
+summary(model2)
+```
+
+```{r,warning = FALSE}
+model3 <- lm(log_netinc ~ alter +  I(alter^2) + sex ,
+            data = SOEP_data)
+summary(model3)
+```
+
+Interpret regression coefficients!
+
+# Regression Table 2 Paper
+
+The stargazer package enables us to neatly 
+
+```{r,warning = FALSE}
 library(stargazer)
-
-
-# Models SOEP
-
-mod1 <- lm(netinc ~ alter ,data = SOEP)
-summary(mod1)
-
-mod2 <- lm(netinc ~ alter + I(alter^2),data = SOEP)
-summary(mod2)
-
 
 # Nice Apa-Ready Output: 
 
-stargazer(mod1,mod2,  #regression models 
+stargazer(model1,model2,model3,  #regression models 
           type = "text", # character vector (eg. "text" / "html" / "latex")
           title = "Hier steht die Überschrift",  # header
           style = "default",  # style (choice see below)
-          summary = NULL,  # logical vector: output summary statistics when given data.frame
          # out = "table1_SOEP.html", # path and output of file
           out.header = FALSE, # logical vector: should output file contain code-header?
-          column.labels = c("basic model","2 variable model"), # column labels for mod1/mod2
-          column.separate = c(1,1),  # how column labels should be assigned (label over sev. columns possible)
-          covariate.labels = c("Alter",  # Covariate Labels
-                               "Alter^2",
+          column.labels = c("basic model","age quadratic","full model"), # column labels for mod1/mod2
+          column.separate = c(1,1,1),  # how column labels should be assigned (label over sev. columns possible)
+          covariate.labels = c("Age",  # Covariate Labels
+                               "Age squared",
+                               "Sex female",
                                "Intercept"),
-          dep.var.caption = "Abh. Var", # Caption (Top) of dependent variable
+          dep.var.caption = "Dep. Var.", # Caption (Top) of dependent variable
           star.cutoffs = c(0.05,0.01,0.001),
-          dep.var.labels = c("Netincome"))
+          dep.var.labels = c("Logged Net-Income"))
 
 ```
 
@@ -48,7 +121,7 @@ stargazer(mod1,mod2,  #regression models
 
 ```{r eval = F}
 
-stargazer(mod1,mod2,  #regression models 
+stargazer(model1,model2,model3,  #regression models 
           type = "html", # character vector (eg. "text" / "html" / "latex")
           title = "Hier steht die Überschrift",  # header
           style = "default",  # style (choice see below)

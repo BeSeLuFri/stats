@@ -151,4 +151,6 @@ library(magrittr)
 c(1,2,3,5) %>% mean()
 ```	
 
+# Style
 
+Maybe here short intro into R style or link to google style sheet. 

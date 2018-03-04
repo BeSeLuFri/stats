@@ -23,8 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -33,12 +33,10 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
 }
 </script>
 
@@ -313,38 +311,203 @@ div.tocify {
 </div>
 
 
-<pre class="r"><code>library(stargazer)
+<p>In this chapter, we want to introduce you to the possibly most popular technique/tool of modern statistics, Linear Regression.</p>
+<div id="data-preparation" class="section level1">
+<h1>Data Preparation</h1>
+<p>After having recoded your variables as in the datamanagement section, you will need to make some further preparatory steps before we can begin the regression.</p>
+<pre class="r"><code>SOEP_data %&gt;% str()</code></pre>
+<pre><code>## &#39;data.frame&#39;:    14481 obs. of  8 variables:
+##  $ netinc  : int  NA NA 800 NA 3600 NA NA NA NA NA ...
+##  $ alter   : num  52 NA 55 25 57 81 70 84 78 48 ...
+##  $ sex     : Factor w/ 2 levels &quot;maennlich&quot;,&quot;weiblich&quot;: 2 1 2 1 1 1 2 2 2 1 ...
+##  $ contract: num  37 NA 38.5 NA 40 NA NA NA NA NA ...
+##  $ actual  : num  37 NA 41.5 NA 42 NA NA NA NA NA ...
+##  $ trust   : int  3 NA 2 2 2 NA 2 2 3 3 ...
+##  $ rely    : int  2 NA 3 3 4 NA 4 3 2 2 ...
+##  $ inc_kat : chr  NA NA &quot;Q2&quot; NA ...</code></pre>
+<p>Our dataset contains 14481 observations/cases and (in the reduced form) 8 variables. We immediately see that many variables contain a high number of so called <em>NAs</em> (standing for Non-attitude/No Answer/…).</p>
+<div id="namissing-values" class="section level2">
+<h2>NA/Missing Values</h2>
+<p>Lets look at the first 10 rows:</p>
+<pre class="r"><code>SOEP_data %&gt;% head(10)</code></pre>
+<pre><code>##    netinc alter       sex contract actual trust rely inc_kat
+## 1      NA    52  weiblich     37.0   37.0     3    2    &lt;NA&gt;
+## 2      NA    NA maennlich       NA     NA    NA   NA    &lt;NA&gt;
+## 3     800    55  weiblich     38.5   41.5     2    3      Q2
+## 4      NA    25 maennlich       NA     NA     2    3    &lt;NA&gt;
+## 5    3600    57 maennlich     40.0   42.0     2    4      Q4
+## 6      NA    81 maennlich       NA     NA    NA   NA    &lt;NA&gt;
+## 7      NA    70  weiblich       NA     NA     2    4    &lt;NA&gt;
+## 8      NA    84  weiblich       NA     NA     2    3    &lt;NA&gt;
+## 9      NA    78  weiblich       NA     NA     3    2    &lt;NA&gt;
+## 10     NA    48 maennlich       NA     NA     3    2    &lt;NA&gt;</code></pre>
+<p>A multivariate regression model cannot handle NAs and will thus automatically remove all observations containing at least one single NA per row for the whole regression. Since this happens in a bit of a shady process, we will proceed by eliminating each row containing one or more NAs right away. You should always do this before you begin your analysis.</p>
+<pre class="r"><code>SOEP_data %&lt;&gt;% na.omit()</code></pre>
+<p>We now see that we keep only “complete” rows in our now much smaller subdataset with 4910 observations.</p>
+<pre class="r"><code>SOEP_data %&gt;% head(10)</code></pre>
+<pre><code>##    netinc alter       sex contract actual trust rely inc_kat
+## 3     800    55  weiblich     38.5   41.5     2    3      Q2
+## 5    3600    57 maennlich     40.0   42.0     2    4      Q4
+## 12    900    47  weiblich     42.5   48.0     3    2      Q2
+## 26   2400    62 maennlich     38.5   40.0     2    3      Q4
+## 31    600    31  weiblich     40.0   40.0     3    2      Q1
+## 32   2378    39 maennlich     37.5   37.5     3    1      Q4
+## 34   4500    43 maennlich     40.0   45.0     2    3      Q4
+## 39   1400    53  weiblich     35.0   38.0     2    3      Q3
+## 40   1531    54 maennlich     38.5   38.5     2    3      Q3
+## 46    677    50  weiblich     28.0   30.0     3    2      Q1</code></pre>
+</div>
+</div>
+<div id="decriptive-inspection" class="section level1">
+<h1>Decriptive Inspection</h1>
+<div id="table" class="section level2">
+<h2>Table</h2>
+<pre class="r"><code>SOEP_data$sex %&gt;% table() %&gt;% prop.table() %&gt;% round()</code></pre>
+<pre><code>## .
+## maennlich  weiblich 
+##         1         0</code></pre>
+</div>
+<div id="histogram" class="section level2">
+<h2>Histogram</h2>
+<pre class="r"><code>SOEP_data$alter %&gt;% hist()</code></pre>
+<p><img src="linreg_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+</div>
+<div id="linear-regression" class="section level1">
+<h1>Linear Regression</h1>
+<p>Let’s look into regression.</p>
+<p>We first want to estimate a bivariate regression of logged netincome on age.</p>
+<p>Therefore, we first create a new variable called log_netinc</p>
+<pre class="r"><code>SOEP_data$log_netinc &lt;- SOEP_data$netinc
 
+# log(0) is not possible =&gt; manually correct created NAs
+SOEP_data$log_netinc [is.na(SOEP_data$log_netinc)] &lt;- 0</code></pre>
+<pre class="r"><code>model1 &lt;- lm(log_netinc ~ alter,data = SOEP_data)
+summary(model1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = log_netinc ~ alter, data = SOEP_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2286.9  -619.0  -112.1   424.2  8593.1 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  434.259     49.819   8.717   &lt;2e-16 ***
+## alter         26.288      1.177  22.336   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 958.6 on 4908 degrees of freedom
+## Multiple R-squared:  0.09227,    Adjusted R-squared:  0.09209 
+## F-statistic: 498.9 on 1 and 4908 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>The regression can easily be expanded to a multivariate context by adding more variables, such as gender or a quadratic age term.</p>
+<pre class="r"><code>model2 &lt;- lm(log_netinc ~ alter + I(alter^2) ,
+            data = SOEP_data)
+summary(model2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = log_netinc ~ alter + I(alter^2), data = SOEP_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1727.4  -592.3  -109.0   404.5  8675.1 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -1.113e+03  1.420e+02  -7.838 5.58e-15 ***
+## alter        1.094e+02  7.249e+00  15.092  &lt; 2e-16 ***
+## I(alter^2)  -1.025e+00  8.821e-02 -11.616  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 945.8 on 4907 degrees of freedom
+## Multiple R-squared:  0.1166, Adjusted R-squared:  0.1162 
+## F-statistic: 323.7 on 2 and 4907 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>model3 &lt;- lm(log_netinc ~ alter +  I(alter^2) + sex ,
+            data = SOEP_data)
+summary(model3)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = log_netinc ~ alter + I(alter^2) + sex, data = SOEP_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2080.2  -569.2  -118.2   376.7  8315.7 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -707.0858   129.0087  -5.481 4.44e-08 ***
+## alter        109.4513     6.5575  16.691  &lt; 2e-16 ***
+## I(alter^2)    -1.0371     0.0798 -12.996  &lt; 2e-16 ***
+## sexweiblich -807.3283    24.4566 -33.011  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 855.6 on 4906 degrees of freedom
+## Multiple R-squared:  0.2771, Adjusted R-squared:  0.2767 
+## F-statistic: 626.9 on 3 and 4906 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Interpret regression coefficients!</p>
+</div>
+<div id="regression-table-2-paper" class="section level1">
+<h1>Regression Table 2 Paper</h1>
+<p>The stargazer package enables us to neatly</p>
+<pre class="r"><code>library(stargazer)</code></pre>
+<pre><code>## 
+## Please cite as:</code></pre>
+<pre><code>##  Hlavac, Marek (2015). stargazer: Well-Formatted Regression and Summary Statistics Tables.</code></pre>
+<pre><code>##  R package version 5.2. http://CRAN.R-project.org/package=stargazer</code></pre>
+<pre class="r"><code># Nice Apa-Ready Output: 
 
-# Models SOEP
-
-mod1 &lt;- lm(netinc ~ alter ,data = SOEP)
-summary(mod1)
-
-mod2 &lt;- lm(netinc ~ alter + I(alter^2),data = SOEP)
-summary(mod2)
-
-
-# Nice Apa-Ready Output: 
-
-stargazer(mod1,mod2,  #regression models 
+stargazer(model1,model2,model3,  #regression models 
           type = &quot;text&quot;, # character vector (eg. &quot;text&quot; / &quot;html&quot; / &quot;latex&quot;)
           title = &quot;Hier steht die Überschrift&quot;,  # header
           style = &quot;default&quot;,  # style (choice see below)
-          summary = NULL,  # logical vector: output summary statistics when given data.frame
          # out = &quot;table1_SOEP.html&quot;, # path and output of file
           out.header = FALSE, # logical vector: should output file contain code-header?
-          column.labels = c(&quot;basic model&quot;,&quot;2 variable model&quot;), # column labels for mod1/mod2
-          column.separate = c(1,1),  # how column labels should be assigned (label over sev. columns possible)
-          covariate.labels = c(&quot;Alter&quot;,  # Covariate Labels
-                               &quot;Alter^2&quot;,
+          column.labels = c(&quot;basic model&quot;,&quot;age quadratic&quot;,&quot;full model&quot;), # column labels for mod1/mod2
+          column.separate = c(1,1,1),  # how column labels should be assigned (label over sev. columns possible)
+          covariate.labels = c(&quot;Age&quot;,  # Covariate Labels
+                               &quot;Age squared&quot;,
+                               &quot;Sex female&quot;,
                                &quot;Intercept&quot;),
-          dep.var.caption = &quot;Abh. Var&quot;, # Caption (Top) of dependent variable
+          dep.var.caption = &quot;Dep. Var.&quot;, # Caption (Top) of dependent variable
           star.cutoffs = c(0.05,0.01,0.001),
-          dep.var.labels = c(&quot;Netincome&quot;))</code></pre>
+          dep.var.labels = c(&quot;Logged Net-Income&quot;))</code></pre>
+<pre><code>## 
+## Hier steht die Überschrift
+## =================================================================================================
+##                                                       Dep. Var.                                  
+##                     -----------------------------------------------------------------------------
+##                                                   Logged Net-Income                              
+##                            basic model              age quadratic              full model        
+##                                (1)                       (2)                       (3)           
+## -------------------------------------------------------------------------------------------------
+## Age                         26.288***                109.396***                109.451***        
+##                              (1.177)                   (7.249)                   (6.557)         
+##                                                                                                  
+## Age squared                                           -1.025***                 -1.037***        
+##                                                        (0.088)                   (0.080)         
+##                                                                                                  
+## Sex female                                                                     -807.328***       
+##                                                                                 (24.457)         
+##                                                                                                  
+## Intercept                  434.259***               -1,112.634***              -707.086***       
+##                             (49.819)                  (141.956)                 (129.009)        
+##                                                                                                  
+## -------------------------------------------------------------------------------------------------
+## Observations                  4,910                     4,910                     4,910          
+## R2                            0.092                     0.117                     0.277          
+## Adjusted R2                   0.092                     0.116                     0.277          
+## Residual Std. Error    958.628 (df = 4908)       945.811 (df = 4907)       855.643 (df = 4906)   
+## F Statistic         498.915*** (df = 1; 4908) 323.724*** (df = 2; 4907) 626.932*** (df = 3; 4906)
+## =================================================================================================
+## Note:                                                               *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</code></pre>
+</div>
 <div id="voller-optionenkanon" class="section level1">
 <h1>Voller Optionenkanon:</h1>
-<pre class="r"><code>stargazer(mod1,mod2,  #regression models 
+<pre class="r"><code>stargazer(model1,model2,model3,  #regression models 
           type = &quot;html&quot;, # character vector (eg. &quot;text&quot; / &quot;html&quot; / &quot;latex&quot;)
           title = &quot;Hier steht die Überschrift&quot;,  # header
           style = &quot;default&quot;,  # style (choice see below)

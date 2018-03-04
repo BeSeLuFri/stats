@@ -45,22 +45,25 @@ SOEP$netinc = recode(SOEP$tp7602,"-3=NA;-2=NA;-1=NA")
 
 # Nur relevante Variablen werden übernommen
 SOEP_data <- SOEP[,c("netinc","alter","sex","contract","actual","trust","rely")]
-head(SOEP_data)
+#head(SOEP_data)
 
 # Delete NAs
-SOEP_data <- na.omit(SOEP_data)
+#SOEP_data <- na.omit(SOEP_data)
 
 # Einkommen Kategorisiert in Quartile
 
-hist(SOEP$netinc)
-quantile(SOEP_data$netinc)
+#hist(SOEP$netinc)
+#quantile(SOEP_data$netinc)
 
 SOEP_data$inc_kat <- NA
-SOEP_data$inc_kat [SOEP_data$netinc < quantile(SOEP_data$netinc)[2]] <- "Q1"
-SOEP_data$inc_kat [SOEP_data$netinc >= quantile(SOEP_data$netinc)[2] & SOEP_data$netinc < quantile(SOEP_data$netinc)[3]] <- "Q2"
-SOEP_data$inc_kat [SOEP_data$netinc >= quantile(SOEP_data$netinc)[3] & SOEP_data$netinc < quantile(SOEP_data$netinc)[4]] <- "Q3"
-SOEP_data$inc_kat [SOEP_data$netinc >= quantile(SOEP_data$netinc)[4] ] <- "Q4"
+SOEP_data$inc_kat [SOEP_data$netinc < quantile(SOEP_data$netinc,na.rm = T)[2]] <- "Q1"
+SOEP_data$inc_kat [SOEP_data$netinc >= quantile(SOEP_data$netinc,na.rm = T)[2] & SOEP_data$netinc < quantile(SOEP_data$netinc,na.rm = T)[3]] <- "Q2"
+SOEP_data$inc_kat [SOEP_data$netinc >= quantile(SOEP_data$netinc,na.rm = T)[3] & SOEP_data$netinc < quantile(SOEP_data$netinc,na.rm = T)[4]] <- "Q3"
+SOEP_data$inc_kat [SOEP_data$netinc >= quantile(SOEP_data$netinc,na.rm = T)[4] ] <- "Q4"
 
-table(SOEP_data$inc_kat)
+#table(SOEP_data$inc_kat)
+saveRDS(SOEP_data,"data/offline/soepdata.rds")
+save(list = c("SOEP_data"),file = "data/offline/soepdata.rdata")
+rm(SOEP)
+rm(SOEP_data)
 
-#save(list = c("SOEP"),file = "soepdata.rdata")
