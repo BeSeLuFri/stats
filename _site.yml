@@ -11,6 +11,8 @@ navbar:
   left:
     - text: "Introduction"
       href: index.html
+    - text: "Objects and Data"
+      href: objectsndata.html
     - text: "Data Management"
       href: datamanagement.html
     - text: "Linear Regression"

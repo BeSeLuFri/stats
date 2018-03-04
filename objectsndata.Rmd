@@ -1,0 +1,193 @@
+---
+title: "Objects and Data Frames"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+***
+# taschenrechneR
+***
+
+### ```x %in% y```	
+Checks which elements of vector x are included in y
+```{r}
+1:3 %in% 2:4
+```	
+
+
+***
+### ```# lorem ipsum```
+Comment. Everything behind a hashtag is not run by the program 
+
+```{r}
+1+1 #Hier habe ich eins und eins zusammengezählt
+```	
+  
+***
+### ```y <- x```  
+Attribute x to y
+```{r}
+a <- "hello world"
+a
+```	
+
+
+***
+
+### ```x:y```  
+Generates sequence of ganzzahlen
+```{r}
+1:3
+```	
+
+***
+
+***
+# R algebra
+
+***
+## Classes 
+
+***
+### Vectors
+
+numeric,character,factor
+
+***
+### Matrices
+
+***
+### Data Frames
+
+***
+### Lists
+
+
+***
+## Indexing
+
+### ```x[.]```  
+Indexing of a vector 
+```{r}
+a <- c(1,2,3)
+names(a) <- c("q","r","s")
+a[1]
+a[c(TRUE,TRUE,FALSE)]
+a["s"]
+```	
+
+### ```x[.,.]```  
+Indexing of data.frames (matix)	
+```{r}
+data(iris)
+iris[1,1]
+iris[1:2,1:2]
+iris[1,]
+```	
+
+***
+### ```$```
+data(iris)
+```{r}
+data(iris)
+table(iris$Species)
+```	
+***
+### ```x == y; ; x != y ,x < y; x > y; x <= y; x >= y  ```	
+Logical operators. Return TRUE/FALSE VALUES.
+```{r}
+1 == 2 #Gleichheit
+2 != 3 #Ungleichheit
+2 < 3 #Kleiner
+2 <= 3 #Kleiner gleich
+```	
+vectorisation possible
+***
+```{r}
+1 == c(1,2,3)
+```	
+
+
+
+
+***
+### Mutate
+
+***
+### Summarise
+
+***
+### group_by
+
+***
+
+# Useful functions
+
+### ```c()``` 
+Combines elements to a vector
+```{r}
+c(1,2)
+```
+
+
+
+### ```read_spss(){haven}```
+Read spss files via haven  (DIE HIER EHER DATAMANAGEMENT)
+```
+ess <- read_spss(file = "data/ESS7e02_1.sav",
+                 user_na = TRUE)
+```
+
+***
+
+### ```read_dta(){readstata13}``` 
+Read dta files 
+```
+lala <- read_dta(file = "blabla",version = 13)
+```
+
+***
+
+### ```within(data,{befehl})``` 
+Execute r command within data environment. Returns modified dataset.```{}``` make sure that commands are executed across several lines.
+```{r}
+data(iris)
+summary(iris$Sepal.Length)
+iris <- within(iris,{
+  Sepal.Length <- Sepal.Length + 10
+})
+summary(iris$Sepal.Length)
+```
+
+***
+
+### ```table(x)``
+***
+
+### ```prop.table()```
+***
+
+### ```summary(x)```
+***
+
+### ```mean(x)```
+***
+
+### ```sum(x)```
+***
+
+### ```sd(x)```
+***
+
+### ```median(x)```
+
+### ```round(2)```
+
+### ```factor()```
+
+
