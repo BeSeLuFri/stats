@@ -10,7 +10,6 @@ library(magrittr)
 ```
 
 
-
 In this chapter, we want to introduce you to the possibly most popular technique/tool of modern statistics, Linear Regression. 
 
 # Data Preparation
@@ -119,7 +118,7 @@ stargazer(model1,model2,model3,  #regression models
 
 # Voller Optionenkanon:
 
-```{r eval = F}
+```{r eval = F,include=F}
 
 stargazer(model1,model2,model3,  #regression models 
           type = "html", # character vector (eg. "text" / "html" / "latex")
