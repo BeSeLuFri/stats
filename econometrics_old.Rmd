@@ -2,7 +2,7 @@
 title: "Linear Regression"
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval = FALSE)
 ```
 
 
@@ -125,35 +125,7 @@ df <- ddply(.data = SOEP2,
 df
 
 
-# Descriptive Statistics in apa-Format
-library(apaStyle)
 
-df
-df_rounded <- df
-df_rounded[,2:5] <- round(df[,2:5],1)
-df_rounded
-
-apa.table(
-  data = df_rounded,
-  level1.header = c("","Income", "AGE"),
-  level1.colspan = c(1,2,2),
-  level2.header = c("SEX", "Mean", "SD", "Mean", "SD")
-)$table
-
-# 2-dimensional  
-
-# We imagine that we had a cross-national data set by assigning sampled countries of origin
-
-SOEP2$country <- sample(c("germany","france","austria"),nrow(SOEP2),replace=TRUE,prob = c(0.5,0.25,0.25))
-
-df2 <- ddply( .data = SOEP2,
-             .variables = c("country","sex.factor"), # Variablen to be used for splitting
-             .fun = summarize,
-             INCOME= mean(netinc,na.rm = TRUE),
-             SD_INCOME= sd(netinc,na.rm = TRUE),
-             AGE = mean(alter,na.rm = TRUE),
-             SD_AGE = sd(alter,na.rm = TRUE)
-); df2
 
 
 # advanced R: Inequality detection 
