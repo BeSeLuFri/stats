@@ -313,7 +313,7 @@ div.tocify {
 
 <p>More about this website.</p>
 <div id="load-packages" class="section level1">
-<h1>Load Packages</h1>
+<h1><span class="header-section-number">1</span> Load Packages</h1>
 <p>At first, we need to load some packages. If you do not have them installed them yet, please do so once.</p>
 <pre class="r"><code>library(ggplot2)
 library(hrbrthemes) 
@@ -321,7 +321,7 @@ library(extrafont)</code></pre>
 <pre><code>## Registering fonts with R</code></pre>
 </div>
 <div id="laden-des-datensatzes" class="section level1">
-<h1>Laden des Datensatzes:</h1>
+<h1><span class="header-section-number">2</span> Laden des Datensatzes:</h1>
 <p>Hierfür verwenden wir die Daten, die wir bereits im Datamanagement-Teil eingelesen haben.</p>
 <p>Ein erster Überblick</p>
 <pre class="r"><code>str(SOEP_data)</code></pre>
@@ -344,9 +344,9 @@ library(extrafont)</code></pre>
 ## 6     NA    81 maennlich       NA     NA    NA   NA    &lt;NA&gt;</code></pre>
 </div>
 <div id="einfache-scatterplots" class="section level1">
-<h1>Einfache Scatterplots</h1>
+<h1><span class="header-section-number">3</span> Einfache Scatterplots</h1>
 <div id="zusammenhang-sympathie-netincome-alter" class="section level2">
-<h2>Zusammenhang Sympathie Netincome ~ Alter</h2>
+<h2><span class="header-section-number">3.1</span> Zusammenhang Sympathie Netincome ~ Alter</h2>
 <pre class="r"><code>ggplot(data = SOEP_data,               # GGplot starten und Datensatz angeben
        mapping = aes(x = alter,        # Specify mapping: aestethics (variable stuff)
                      y = netinc)) +  
@@ -354,7 +354,7 @@ library(extrafont)</code></pre>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="hinzufugen-einer-regressionsgerade" class="section level2">
-<h2>Hinzufügen einer Regressionsgerade</h2>
+<h2><span class="header-section-number">3.2</span> Hinzufügen einer Regressionsgerade</h2>
 <pre class="r"><code>ggplot(data = SOEP_data,                          
        mapping = aes(x = alter,        
                      y = netinc)) +  
@@ -363,7 +363,7 @@ library(extrafont)</code></pre>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="unterscheiden-nach-geschlecht-farblich" class="section level2">
-<h2>Unterscheiden nach Geschlecht (farblich)</h2>
+<h2><span class="header-section-number">3.3</span> Unterscheiden nach Geschlecht (farblich)</h2>
 <pre class="r"><code>ggplot(data = SOEP_data,                          
        mapping = aes(x = alter,        
                      y = netinc,
@@ -373,7 +373,7 @@ library(extrafont)</code></pre>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 <div id="die-farben-sind-optimierbar" class="section level2">
-<h2>Die Farben sind optimierbar:</h2>
+<h2><span class="header-section-number">3.4</span> Die Farben sind optimierbar:</h2>
 <pre class="r"><code>ggplot(data = SOEP_data,                          
        mapping = aes(x = alter,        
                      y = netinc,
@@ -387,7 +387,7 @@ library(extrafont)</code></pre>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="achsenlabels" class="section level2">
-<h2>Achsenlabels</h2>
+<h2><span class="header-section-number">3.5</span> Achsenlabels</h2>
 <pre class="r"><code>ggplot(data = SOEP_data,                          
        mapping = aes(x = alter,        
                      y = netinc,
@@ -406,7 +406,7 @@ library(extrafont)</code></pre>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div id="schones-theme" class="section level2">
-<h2>Schönes Theme</h2>
+<h2><span class="header-section-number">3.6</span> Schönes Theme</h2>
 <p>Jetzt noch ein Theme und sichern unter dem Objekt gg1</p>
 <pre class="r"><code>gg1 &lt;-  # zuweisen
   ggplot(data = SOEP_data,                          
@@ -825,9 +825,9 @@ library(extrafont)</code></pre>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 <div id="output-zum-einbinden-ins-paper" class="section level2">
-<h2>Output zum Einbinden ins Paper</h2>
+<h2><span class="header-section-number">3.7</span> Output zum Einbinden ins Paper</h2>
 <div id="entweder-pdf" class="section level3">
-<h3>Entweder pdf</h3>
+<h3><span class="header-section-number">3.7.1</span> Entweder pdf</h3>
 <pre class="r"><code>ggsave(filename = &quot;results/soep_jitterplot.pdf&quot;,
        plot = gg1,
        device = &quot;pdf&quot;,
@@ -836,7 +836,7 @@ library(extrafont)</code></pre>
        dpi = 2000)</code></pre>
 </div>
 <div id="oder-png" class="section level3">
-<h3>oder png</h3>
+<h3><span class="header-section-number">3.7.2</span> oder png</h3>
 <pre class="r"><code>ggsave(filename = &quot;results/soep_jitterplot.png&quot;,
        plot = gg1,
        device = &quot;png&quot;,
@@ -844,35 +844,35 @@ library(extrafont)</code></pre>
        height = 6,
        dpi = 2000)</code></pre>
 <div id="section" class="section level71">
-<p></p>
+<p><span class="header-section-number">3.7.2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1</span> </p>
 </div>
 </div>
 </div>
 </div>
 <div id="barplots-einkommenskategorien" class="section level1">
-<h1>Barplots Einkommenskategorien</h1>
+<h1><span class="header-section-number">4</span> Barplots Einkommenskategorien</h1>
 <div id="eindimensional" class="section level2">
-<h2>Eindimensional</h2>
+<h2><span class="header-section-number">4.1</span> Eindimensional</h2>
 <pre class="r"><code>table(SOEP_data$netinc) %&gt;% head()</code></pre>
 <pre><code>## 
 ##  0 30 35 36 40 45 
 ## 21  1  1  1  1  1</code></pre>
 </div>
 <div id="haeufigkeitsverteilung-der-einkommenskategorien" class="section level2">
-<h2>Haeufigkeitsverteilung der Einkommenskategorien</h2>
+<h2><span class="header-section-number">4.2</span> Haeufigkeitsverteilung der Einkommenskategorien</h2>
 <pre class="r"><code>ggplot(data = SOEP_data) + 
   geom_bar(aes(x = inc_kat))</code></pre>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 <div id="in-prozent" class="section level2">
-<h2>In Prozent</h2>
+<h2><span class="header-section-number">4.3</span> In Prozent</h2>
 <pre class="r"><code>ggplot(data = SOEP_data) + 
   geom_bar(aes(x = inc_kat,
                y = (..count..)/sum(..count..))) # relative haeufigkeit </code></pre>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 <div id="twodimensional-barplots" class="section level2">
-<h2>Twodimensional Barplots</h2>
+<h2><span class="header-section-number">4.4</span> Twodimensional Barplots</h2>
 <pre class="r"><code># Descriptive overview
 round(
   prop.table(
@@ -904,7 +904,7 @@ gg1 #print</code></pre>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 <div id="output-to-pdf" class="section level2">
-<h2>Output to pdf</h2>
+<h2><span class="header-section-number">4.5</span> Output to pdf</h2>
 <pre class="r"><code>ggsave(filename = &quot;results/soep_barplot.pdf&quot;,
        plot = gg1,
        device = &quot;pdf&quot;,

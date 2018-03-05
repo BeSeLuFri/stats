@@ -11,7 +11,7 @@
 
 
 
-<title>Datamanagemnet</title>
+<title>Datamanagement</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,8 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -33,12 +33,10 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
 }
 </script>
 
@@ -308,75 +306,94 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Datamanagemnet</h1>
+<h1 class="title toc-ignore">Datamanagement</h1>
 
 </div>
 
 
-<pre class="r"><code># 1: Packages Laden 
-# (falls einige noch nicht installiert sind, jeweils install.packages(&quot;.....&quot;))
-
-# Visualisierung:
-library(ggplot2)
-library(hrbrthemes) # install.packages(&quot;hrbrthemes&quot;)
-library(extrafont)
-
-# Laden des Datensatzes
+<div id="loading-dataset" class="section level1">
+<h1><span class="header-section-number">1</span> Loading Dataset</h1>
+<pre class="r"><code># Laden des Datensatzes
 library(readstata13)
 
-# Datenrekodieren:
-library(car)
-
-
-# Daten als Objekt importieren
-SOEP2 &lt;- read.dta13(file=&quot;data/offline/soep/new8.dta&quot; , convert.factors=F,nonint.factors = F)
+#Daten als Objekt importieren
+SOEP &lt;- read.dta13(file=&quot;data/offline/soep/new8.dta&quot; ,
+                   convert.factors=F,
+                   nonint.factors = F)</code></pre>
+</div>
+<div id="recodingvariable-declaration" class="section level1">
+<h1><span class="header-section-number">2</span> Recoding/Variable declaration</h1>
+<p>!! Marcel here: not sure if we should stick with car::recode. I personally don’t like it and prefer classic R with [], but its so much more code-intensive…</p>
+<pre class="r"><code>library(car)
 
 # Variable Alter generieren
-SOEP2$alter = 2003 - SOEP2$gebjahr
-SOEP2$alter [SOEP2$alter == 2004] &lt;- NA # entfernen der fehlerhaften
+SOEP$alter = 2003 - SOEP$gebjahr
+SOEP$alter [SOEP$alter == 2004] &lt;- NA # entfernen der fehlerhaften
 
 #sex 
-
-SOEP2$sex &lt;- factor(SOEP2$sex,levels = c(1,2),labels = c(&quot;männlich&quot;,&quot;weiblich&quot;))
+SOEP$sex &lt;- factor(SOEP$sex,levels = c(1,2),labels = c(&quot;männlich&quot;,&quot;weiblich&quot;))
 
 # Ueberstunden recodieren 0=nein, 1=ja
-SOEP2$over = recode(SOEP2$tp72,&quot;2=0;-2=NA;-1=NA; 3=NA&quot;)
+SOEP$over = recode(SOEP$tp72,&quot;2=0;-2=NA;-1=NA; 3=NA&quot;)
 
 # Vertragliche und tatsaechliche Wochenarbeitszeit
 # Missings bereinigen
-SOEP2$contract = recode(SOEP2$tp7001,&quot;-3=NA;-2=NA;-1=NA&quot;)
-SOEP2$actual = recode(SOEP2$tp7003,&quot;-3=NA;-2=NA;-1=NA&quot;)
-SOEP2$contract = SOEP2$contract/10
-SOEP2$actual = SOEP2$actual/10
+SOEP$contract = recode(SOEP$tp7001,&quot;-3=NA;-2=NA;-1=NA&quot;)
+SOEP$actual = recode(SOEP$tp7003,&quot;-3=NA;-2=NA;-1=NA&quot;)
+SOEP$contract = SOEP$contract/10
+SOEP$actual = SOEP$actual/10
 
 # Vertrauen 
 # &quot;Trust in people&quot; und &quot;Can&#39;t rely on anybody&quot; recodieren
-SOEP2$trust = recode(SOEP2$tp0301,&quot;-1=NA&quot;)
-SOEP2$rely = recode(SOEP2$tp0302,&quot;-1=NA&quot;)
+SOEP$trust = recode(SOEP$tp0301,&quot;-1=NA&quot;)
+SOEP$rely = recode(SOEP$tp0302,&quot;-1=NA&quot;)
 
-SOEP2$netinc = recode(SOEP2$tp7602,&quot;-3=NA;-2=NA;-1=NA&quot;)
-
-
+SOEP$netinc = recode(SOEP$tp7602,&quot;-3=NA;-2=NA;-1=NA&quot;)
 
 # Nur relevante Variablen werden übernommen
-SOEP2_data &lt;- SOEP2[,c(&quot;netinc&quot;,&quot;alter&quot;,&quot;sex&quot;,&quot;contract&quot;,&quot;actual&quot;,&quot;trust&quot;,&quot;rely&quot;)]
-head(SOEP2_data)
-
-# Delete NAs
-SOEP2_data &lt;- na.omit(SOEP2_data)
+SOEP_data &lt;- SOEP[,c(&quot;netinc&quot;,&quot;alter&quot;,&quot;sex&quot;,&quot;contract&quot;,&quot;actual&quot;,&quot;trust&quot;,&quot;rely&quot;)]
+head(SOEP_data)</code></pre>
+<pre><code>##   netinc alter      sex contract actual trust rely
+## 1     NA    52 weiblich     37.0   37.0     3    2
+## 2     NA    NA männlich       NA     NA    NA   NA
+## 3    800    55 weiblich     38.5   41.5     2    3
+## 4     NA    25 männlich       NA     NA     2    3
+## 5   3600    57 männlich     40.0   42.0     2    4
+## 6     NA    81 männlich       NA     NA    NA   NA</code></pre>
+<pre class="r"><code># Delete NAs
+SOEP_data &lt;- na.omit(SOEP_data)
 
 # Einkommen Kategorisiert in Quartile
 
-hist(SOEP2$netinc)
-quantile(SOEP2_data$netinc)
+hist(SOEP$netinc)</code></pre>
+<p><img src="datamanagement_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>quantile(SOEP_data$netinc)</code></pre>
+<pre><code>##      0%     25%     50%     75%    100% 
+##     0.0   810.0  1359.5  1900.0 10388.0</code></pre>
+<pre class="r"><code>SOEP_data$inc_kat &lt;- NA
+SOEP_data$inc_kat [SOEP_data$netinc &lt; quantile(SOEP_data$netinc)[2]] &lt;- &quot;Q1&quot;
+SOEP_data$inc_kat [SOEP_data$netinc &gt;= quantile(SOEP_data$netinc)[2] &amp; SOEP_data$netinc &lt; quantile(SOEP_data$netinc)[3]] &lt;- &quot;Q2&quot;
+SOEP_data$inc_kat [SOEP_data$netinc &gt;= quantile(SOEP_data$netinc)[3] &amp; SOEP_data$netinc &lt; quantile(SOEP_data$netinc)[4]] &lt;- &quot;Q3&quot;
+SOEP_data$inc_kat [SOEP_data$netinc &gt;= quantile(SOEP_data$netinc)[4] ] &lt;- &quot;Q4&quot;
 
-SOEP2_data$inc_kat &lt;- NA
-SOEP2_data$inc_kat [SOEP2_data$netinc &lt; quantile(SOEP2_data$netinc)[2]] &lt;- &quot;Q1&quot;
-SOEP2_data$inc_kat [SOEP2_data$netinc &gt;= quantile(SOEP2_data$netinc)[2] &amp; SOEP2_data$netinc &lt; quantile(SOEP2_data$netinc)[3]] &lt;- &quot;Q2&quot;
-SOEP2_data$inc_kat [SOEP2_data$netinc &gt;= quantile(SOEP2_data$netinc)[3] &amp; SOEP2_data$netinc &lt; quantile(SOEP2_data$netinc)[4]] &lt;- &quot;Q3&quot;
-SOEP2_data$inc_kat [SOEP2_data$netinc &gt;= quantile(SOEP2_data$netinc)[4] ] &lt;- &quot;Q4&quot;
-
-table(SOEP2_data$inc_kat)</code></pre>
+table(SOEP_data$inc_kat)</code></pre>
+<pre><code>## 
+##   Q1   Q2   Q3   Q4 
+## 1224 1231 1180 1275</code></pre>
+</div>
+<div id="advanced-dm-the-tidyverse" class="section level1">
+<h1><span class="header-section-number">3</span> Advanced DM: The tidyverse</h1>
+<p>last thing to do. advanced tidyverse</p>
+<div id="mutate" class="section level2">
+<h2><span class="header-section-number">3.1</span> Mutate</h2>
+</div>
+<div id="summarise" class="section level2">
+<h2><span class="header-section-number">3.2</span> Summarise</h2>
+</div>
+<div id="group_by" class="section level2">
+<h2><span class="header-section-number">3.3</span> group_by</h2>
+</div>
+</div>
 
 
 
