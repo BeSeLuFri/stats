@@ -9,9 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Bene" />
 
 
-<title>About This Website</title>
+<title>Untitled</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -308,76 +309,40 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">About This Website</h1>
+<h1 class="title toc-ignore">Untitled</h1>
+<h4 class="author"><em>Bene</em></h4>
+<h4 class="date"><em>March 1, 2018</em></h4>
 
 </div>
 
 
-<p>More about this website.</p>
-<hr />
-<div id="useful-functions" class="section level1">
-<h1><span class="header-section-number">1</span> Useful functions</h1>
-<div id="read_spsshaven" class="section level3">
-<h3><span class="header-section-number">1.0.1</span> <code>read_spss(){haven}</code></h3>
-<p>Read spss files via haven (DIE HIER EHER DATAMANAGEMENT)</p>
-<pre><code>ess &lt;- read_spss(file = &quot;data/ESS7e02_1.sav&quot;,
-                 user_na = TRUE)</code></pre>
-<hr />
+<div id="r-markdown" class="section level2">
+<h2><span class="header-section-number">0.1</span> R Markdown</h2>
+<p>This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.</p>
 </div>
-<div id="read_dtareadstata13" class="section level3">
-<h3><span class="header-section-number">1.0.2</span> <code>read_dta(){readstata13}</code></h3>
-<p>Read dta files</p>
-<pre><code>lala &lt;- read_dta(file = &quot;blabla&quot;,version = 13)</code></pre>
-<hr />
+<div id="slide-with-bullets" class="section level2">
+<h2><span class="header-section-number">0.2</span> Slide with Bullets</h2>
+<ul>
+<li>Bullet 1</li>
+<li>Bullet 2</li>
+<li>Bullet 3</li>
+</ul>
 </div>
-<div id="withindatabefehl" class="section level3">
-<h3><span class="header-section-number">1.0.3</span> <code>within(data,{befehl})</code></h3>
-<p>Execute r command within data environment. Returns modified dataset.<code>{}</code> make sure that commands are executed across several lines.</p>
-<pre class="r"><code>data(iris)
-summary(iris$Sepal.Length)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   4.300   5.100   5.800   5.843   6.400   7.900</code></pre>
-<pre class="r"><code>iris &lt;- within(iris,{
-  Sepal.Length &lt;- Sepal.Length + 10
-})
-summary(iris$Sepal.Length)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   14.30   15.10   15.80   15.84   16.40   17.90</code></pre>
-<hr />
+<div id="slide-with-r-output" class="section level2">
+<h2><span class="header-section-number">0.3</span> Slide with R Output</h2>
+<pre class="r"><code>summary(cars)</code></pre>
+<pre><code>##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00</code></pre>
 </div>
-<div id="tablex" class="section level3">
-<h3><span class="header-section-number">1.0.4</span> `<code>table(x)</code></h3>
-<hr />
-</div>
-<div id="prop.table" class="section level3">
-<h3><span class="header-section-number">1.0.5</span> <code>prop.table()</code></h3>
-<hr />
-</div>
-<div id="summaryx" class="section level3">
-<h3><span class="header-section-number">1.0.6</span> <code>summary(x)</code></h3>
-<hr />
-</div>
-<div id="meanx" class="section level3">
-<h3><span class="header-section-number">1.0.7</span> <code>mean(x)</code></h3>
-<hr />
-</div>
-<div id="sumx" class="section level3">
-<h3><span class="header-section-number">1.0.8</span> <code>sum(x)</code></h3>
-<hr />
-</div>
-<div id="sdx" class="section level3">
-<h3><span class="header-section-number">1.0.9</span> <code>sd(x)</code></h3>
-<hr />
-</div>
-<div id="medianx" class="section level3">
-<h3><span class="header-section-number">1.0.10</span> <code>median(x)</code></h3>
-</div>
-<div id="round2" class="section level3">
-<h3><span class="header-section-number">1.0.11</span> <code>round(2)</code></h3>
-</div>
-<div id="factor" class="section level3">
-<h3><span class="header-section-number">1.0.12</span> <code>factor()</code></h3>
-</div>
+<div id="slide-with-plot" class="section level2">
+<h2><span class="header-section-number">0.4</span> Slide with Plot</h2>
+<p><img src="bene_files/figure-html/pressure-1.png" width="672" /></p>
 </div>
 
 

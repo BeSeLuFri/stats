@@ -23,8 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -33,10 +33,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -312,25 +314,224 @@ div.tocify {
 
 
 <hr />
-<div id="taschenrechner" class="section level1">
-<h1>taschenrechneR</h1>
+<div id="file-names" class="section level1">
+<h1><span class="header-section-number">1</span> File names</h1>
+<p>Be sure to save all your files (especially the data input) in the folders below where you have started your project. To let R open files you have to use the forward slash (not the backward one). Example:</p>
+<pre class="r"><code>a=read.csv2(&quot;data/SOEP.csv&quot;)</code></pre>
+<<<<<<< HEAD
 <hr />
+=======
+>>>>>>> master
+</div>
+<div id="objects-in-r" class="section level1">
+<h1><span class="header-section-number">2</span> Objects in R</h1>
+<div id="basic-calculations" class="section level2">
+<h2><span class="header-section-number">2.1</span> Basic Calculations</h2>
+<p>We will often watn to store reuslts of calculations to reuse them later. For this, we can work with basic objects. An object has a name and a conent. We can freely choose the name of an object givan certain rules - they have to start with a letter and include only letters, numbers and some süpecial characters (“.”, “_“,”-“). <strong>R is case sensitive so “x” and “X” are different object names</strong>. The content of an object is assigned using”&lt;-&quot; or “=”.</p>
+<p>In order to assign the value of 5 to the object econ type</p>
+<pre class="r"><code>x = 5
+# or
+x &lt;- 5</code></pre>
+<p>If you already before had an object named x and now create it again, the old version will be overwritten. Now you can use “x” in your calculations.</p>
+<p>Example:</p>
+<pre class="r"><code>5*x</code></pre>
+<pre><code>## [1] 25</code></pre>
+<p>A list of currently ddefined object names can be obtained using <code>ls()</code> In R Studio all the object names are also shown in the “Workspace” window on the top right side.</p>
+<pre class="r"><code># Change and Delete objects:
+rm(x) # Deletes an object
+rm(list=ls()) # all objects are removed</code></pre>
+<<<<<<< HEAD
+<hr />
+</div>
+<div id="vectors" class="section level2">
+<h2><span class="header-section-number">2.2</span> Vectors</h2>
+<p>For statistical calculations, we obviously need to work with data sets including many numbers of instead of scalears. The simplest way we can collect many numbers (or other tpyes of information) is called a vector in R terminology (you have already been familiarized with vectors and the page before).</p>
+<p>To define a vector, we can collect different values using <code>c(value1, value2,...)</code>.</p>
+<pre class="r"><code># Examples
+a=c(1,2,3,4)
+b=a+1
+b</code></pre>
+<pre><code>## [1] 2 3 4 5</code></pre>
+<pre class="r"><code>c=sqrt(b+a)
+c</code></pre>
+<pre><code>## [1] 1.732051 2.236068 2.645751 3.000000</code></pre>
+<pre class="r"><code># Important R functions for vectors:
+# Define vector
+(a &lt;- c(7,2,6,9,4,1,3))</code></pre>
+<pre><code>## [1] 7 2 6 9 4 1 3</code></pre>
+<pre class="r"><code># Basic functions:
+sort(a)</code></pre>
+<pre><code>## [1] 1 2 3 4 6 7 9</code></pre>
+<pre class="r"><code>length(a)</code></pre>
+<pre><code>## [1] 7</code></pre>
+<pre class="r"><code>min(a)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>max(a)</code></pre>
+<pre><code>## [1] 9</code></pre>
+<pre class="r"><code>sum(a)</code></pre>
+<pre><code>## [1] 32</code></pre>
+<pre class="r"><code>prod(a)</code></pre>
+<pre><code>## [1] 9072</code></pre>
+<pre class="r"><code># Creating special vectors:
+numeric(20)</code></pre>
+<pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</code></pre>
+<pre class="r"><code>rep(1,20)</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</code></pre>
+<pre class="r"><code>seq(50)</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+## [24] 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46
+## [47] 47 48 49 50</code></pre>
+<pre class="r"><code>5:15</code></pre>
+<pre><code>##  [1]  5  6  7  8  9 10 11 12 13 14 15</code></pre>
+<pre class="r"><code>seq(4,20,2)</code></pre>
+<pre><code>## [1]  4  6  8 10 12 14 16 18 20</code></pre>
+<hr />
+<div id="logical-operators-and-lobical-vectors" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Logical Operators and Lobical Vectors</h3>
+<pre class="r"><code>x==y # x is equal to y
+x&gt;y  # x is bigger then y
+x&lt;=y # x is smaller or equal to y
+x!=y # x is NOT equal to y
+!b   # NOT b (i.e. b is FALSE)
+a|b  # Either a or b is TRUE
+a6b  # Both a and b are TRUE</code></pre>
+<p>The contents of R vectors do not need to be numeric. A simple example of a different type are character vectors. For handling them, the contents simply need to be enclosed in quotation marks:</p>
+<pre class="r"><code>cities = c(&quot;Friedrichshafen&quot;, &quot;Paris&quot;, &quot;Tokio&quot;, &quot;Tettnang&quot;, &quot;Mailand&quot;)
+cities</code></pre>
+<pre><code>## [1] &quot;Friedrichshafen&quot; &quot;Paris&quot;           &quot;Tokio&quot;           &quot;Tettnang&quot;       
+## [5] &quot;Mailand&quot;</code></pre>
+<p>Another useful type are <strong>logical vectors</strong>. Each element can only take one of two values: “TRUE” or “FALSE”. Internally, “FALSE” corresponds to 0 and “TRUE” to 1.</p>
+<pre class="r"><code>a &lt;- c(7,2,6,9,4,1,3) 
+b &lt;- a&lt;3 | a&gt;=6 
+b</code></pre>
+<pre><code>## [1]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE</code></pre>
+<p>As we have seen in Econometrics, many variables take only a binary outcome, e.g. they are a dummy variable (for example gender)</p>
+<p>If we want to store qualitative information with more levels we can use so called <strong>factors</strong>.</p>
+<pre class="r"><code># Costumer Ratings
+x &lt;- c(3,2,2,3,1,2,3,2,1,2)
+xf &lt;- factor(x, labels=c(&quot;bad&quot;,&quot;okay&quot;,&quot;good&quot;)) 
+x</code></pre>
+<pre><code>##  [1] 3 2 2 3 1 2 3 2 1 2</code></pre>
+<pre class="r"><code>xf</code></pre>
+<pre><code>##  [1] good okay okay good bad  okay good okay bad  okay
+## Levels: bad okay good</code></pre>
+<hr />
+</div>
+<div id="naming-and-indexing-vectors" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Naming and Indexing Vectors</h3>
+<p>The elements of a vector can be named which can increase the readability of the output. Given a vector vec and a string vector namevec of the same length, the names are attached to the vecotor elements using <code>names(vec) = namevec</code>.</p>
+<p>If we want to access a single element or a subset form a vecotr, we can work with indices. They are written in swquare brackets next to the vector name. For example `<code>myvector[4]</code> returns the rth element of myvector and <code>myvector[6] = 8</code> changes the 6th element to take the value of 8. If the vector elements have names, we can also use those as indices like in <code>myvector[&quot;elementname&quot;]</code></p>
+<pre class="r"><code># Create a vector &quot;avgs&quot;:
+avgs &lt;- c(.366, .358, .356, .349, .346)
+
+# Create a string vector of names:
+players &lt;- c(&quot;Cobb&quot;,&quot;Hornsby&quot;,&quot;Jackson&quot;,&quot;O&#39;Doul&quot;,&quot;Delahanty&quot;)
+
+# Assign names to vector and display vector:
+names(avgs) &lt;- players
+avgs</code></pre>
+<pre><code>##      Cobb   Hornsby   Jackson    O&#39;Doul Delahanty 
+##     0.366     0.358     0.356     0.349     0.346</code></pre>
+<pre class="r"><code># Indices by number:
+avgs[2]</code></pre>
+<pre><code>## Hornsby 
+##   0.358</code></pre>
+<pre class="r"><code>avgs[1:4]</code></pre>
+<pre><code>##    Cobb Hornsby Jackson  O&#39;Doul 
+##   0.366   0.358   0.356   0.349</code></pre>
+<pre class="r"><code># Indices by name:
+avgs[&quot;Jackson&quot;]</code></pre>
+<pre><code>## Jackson 
+##   0.356</code></pre>
+<pre class="r"><code># Logical indices:
+avgs[ avgs&gt;=0.35 ]</code></pre>
+<pre><code>##    Cobb Hornsby Jackson 
+##   0.366   0.358   0.356</code></pre>
+<hr />
+</div>
+</div>
+<div id="matrices" class="section level2">
+<h2><span class="header-section-number">2.3</span> Matrices</h2>
+<p>Matrices are important tools for econometric analyses (think back to the first Tut). R has a powerful matrix algebra system. Most often in applied econometrics, matrices will be generated from an exisiting data set. But you can also build the from scratch with <code>matrix(vec, nrow=m)</code> (takes the numbers storeend in vector vec and puts them into a matrix with m rows). Other options incluede: <code>rbind(r1,r2)</code> and <code>cbind(c1,c2)</code> in binding several vectors (which obviously need to have the same length) by row or column.</p>
+</div>
+</div>
+<div id="taschenrechner" class="section level1">
+<h1><span class="header-section-number">3</span> taschenrechneR</h1>
+=======
+>>>>>>> master
+<hr />
+</div>
+<div id="vectors" class="section level2">
+<h2><span class="header-section-number">2.2</span> Vectors</h2>
+<p>For statistical calculations, we obviously need to work with data sets including many numbers of instead of scalears. The simplest way we can collect many numbers (or other tpyes of information) is called a vector in R terminology (you have already been familiarized with vectors and the page before).</p>
+<p>To define a vector, we can collect different values using <code>c(value1, value2,...)</code>.</p>
+<pre class="r"><code># Examples
+a=c(1,2,3,4)
+b=a+1
+b</code></pre>
+<pre><code>## [1] 2 3 4 5</code></pre>
+<pre class="r"><code>c=sqrt(b+a)
+c</code></pre>
+<pre><code>## [1] 1.732051 2.236068 2.645751 3.000000</code></pre>
+<pre class="r"><code># Important R functions for vectors:
+# Define vector
+(a &lt;- c(7,2,6,9,4,1,3))</code></pre>
+<pre><code>## [1] 7 2 6 9 4 1 3</code></pre>
+<pre class="r"><code># Basic functions:
+sort(a)</code></pre>
+<pre><code>## [1] 1 2 3 4 6 7 9</code></pre>
+<pre class="r"><code>length(a)</code></pre>
+<pre><code>## [1] 7</code></pre>
+<pre class="r"><code>min(a)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>max(a)</code></pre>
+<pre><code>## [1] 9</code></pre>
+<pre class="r"><code>sum(a)</code></pre>
+<pre><code>## [1] 32</code></pre>
+<pre class="r"><code>prod(a)</code></pre>
+<pre><code>## [1] 9072</code></pre>
+<pre class="r"><code># Creating special vectors:
+numeric(20)</code></pre>
+<pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</code></pre>
+<pre class="r"><code>rep(1,20)</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</code></pre>
+<pre class="r"><code>seq(50)</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+## [24] 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46
+## [47] 47 48 49 50</code></pre>
+<pre class="r"><code>5:15</code></pre>
+<pre><code>##  [1]  5  6  7  8  9 10 11 12 13 14 15</code></pre>
+<pre class="r"><code>seq(4,20,2)</code></pre>
+<pre><code>## [1]  4  6  8 10 12 14 16 18 20</code></pre>
+<p>dsdfsdafsdfdsfs # taschenrechneR ***</p>
 <div id="x-in-y" class="section level3">
-<h3><code>x %in% y</code></h3>
+<<<<<<< HEAD
+<h3><span class="header-section-number">3.0.1</span> <code>x %in% y</code></h3>
+=======
+<h3><span class="header-section-number">2.2.1</span> <code>x %in% y</code></h3>
+>>>>>>> master
 <p>Checks which elements of vector x are included in y</p>
 <pre class="r"><code>1:3 %in% 2:4</code></pre>
 <pre><code>## [1] FALSE  TRUE  TRUE</code></pre>
 <hr />
 </div>
 <div id="lorem-ipsum" class="section level3">
-<h3><code># lorem ipsum</code></h3>
+<<<<<<< HEAD
+<h3><span class="header-section-number">3.0.2</span> <code># lorem ipsum</code></h3>
+=======
+<h3><span class="header-section-number">2.2.2</span> <code># lorem ipsum</code></h3>
+>>>>>>> master
 <p>Comment. Everything behind a hashtag is not run by the program</p>
 <pre class="r"><code>1+1 #Hier habe ich eins und eins zusammengezählt</code></pre>
 <pre><code>## [1] 2</code></pre>
 <hr />
 </div>
 <div id="y---x" class="section level3">
-<h3><code>y &lt;- x</code></h3>
+<<<<<<< HEAD
+<h3><span class="header-section-number">3.0.3</span> <code>y &lt;- x</code></h3>
+=======
+<h3><span class="header-section-number">2.2.3</span> <code>y &lt;- x</code></h3>
+>>>>>>> master
 <p>Attribute x to y</p>
 <pre class="r"><code>a &lt;- &quot;hello world&quot;
 a</code></pre>
@@ -338,7 +539,11 @@ a</code></pre>
 <hr />
 </div>
 <div id="xy" class="section level3">
-<h3><code>x:y</code></h3>
+<<<<<<< HEAD
+<h3><span class="header-section-number">3.0.4</span> <code>x:y</code></h3>
+=======
+<h3><span class="header-section-number">2.2.4</span> <code>x:y</code></h3>
+>>>>>>> master
 <p>Generates sequence of ganzzahlen</p>
 <pre class="r"><code>1:3</code></pre>
 <pre><code>## [1] 1 2 3</code></pre>
@@ -346,34 +551,64 @@ a</code></pre>
 <hr />
 </div>
 </div>
+</div>
 <div id="r-algebra" class="section level1">
-<h1>R algebra</h1>
+<<<<<<< HEAD
+<h1><span class="header-section-number">4</span> R algebra</h1>
 <hr />
 <div id="classes" class="section level2">
-<h2>Classes</h2>
+<h2><span class="header-section-number">4.1</span> Classes</h2>
 <hr />
-<div id="vectors" class="section level3">
-<h3>Vectors</h3>
+<div id="vectors-1" class="section level3">
+<h3><span class="header-section-number">4.1.1</span> Vectors</h3>
+<p>numeric,character,factor</p>
+<hr />
+</div>
+<div id="matrices-1" class="section level3">
+<h3><span class="header-section-number">4.1.2</span> Matrices</h3>
+<hr />
+</div>
+<div id="data-frames" class="section level3">
+<h3><span class="header-section-number">4.1.3</span> Data Frames</h3>
+<hr />
+</div>
+<div id="lists" class="section level3">
+<h3><span class="header-section-number">4.1.4</span> Lists</h3>
+=======
+<h1><span class="header-section-number">3</span> R algebra</h1>
+<hr />
+<div id="classes" class="section level2">
+<h2><span class="header-section-number">3.1</span> Classes</h2>
+<hr />
+<div id="vectors-1" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Vectors</h3>
 <p>numeric,character,factor</p>
 <hr />
 </div>
 <div id="matrices" class="section level3">
-<h3>Matrices</h3>
+<h3><span class="header-section-number">3.1.2</span> Matrices</h3>
 <hr />
 </div>
 <div id="data-frames" class="section level3">
-<h3>Data Frames</h3>
+<h3><span class="header-section-number">3.1.3</span> Data Frames</h3>
 <hr />
 </div>
 <div id="lists" class="section level3">
-<h3>Lists</h3>
+<h3><span class="header-section-number">3.1.4</span> Lists</h3>
+>>>>>>> master
 <hr />
 </div>
 </div>
 <div id="indexing" class="section level2">
-<h2>Indexing</h2>
+<<<<<<< HEAD
+<h2><span class="header-section-number">4.2</span> Indexing</h2>
 <div id="x." class="section level3">
-<h3><code>x[.]</code></h3>
+<h3><span class="header-section-number">4.2.1</span> <code>x[.]</code></h3>
+=======
+<h2><span class="header-section-number">3.2</span> Indexing</h2>
+<div id="x." class="section level3">
+<h3><span class="header-section-number">3.2.1</span> <code>x[.]</code></h3>
+>>>>>>> master
 <p>Indexing of a vector</p>
 <pre class="r"><code>a &lt;- c(1,2,3)
 names(a) &lt;- c(&quot;q&quot;,&quot;r&quot;,&quot;s&quot;)
@@ -388,7 +623,11 @@ a[1]</code></pre>
 ## 3</code></pre>
 </div>
 <div id="x.." class="section level3">
-<h3><code>x[.,.]</code></h3>
+<<<<<<< HEAD
+<h3><span class="header-section-number">4.2.2</span> <code>x[.,.]</code></h3>
+=======
+<h3><span class="header-section-number">3.2.2</span> <code>x[.,.]</code></h3>
+>>>>>>> master
 <p>Indexing of data.frames (matix)</p>
 <pre class="r"><code>data(iris)
 iris[1,1]</code></pre>
@@ -403,7 +642,11 @@ iris[1,1]</code></pre>
 <hr />
 </div>
 <div id="section" class="section level3">
-<h3><code>$</code></h3>
+<<<<<<< HEAD
+<h3><span class="header-section-number">4.2.3</span> <code>$</code></h3>
+=======
+<h3><span class="header-section-number">3.2.3</span> <code>$</code></h3>
+>>>>>>> master
 <p>data(iris)</p>
 <pre class="r"><code>data(iris)
 table(iris$Species)</code></pre>
@@ -413,7 +656,11 @@ table(iris$Species)</code></pre>
 <hr />
 </div>
 <div id="x-y-x-y-x-y-x-y-x-y-x-y" class="section level3">
-<h3><code>x == y; ; x != y ,x &lt; y; x &gt; y; x &lt;= y; x &gt;= y</code></h3>
+<<<<<<< HEAD
+<h3><span class="header-section-number">4.2.4</span> <code>x == y; ; x != y ,x &lt; y; x &gt; y; x &lt;= y; x &gt;= y</code></h3>
+=======
+<h3><span class="header-section-number">3.2.4</span> <code>x == y; ; x != y ,x &lt; y; x &gt; y; x &lt;= y; x &gt;= y</code></h3>
+>>>>>>> master
 <p>Logical operators. Return TRUE/FALSE VALUES.</p>
 <pre class="r"><code>1 == 2 #Gleichheit</code></pre>
 <pre><code>## [1] FALSE</code></pre>
@@ -431,28 +678,46 @@ table(iris$Species)</code></pre>
 </div>
 </div>
 <div id="useful-functions" class="section level1">
-<h1>Useful functions</h1>
+<<<<<<< HEAD
+<h1><span class="header-section-number">5</span> Useful functions</h1>
 <div id="c" class="section level3">
-<h3><code>c()</code></h3>
+<h3><span class="header-section-number">5.0.1</span> <code>c()</code></h3>
+=======
+<h1><span class="header-section-number">4</span> Useful functions</h1>
+<div id="c" class="section level3">
+<h3><span class="header-section-number">4.0.1</span> <code>c()</code></h3>
+>>>>>>> master
 <p>Combines elements to a vector</p>
 <pre class="r"><code>c(1,2)</code></pre>
 <pre><code>## [1] 1 2</code></pre>
 </div>
 <div id="read_spsshaven" class="section level3">
-<h3><code>read_spss(){haven}</code></h3>
+<<<<<<< HEAD
+<h3><span class="header-section-number">5.0.2</span> <code>read_spss(){haven}</code></h3>
+=======
+<h3><span class="header-section-number">4.0.2</span> <code>read_spss(){haven}</code></h3>
+>>>>>>> master
 <p>Read spss files via haven (DIE HIER EHER DATAMANAGEMENT)</p>
 <pre><code>ess &lt;- read_spss(file = &quot;data/ESS7e02_1.sav&quot;,
                  user_na = TRUE)</code></pre>
 <hr />
 </div>
 <div id="read_dtareadstata13" class="section level3">
-<h3><code>read_dta(){readstata13}</code></h3>
+<<<<<<< HEAD
+<h3><span class="header-section-number">5.0.3</span> <code>read_dta(){readstata13}</code></h3>
+=======
+<h3><span class="header-section-number">4.0.3</span> <code>read_dta(){readstata13}</code></h3>
+>>>>>>> master
 <p>Read dta files</p>
 <pre><code>lala &lt;- read_dta(file = &quot;blabla&quot;,version = 13)</code></pre>
 <hr />
 </div>
 <div id="withindatabefehl" class="section level3">
-<h3><code>within(data,{befehl})</code></h3>
+<<<<<<< HEAD
+<h3><span class="header-section-number">5.0.4</span> <code>within(data,{befehl})</code></h3>
+=======
+<h3><span class="header-section-number">4.0.4</span> <code>within(data,{befehl})</code></h3>
+>>>>>>> master
 <p>Execute r command within data environment. Returns modified dataset.<code>{}</code> make sure that commands are executed across several lines.</p>
 <pre class="r"><code>data(iris)
 summary(iris$Sepal.Length)</code></pre>
@@ -467,37 +732,71 @@ summary(iris$Sepal.Length)</code></pre>
 <hr />
 </div>
 <div id="tablex" class="section level3">
-<h3>`<code>table(x)</code></h3>
+<<<<<<< HEAD
+<h3><span class="header-section-number">5.0.5</span> `<code>table(x)</code></h3>
 <hr />
 </div>
 <div id="prop.table" class="section level3">
-<h3><code>prop.table()</code></h3>
+<h3><span class="header-section-number">5.0.6</span> <code>prop.table()</code></h3>
 <hr />
 </div>
 <div id="summaryx" class="section level3">
-<h3><code>summary(x)</code></h3>
+<h3><span class="header-section-number">5.0.7</span> <code>summary(x)</code></h3>
 <hr />
 </div>
 <div id="meanx" class="section level3">
-<h3><code>mean(x)</code></h3>
+<h3><span class="header-section-number">5.0.8</span> <code>mean(x)</code></h3>
 <hr />
 </div>
 <div id="sumx" class="section level3">
-<h3><code>sum(x)</code></h3>
+<h3><span class="header-section-number">5.0.9</span> <code>sum(x)</code></h3>
 <hr />
 </div>
 <div id="sdx" class="section level3">
-<h3><code>sd(x)</code></h3>
+<h3><span class="header-section-number">5.0.10</span> <code>sd(x)</code></h3>
 <hr />
 </div>
 <div id="medianx" class="section level3">
-<h3><code>median(x)</code></h3>
+<h3><span class="header-section-number">5.0.11</span> <code>median(x)</code></h3>
 </div>
 <div id="round2" class="section level3">
-<h3><code>round(2)</code></h3>
+<h3><span class="header-section-number">5.0.12</span> <code>round(2)</code></h3>
 </div>
 <div id="factor" class="section level3">
-<h3><code>factor()</code></h3>
+<h3><span class="header-section-number">5.0.13</span> <code>factor()</code></h3>
+=======
+<h3><span class="header-section-number">4.0.5</span> `<code>table(x)</code></h3>
+<hr />
+</div>
+<div id="prop.table" class="section level3">
+<h3><span class="header-section-number">4.0.6</span> <code>prop.table()</code></h3>
+<hr />
+</div>
+<div id="summaryx" class="section level3">
+<h3><span class="header-section-number">4.0.7</span> <code>summary(x)</code></h3>
+<hr />
+</div>
+<div id="meanx" class="section level3">
+<h3><span class="header-section-number">4.0.8</span> <code>mean(x)</code></h3>
+<hr />
+</div>
+<div id="sumx" class="section level3">
+<h3><span class="header-section-number">4.0.9</span> <code>sum(x)</code></h3>
+<hr />
+</div>
+<div id="sdx" class="section level3">
+<h3><span class="header-section-number">4.0.10</span> <code>sd(x)</code></h3>
+<hr />
+</div>
+<div id="medianx" class="section level3">
+<h3><span class="header-section-number">4.0.11</span> <code>median(x)</code></h3>
+</div>
+<div id="round2" class="section level3">
+<h3><span class="header-section-number">4.0.12</span> <code>round(2)</code></h3>
+</div>
+<div id="factor" class="section level3">
+<h3><span class="header-section-number">4.0.13</span> <code>factor()</code></h3>
+>>>>>>> master
 </div>
 </div>
 

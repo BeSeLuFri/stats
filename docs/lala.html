@@ -9,10 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Benedikt Fritz &amp; Marcel Schliebs" />
+<meta name="author" content="Bene" />
 
 
-<title>Econometrics with R</title>
+<title>lala</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -309,9 +309,9 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Econometrics with R</h1>
-<h4 class="author"><em>Benedikt Fritz &amp; Marcel Schliebs</em></h4>
-<h4 class="date"><em>1 Februar 2018</em></h4>
+<h1 class="title toc-ignore">lala</h1>
+<h4 class="author"><em>Bene</em></h4>
+<h4 class="date"><em>March 1, 2018</em></h4>
 
 </div>
 
@@ -345,7 +345,7 @@ div.tocify {
 <h2><span class="header-section-number">2.2</span> First Step</h2>
 <p>After having succesfully installed R and R-Studio open RStudio (<em>never open R directly, always access it through RStudio</em>), you should see something like this: <img src="Files/Screen1.png" alt="Test" /></p>
 <p>The big one on the left is called <em>Console</em> and it is the plain R execution window: You can type single lines of code in there and they are executed immediately after pressing Enter.</p>
-<p>On the right hand side you see the <em>Envivonment</em>. The Environment is just a place to store variables – a set of bindings between symbols and objects. If you start up R and make an assignment, you’re adding an entry in the global environment (we’ll come back to that shortly)</p>
+<p>On the right hand side you see the <em>Envivonment</em>. The Environment is just a place to store variables â a set of bindings between symbols and objects. If you start up R and make an assignment, you’re adding an entry in the global environment (we’ll come back to that shortly)</p>
 <p>On the lower lefthand side various informations about your current project can be retrieved (amongst them the Help section which explains functions). Also plots can be given a first view in that part.</p>
 <hr />
 </div>
@@ -380,7 +380,7 @@ div.tocify {
 <pre class="r"><code>5+(4-1)^2</code></pre>
 <pre><code>## [1] 14</code></pre>
 <pre class="r"><code># Let&#39;s try some Count Zeppelin
-# Man muß nur wollen und daran glauben, dann wird es gelingen. # This doesn&#39;t work because R doesn&#39;t know this text
+# Man muÃ nur wollen und daran glauben, dann wird es gelingen. # This doesn&#39;t work because R doesn&#39;t know this text
 #But R does know text. Text which R knows is called a function. Very intuitive functions are:
 sqrt(4)</code></pre>
 <pre><code>## [1] 2</code></pre>
@@ -396,7 +396,9 @@ sqrt(4)</code></pre>
 # To make it useable for your session you still have to open it every time (e.g. you need the following line in your script:)
 library(packagename)</code></pre>
 <p>Let’s introduce only one small package for now to understand the package functionality. The pipe %&gt;% operator from the magrittr package (which in turn is part of the <a href="https://www.tidyverse.org/">tidyverse</a>)</p>
-<p><code>x %&gt;% f(); x %&lt;&gt;% f() {magrittr}</code> The Pipe operator from the magrittr package pipes the last element of something into the first one of the next.<br />
+<div id="x-f-x-f-magrittr" class="section level3">
+<h3><span class="header-section-number">5.0.1</span> <code>x %&gt;% f(); x %&lt;&gt;% f() {magrittr}</code></h3>
+<p>The Pipe operator from the magrittr package pipes the last element of something into the first one of the next.<br />
 <code>x %&gt;% f()</code> .</p>
 <pre class="r"><code># Lets say we want to collect many numbers, perhaps all numbers from 1 to 5.
 # How do we do that? With a vector.
@@ -415,15 +417,6 @@ library(magrittr)
 c(1,2,3,5) %&gt;% mean()</code></pre>
 <pre><code>## [1] 2.75</code></pre>
 </div>
-<div id="style" class="section level1">
-<h1><span class="header-section-number">6</span> Style</h1>
-<p>Maybe here short intro into R style or link to google style sheet.</p>
-</div>
-<div id="important-ressources" class="section level1">
-<h1><span class="header-section-number">7</span> Important Ressources</h1>
-<p><a href="https://www.stackoverflow.com/">Stackoberflow</a>) A general discussion forum for programmers, including many R users. Just google your question and make sure to place an “R” in the beginning of your question. Most often you will be directed to stackoverflow.</p>
-<p><a href="http://www.urfie.net/">Econometrics for R</a> Great book - this class is mainly based upon it. Has some 60pages of introduction into R.</p>
-<p><a href="http://tryr.codeschool.com/">CodeSchool</a> A fun way to learn the basics of R.</p>
 </div>
 
 

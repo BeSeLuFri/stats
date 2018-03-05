@@ -3,3 +3,72 @@ title: "About This Website"
 ---
 
 More about this website.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+***
+
+# Useful functions
+
+
+### ```read_spss(){haven}```
+Read spss files via haven  (DIE HIER EHER DATAMANAGEMENT)
+```
+ess <- read_spss(file = "data/ESS7e02_1.sav",
+                 user_na = TRUE)
+```
+
+***
+
+### ```read_dta(){readstata13}``` 
+Read dta files 
+```
+lala <- read_dta(file = "blabla",version = 13)
+```
+
+***
+
+### ```within(data,{befehl})``` 
+Execute r command within data environment. Returns modified dataset.```{}``` make sure that commands are executed across several lines.
+```{r}
+data(iris)
+summary(iris$Sepal.Length)
+iris <- within(iris,{
+  Sepal.Length <- Sepal.Length + 10
+})
+summary(iris$Sepal.Length)
+```
+
+***
+
+### ```table(x)``
+***
+
+### ```prop.table()```
+***
+
+### ```summary(x)```
+***
+
+### ```mean(x)```
+***
+
+### ```sum(x)```
+***
+
+### ```sd(x)```
+***
+
+### ```median(x)```
+
+### ```round(2)```
+
+### ```factor()```
+
+
+
