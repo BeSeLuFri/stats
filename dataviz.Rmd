@@ -111,7 +111,27 @@ ggplot(data = SOEP_data,
 
 ## Schönes Theme
 Jetzt noch ein Theme und sichern unter dem Objekt gg1
-```{r,warning = FALSE}
+```{r,include = FALSE}
+  ggplot(data = SOEP_data,                          
+       mapping = aes(x = alter,        
+                     y = netinc,
+                     col = sex)) +  
+  geom_jitter(alpha = 0.7) +  
+  geom_smooth(size = 2,method = "lm",se = FALSE)+ 
+  scale_color_manual(values = c("maennlich" = "pink",  
+                                "weiblich" = "blue"),
+                     name = "Geschlecht",
+                     labels = c("Mann","Frau")) + 
+  labs(x = "Alter", 
+       y = "Nettoeinkommen",
+       title = "Titel",
+       subtitle = "Untertitel",
+       caption = "whatever")#+
+ theme_ipsum(grid = "Y") #Theme mit schöner Schrit und mit horizontalen Grid-Linien
+
+```
+
+```{r,eval = FALSE}
 gg1 <-  # zuweisen
   ggplot(data = SOEP_data,                          
        mapping = aes(x = alter,        
@@ -130,9 +150,8 @@ gg1 <-  # zuweisen
        caption = "whatever")#+
  theme_ipsum(grid = "Y") #Theme mit schöner Schrit und mit horizontalen Grid-Linien
 
-plot(gg1) #print
+gg1 #print
 ```
-
 
 ## Output zum Einbinden ins Paper
 

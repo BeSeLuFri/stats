@@ -362,10 +362,10 @@ div.tocify {
 <h1><span class="header-section-number">2</span> Decriptive Inspection</h1>
 <div id="table" class="section level2">
 <h2><span class="header-section-number">2.1</span> Table</h2>
-<pre class="r"><code>SOEP_data$sex %&gt;% table() %&gt;% prop.table() %&gt;% round()</code></pre>
+<pre class="r"><code>SOEP_data$sex %&gt;% table() %&gt;% prop.table() %&gt;% round(2)</code></pre>
 <pre><code>## .
 ## maennlich  weiblich 
-##         1         0</code></pre>
+##      0.52      0.48</code></pre>
 </div>
 <div id="histogram" class="section level2">
 <h2><span class="header-section-number">2.2</span> Histogram</h2>
@@ -504,9 +504,6 @@ stargazer(model1,model2,model3,  #regression models
 ## F Statistic         498.915*** (df = 1; 4908) 323.724*** (df = 2; 4907) 626.932*** (df = 3; 4906)
 ## =================================================================================================
 ## Note:                                                               *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</code></pre>
-</div>
-<div id="voller-optionenkanon" class="section level1">
-<h1><span class="header-section-number">5</span> Voller Optionenkanon:</h1>
 </div>
 
 

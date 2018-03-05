@@ -43,7 +43,7 @@ SOEP_data %>% head(10)
 ## Table
 
 ```{r,warning = FALSE}
-SOEP_data$sex %>% table() %>% prop.table() %>% round()
+SOEP_data$sex %>% table() %>% prop.table() %>% round(2)
 ```
 
 ## Histogram
@@ -115,8 +115,6 @@ stargazer(model1,model2,model3,  #regression models
 
 ```
 
-
-# Voller Optionenkanon:
 
 ```{r eval = F,include=F}
 
