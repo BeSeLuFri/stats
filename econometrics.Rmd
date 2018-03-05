@@ -5,9 +5,11 @@ title: "Ökonometrische Anwendungen"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Yet to vervollständigen: Ökonometrische Anwendungen
+# Yet to vervollständigen: 
 
-# 
+Hallo Franziska, diesen Teil haben wir noch offen gelassen, um morgen mit Dir persönlich abzusprechen, welche ökonometrische Anwendungsfälle/Werkzeuge/Diagnostik wir reinnehmen sollen. 
+
+LG Bene und Marcel
 
 ```{r}
 

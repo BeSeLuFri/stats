@@ -325,10 +325,8 @@ div.tocify {
 
 library(car) #Recode-Operations
 library(ggplot2) #Graphical Design
-library(mgcv) # GAM (Generalized additive models with integrated smoothness estimation)</code></pre>
-<pre><code>## Loading required package: nlme</code></pre>
-<pre><code>## This is mgcv 1.8-22. For overview type &#39;help(&quot;mgcv-package&quot;)&#39;.</code></pre>
-<pre class="r"><code>library(readstata13)
+library(mgcv) # GAM (Generalized additive models with integrated smoothness estimation)
+library(readstata13)
 
 # If your project-surrounding doesn&#39;t work, use setwd manually
 
@@ -342,36 +340,18 @@ SOEP2$netinc = recode(SOEP2$tp7602,&quot;-3=NA;-2=NA;-1=NA&quot;)
 
 # Multivariate Regression Sex &amp; Age
 mod1=lm(netinc~sex+alter, data=SOEP2)
-summary(mod1)</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = netinc ~ sex + alter, data = SOEP2)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -2792.8  -641.2  -170.0   403.7 22799.9 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 1760.644     71.133   24.75   &lt;2e-16 ***
-## sex         -902.697     29.800  -30.29   &lt;2e-16 ***
-## alter         27.962      1.257   22.25   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 1139 on 5888 degrees of freedom
-##   (8590 observations deleted due to missingness)
-## Multiple R-squared:  0.2014, Adjusted R-squared:  0.2011 
-## F-statistic: 742.5 on 2 and 5888 DF,  p-value: &lt; 2.2e-16</code></pre>
-<pre class="r"><code># A deeper look at income
+summary(mod1)
+
+
+
+# A deeper look at income
 
 ggplot(data=SOEP2,aes(x=netinc)) + 
   geom_density()+
   xlim(0,10000)+
-  theme_bw()</code></pre>
-<pre><code>## Warning: Removed 8596 rows containing non-finite values (stat_density).</code></pre>
-<p><img src="econometrics_old_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<pre class="r"><code># Ggplot Darstellung
+  theme_bw()
+
+# Ggplot Darstellung
 
 ggplot(data=SOEP2, #dataset
        aes(x=alter,y=netinc))+  #aestetics
@@ -382,39 +362,20 @@ ggplot(data=SOEP2, #dataset
   xlab (&quot;Alter&quot;)+
   ylab (&quot;Net_Income&quot;) + 
   theme_bw()+ # makes it nice and black-and-white
-  stat_smooth(method = &quot;lm&quot;, formula = y~x, color=&quot;green&quot;)</code></pre>
-<pre><code>## Warning: Removed 8623 rows containing non-finite values (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 8623 rows containing missing values (geom_point).</code></pre>
-<p><img src="econometrics_old_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
-<pre class="r"><code># Applied Feminism: Is there a gender effect?
+  stat_smooth(method = &quot;lm&quot;, formula = y~x, color=&quot;green&quot;)
+
+
+
+# Applied Feminism: Is there a gender effect?
 
 SOEP2$sex.factor &lt;- factor(SOEP2$sex , levels = c(2,1), labels= c(&quot;weiblich&quot;,&quot;männlich&quot;))
 
 
 mod2=lm(netinc~sex.factor*alter, data=SOEP2) # Interaction Terms
-summary(mod2) # How do you interpret the interaction term?</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = netinc ~ sex.factor * alter, data = SOEP2)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3263.7  -628.2  -167.0   368.3 22727.0 
-## 
-## Coefficients:
-##                          Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)               550.700     78.470   7.018 2.50e-12 ***
-## sex.factormännlich       -198.689    107.421  -1.850   0.0644 .  
-## alter                      13.350      1.851   7.211 6.25e-13 ***
-## sex.factormännlich:alter   26.671      2.501  10.663  &lt; 2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 1128 on 5887 degrees of freedom
-##   (8590 observations deleted due to missingness)
-## Multiple R-squared:  0.2165, Adjusted R-squared:  0.2161 
-## F-statistic: 542.4 on 3 and 5887 DF,  p-value: &lt; 2.2e-16</code></pre>
-<pre class="r"><code>ggplot(data=SOEP2, #dataset
+summary(mod2) # How do you interpret the interaction term?
+
+
+ggplot(data=SOEP2, #dataset
        aes(x=alter,y=netinc,group=sex.factor))+
   geom_point(size=0.7,aes(color=sex.factor)) +   # what you want to be plotted
   xlim(20,85) +   # readjust xlim
@@ -424,11 +385,11 @@ summary(mod2) # How do you interpret the interaction term?</code></pre>
   ylab (&quot;Net_Income&quot;) + 
   theme_bw() + # makes it nice and black-and-white
   scale_color_discrete() +
-  stat_smooth(method = &quot;lm&quot;, formula = y~x, aes(color=sex.factor)) </code></pre>
-<pre><code>## Warning: Removed 8748 rows containing non-finite values (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 8748 rows containing missing values (geom_point).</code></pre>
-<p><img src="econometrics_old_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
-<pre class="r"><code># GAM
+  stat_smooth(method = &quot;lm&quot;, formula = y~x, aes(color=sex.factor)) 
+  
+
+
+# GAM
 # Alternativ Normales lm-Modell letzte Zeile ersetzen durch GAM (Generalized additive models with integrated smoothness estimation)
 library(hrbrthemes)
 library(extrafont)
@@ -454,34 +415,10 @@ gg &lt;-
 
 # Ddply Stuff &amp; Data Management
 
-library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:nlme&#39;:
-## 
-##     collapse</code></pre>
-<pre><code>## The following object is masked from &#39;package:car&#39;:
-## 
-##     recode</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>library(plyr)</code></pre>
-<pre><code>## -------------------------------------------------------------------------</code></pre>
-<pre><code>## You have loaded plyr after dplyr - this is likely to cause problems.
-## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-## library(plyr); library(dplyr)</code></pre>
-<pre><code>## -------------------------------------------------------------------------</code></pre>
-<pre><code>## 
-## Attaching package: &#39;plyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-##     summarize</code></pre>
-<pre class="r"><code>df &lt;- ddply(.data = SOEP2,
+library(dplyr)
+library(plyr)
+
+df &lt;- ddply(.data = SOEP2,
        .variables = c(&quot;sex.factor&quot;), # Variablen to be used for splitting
        .fun = summarize,
        INCOME= mean(netinc,na.rm = TRUE),
@@ -489,176 +426,13 @@ library(dplyr)</code></pre>
        AGE = mean(alter,na.rm = TRUE),
        SD_AGE = sd(alter,na.rm = TRUE)
 )
-df</code></pre>
-<pre><code>##   sex.factor   INCOME SD_INCOME      AGE   SD_AGE
-## 1   weiblich 1094.715  883.3647 39.94183 21.79035
-## 2   männlich 2031.094 1395.6789 38.65829 21.37068</code></pre>
-<pre class="r"><code># Descriptive Statistics in apa-Format
-library(apaStyle)
+df
 
-df</code></pre>
-<pre><code>##   sex.factor   INCOME SD_INCOME      AGE   SD_AGE
-## 1   weiblich 1094.715  883.3647 39.94183 21.79035
-## 2   männlich 2031.094 1395.6789 38.65829 21.37068</code></pre>
-<pre class="r"><code>df_rounded &lt;- df
-df_rounded[,2:5] &lt;- round(df[,2:5],1)
-df_rounded</code></pre>
-<pre><code>##   sex.factor INCOME SD_INCOME  AGE SD_AGE
-## 1   weiblich 1094.7     883.4 39.9   21.8
-## 2   männlich 2031.1    1395.7 38.7   21.4</code></pre>
-<pre class="r"><code>apa.table(
-  data = df_rounded,
-  level1.header = c(&quot;&quot;,&quot;Income&quot;, &quot;AGE&quot;),
-  level1.colspan = c(1,2,2),
-  level2.header = c(&quot;SEX&quot;, &quot;Mean&quot;, &quot;SD&quot;, &quot;Mean&quot;, &quot;SD&quot;)
-)$table</code></pre>
-<p style="text-align:left;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<table style="margin-left:0px;margin-right:auto;border-collapse:collapse;">
-<thead>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:left;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;" colspan="2">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">Income</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);"> </span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;" colspan="2">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">AGE</span>
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:left;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">SEX</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">Mean</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;font-style:italic;color:rgba(0, 0, 0, 1);">SD</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);"> </span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;border-top-color:rgba(0, 0, 0, 1);border-top-style:solid;border-top-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">Mean</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;font-style:italic;color:rgba(0, 0, 0, 1);">SD</span>
-</p>
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:left;padding-top:0pt;padding-bottom:0pt;padding-right:0pt;padding-left:0pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">weiblich</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">1094.7</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);"> 883.4</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">39.9</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">21.8</span>
-</p>
-</td>
-</tr>
-<tr>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:left;padding-top:0pt;padding-bottom:0pt;padding-right:0pt;padding-left:0pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">mÃ¤nnlich</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">2031.1</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">1395.7</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">38.7</span>
-</p>
-</td>
-<td style="background-color:rgba(255, 255, 255, 0);border-bottom-color:rgba(0, 0, 0, 1);border-bottom-style:solid;border-bottom-width:1px;vertical-align:middle;padding-left:7pt;padding-right:7pt;padding-top:7pt;padding-bottom:7pt;">
-<p style="text-align:center;padding-top:1pt;padding-bottom:1pt;padding-right:1pt;padding-left:1pt;margin-left:0pt;margin-right:0pt;margin-top:0pt;margin-bottom:0pt;">
-<span style="font-size:10pt;font-family:Times;color:rgba(0, 0, 0, 1);">21.4</span>
-</p>
-</td>
-</tr>
-</tbody>
-<tfoot>
-</tfoot>
-</table>
-</p>
-<pre class="r"><code># 2-dimensional  
 
-# We imagine that we had a cross-national data set by assigning sampled countries of origin
 
-SOEP2$country &lt;- sample(c(&quot;germany&quot;,&quot;france&quot;,&quot;austria&quot;),nrow(SOEP2),replace=TRUE,prob = c(0.5,0.25,0.25))
 
-df2 &lt;- ddply( .data = SOEP2,
-             .variables = c(&quot;country&quot;,&quot;sex.factor&quot;), # Variablen to be used for splitting
-             .fun = summarize,
-             INCOME= mean(netinc,na.rm = TRUE),
-             SD_INCOME= sd(netinc,na.rm = TRUE),
-             AGE = mean(alter,na.rm = TRUE),
-             SD_AGE = sd(alter,na.rm = TRUE)
-); df2</code></pre>
-<pre><code>##   country sex.factor   INCOME SD_INCOME      AGE   SD_AGE
-## 1 austria   weiblich 1060.603  772.0074 39.20255 21.79676
-## 2 austria   männlich 2061.510 1537.1768 38.91612 21.03848
-## 3  france   weiblich 1120.586 1088.7413 40.83672 22.00459
-## 4  france   männlich 1952.764 1221.4401 38.81180 21.28479
-## 5 germany   weiblich 1098.710  814.2203 39.86359 21.66450
-## 6 germany   männlich 2056.167 1402.2457 38.44432 21.59039</code></pre>
-<pre class="r"><code># advanced R: Inequality detection 
+
+# advanced R: Inequality detection 
 
 ## inequality
 
@@ -685,46 +459,6 @@ lorenz_df &lt;- data.frame(prop_pop = lorenz$p, income = lorenz$L) %&gt;%
   annotate(&quot;text&quot;, 0.5, 0.6, label = &quot;Complete equality line&quot;, angle = 45, family = &quot;myfont&quot;) + 
   ggtitle (
     str_wrap(&quot;Cumulative distribution of SOEC individual income &quot;, 46))</code></pre>
-<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-## Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden</code></pre>
-<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-## Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-## Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-## Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-## Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-## Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-## Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-## Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden</code></pre>
-<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
-## $y, : Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
-## $y, : Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
-## $y, : Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden</code></pre>
-<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-## Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-## Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden</code></pre>
-<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
-## $y, : Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden</code></pre>
-<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-## Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden</code></pre>
-<p><img src="econometrics_old_files/figure-html/unnamed-chunk-1-4.png" width="672" /></p>
 
 
 
