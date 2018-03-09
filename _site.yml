@@ -1,26 +1,29 @@
-name: "my-website"
+name: my-website
 output:
   html_document:
-    number_sections: true
-    toc: true
+    number_sections: yes
+    toc: yes
     toc_float:
-      collapsed: true
-      smooth_scroll: true
-output_dir: "docs"
+      collapsed: yes
+      smooth_scroll: yes
+    lib_dir: site_libs
+    self_contained: no
+output_dir: docs
 navbar:
-  title: "Econometrics with R"
+  title: Econometrics with R
   left:
-    - text: "Introduction"
-      href: index.html
-    - text: "Objects and Data"
-      href: objectsndata.html
-    - text: "Data Management"
-      href: datamanagement.html
-    - text: "Linear Regression"
-      href: linreg.html
-    - text: "DataViz"
-      href: dataviz.html
-    - text: "Applied Econometrics"
-      href: econometrics.html
-    - text: "About"
-      href: about.html
+  - text: Introduction
+    href: index.html
+  - text: Objects and Data
+    href: objectsndata.html
+  - text: Data Management
+    href: datamanagement.html
+  - text: Linear Regression
+    href: linreg.html
+  - text: DataViz
+    href: dataviz.html
+  - text: Applied Econometrics
+    href: econometrics.html
+  - text: About
+    href: about.html
+

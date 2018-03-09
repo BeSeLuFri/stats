@@ -4,7 +4,7 @@ title: "Linear Regression"
 ```{r setup, include=FALSE,eval=T}
 knitr::opts_chunk$set(echo = TRUE)
 
-SOEP_data <- readRDS("data/offline/soepdata.rds")
+econ_data <- readRDS("data/offline/econdata.rds")
 library(tidyverse)
 library(magrittr)
 ```
@@ -16,26 +16,26 @@ In this chapter, we want to introduce you to the possibly most popular technique
 
 After having recoded your variables as in the datamanagement section, you will need to make some further preparatory steps before we can begin the regression. 
 ```{r,warning = FALSE}
-SOEP_data %>% str()
+econ_data %>% str()
 ```
-Our dataset contains `r nrow(SOEP_data)` observations/cases and (in the reduced form) 8 variables. We immediately see that many variables contain a high number of so called *NAs* (standing for Non-attitude/No Answer/...). 
+Our dataset contains `r nrow(econ_data)` observations/cases and (in the reduced form) 8 variables. We immediately see that many variables contain a high number of so called *NAs* (standing for Non-attitude/No Answer/...). 
 
 ## NA/Missing Values 
 
 Lets look at the first 10 rows:
 ```{r,warning = FALSE}
-SOEP_data %>% head(10)
+econ_data %>% head(10)
 ```
 
 A multivariate regression model cannot handle NAs and will thus automatically remove all observations containing at least one single NA per row for the whole regression. Since this happens in a bit of a shady process, we will proceed by eliminating each row containing one or more NAs right away. You should always do this before you begin your analysis. 
 
 ```{r,warning = FALSE}
-SOEP_data %<>% na.omit()
+econ_data %<>% na.omit()
 ```
 
-We now see that we keep only "complete" rows in our now much smaller subdataset with `r nrow(SOEP_data)` observations. 
+We now see that we keep only "complete" rows in our now much smaller subdataset with `r nrow(econ_data)` observations. 
 ```{r,warning = FALSE}
-SOEP_data %>% head(10)
+econ_data %>% head(10)
 ```
 
 # Decriptive Inspection 
@@ -43,13 +43,13 @@ SOEP_data %>% head(10)
 ## Table
 
 ```{r,warning = FALSE}
-SOEP_data$sex %>% table() %>% prop.table() %>% round(2)
+econ_data$sex %>% table() %>% prop.table() %>% round(2)
 ```
 
 ## Histogram
 
 ```{r,warning = FALSE}
-SOEP_data$alter %>% hist()
+econ_data$alter %>% hist()
 ```
 
 
@@ -61,14 +61,14 @@ We first want to estimate a bivariate regression of logged netincome on age.
 
 Therefore, we first create a new variable called log_netinc
 ```{r,warning = FALSE}
-SOEP_data$log_netinc <- SOEP_data$netinc
+econ_data$log_netinc <- econ_data$netinc
 
 # log(0) is not possible => manually correct created NAs
-SOEP_data$log_netinc [is.na(SOEP_data$log_netinc)] <- 0
+econ_data$log_netinc [is.na(econ_data$log_netinc)] <- 0
 ```
 
 ```{r,warning = FALSE}
-model1 <- lm(log_netinc ~ alter,data = SOEP_data)
+model1 <- lm(log_netinc ~ alter,data = econ_data)
 summary(model1)
 ```
 
@@ -76,13 +76,13 @@ The regression can easily be expanded to a multivariate context by adding more v
 
 ```{r,warning = FALSE}
 model2 <- lm(log_netinc ~ alter + I(alter^2) ,
-            data = SOEP_data)
+            data = econ_data)
 summary(model2)
 ```
 
 ```{r,warning = FALSE}
 model3 <- lm(log_netinc ~ alter +  I(alter^2) + sex ,
-            data = SOEP_data)
+            data = econ_data)
 summary(model3)
 ```
 
@@ -101,7 +101,7 @@ stargazer(model1,model2,model3,  #regression models
           type = "text", # character vector (eg. "text" / "html" / "latex")
           title = "Hier steht die Überschrift",  # header
           style = "default",  # style (choice see below)
-         # out = "table1_SOEP.html", # path and output of file
+         # out = "table1_econ.html", # path and output of file
           out.header = FALSE, # logical vector: should output file contain code-header?
           column.labels = c("basic model","age quadratic","full model"), # column labels for mod1/mod2
           column.separate = c(1,1,1),  # how column labels should be assigned (label over sev. columns possible)
@@ -123,7 +123,7 @@ stargazer(model1,model2,model3,  #regression models
           title = "Hier steht die Überschrift",  # header
           style = "default",  # style (choice see below)
           summary = NULL,  # logical vector: output summary statistics when given data.frame
-       #   out = "table2_SOEP.html", # path and output of file
+       #   out = "table2_econ.html", # path and output of file
           out.header = FALSE, # logical vector: should output file contain code-header?
           column.labels = c("basic model","2 variable model"), # column labels for mod1/mod2
           column.separate = c(1,1),  # how column labels should be assigned (label over sev. columns possible)

@@ -1,5 +1,5 @@
 ---
-title: "Linear Regression"
+title: "Data Viz"
 ---
 
 More about this website.
@@ -7,10 +7,9 @@ More about this website.
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-SOEP_data <- readRDS("data/offline/soepdata.rds")
+econ_data <- readRDS("data/offline/econdata.rds")
 
 ```
-
 
 
 # Load Packages
@@ -31,9 +30,9 @@ Hierfür verwenden wir die Daten, die wir bereits im Datamanagement-Teil eingele
 
 Ein erster Überblick
 ```{r,warning = FALSE}
-str(SOEP_data)
+str(econ_data)
 
-head(SOEP_data)
+head(econ_data)
 
 ```
 
@@ -42,7 +41,7 @@ head(SOEP_data)
 ## Zusammenhang Sympathie Netincome ~ Alter
 
 ```{r,warning = FALSE}
-ggplot(data = SOEP_data,               # GGplot starten und Datensatz angeben
+ggplot(data = econ_data,               # GGplot starten und Datensatz angeben
        mapping = aes(x = alter,        # Specify mapping: aestethics (variable stuff)
                      y = netinc)) +  
   geom_jitter()   
@@ -50,7 +49,7 @@ ggplot(data = SOEP_data,               # GGplot starten und Datensatz angeben
 
 ## Hinzufügen einer Regressionsgerade
 ```{r,warning = FALSE}
-ggplot(data = SOEP_data,                          
+ggplot(data = econ_data,                          
        mapping = aes(x = alter,        
                      y = netinc)) +  
   geom_jitter() + 
@@ -63,7 +62,7 @@ ggplot(data = SOEP_data,
 ## Unterscheiden nach Geschlecht (farblich)
 
 ```{r,warning = FALSE}
-ggplot(data = SOEP_data,                          
+ggplot(data = econ_data,                          
        mapping = aes(x = alter,        
                      y = netinc,
                      col = sex)) +  # groupieren nach Color !
@@ -74,7 +73,7 @@ ggplot(data = SOEP_data,
 
 ## Die Farben sind optimierbar: 
 ```{r,warning = FALSE}
-ggplot(data = SOEP_data,                          
+ggplot(data = econ_data,                          
        mapping = aes(x = alter,        
                      y = netinc,
                      col = sex)) +  
@@ -90,7 +89,7 @@ ggplot(data = SOEP_data,
 
 ## Achsenlabels
 ```{r,warning = FALSE}
-ggplot(data = SOEP_data,                          
+ggplot(data = econ_data,                          
        mapping = aes(x = alter,        
                      y = netinc,
                      col = sex)) +  
@@ -112,7 +111,7 @@ ggplot(data = SOEP_data,
 ## Schönes Theme
 Jetzt noch ein Theme und sichern unter dem Objekt gg1
 ```{r,include = FALSE}
-  ggplot(data = SOEP_data,                          
+  ggplot(data = econ_data,                          
        mapping = aes(x = alter,        
                      y = netinc,
                      col = sex)) +  
@@ -133,7 +132,7 @@ Jetzt noch ein Theme und sichern unter dem Objekt gg1
 
 ```{r,eval = FALSE}
 gg1 <-  # zuweisen
-  ggplot(data = SOEP_data,                          
+  ggplot(data = econ_data,                          
        mapping = aes(x = alter,        
                      y = netinc,
                      col = sex)) +  
@@ -157,7 +156,7 @@ gg1 #print
 
 ### Entweder pdf
 ```{r,warning = FALSE,eval=FALSE}
-ggsave(filename = "results/soep_jitterplot.pdf",
+ggsave(filename = "results/econ_jitterplot.pdf",
        plot = gg1,
        device = "pdf",
        width = 10,
@@ -168,7 +167,7 @@ ggsave(filename = "results/soep_jitterplot.pdf",
 
 ### oder png
 ```{r,warning = FALSE,eval=FALSE}
-ggsave(filename = "results/soep_jitterplot.png",
+ggsave(filename = "results/econ_jitterplot.png",
        plot = gg1,
        device = "png",
        width = 10,
@@ -186,19 +185,19 @@ ggsave(filename = "results/soep_jitterplot.png",
 
 ## Eindimensional
 ```{r,warning = FALSE}
-table(SOEP_data$netinc) %>% head()
+table(econ_data$netinc) %>% head()
 ```
 
 ## Haeufigkeitsverteilung der Einkommenskategorien
 ```{r,warning = FALSE}
-ggplot(data = SOEP_data) + 
+ggplot(data = econ_data) + 
   geom_bar(aes(x = inc_kat))
 ```
 
                
 ## In Prozent
 ```{r,warning = FALSE}
-ggplot(data = SOEP_data) + 
+ggplot(data = econ_data) + 
   geom_bar(aes(x = inc_kat,
                y = (..count..)/sum(..count..))) # relative haeufigkeit 
 
@@ -213,13 +212,13 @@ ggplot(data = SOEP_data) +
 # Descriptive overview
 round(
   prop.table(
-  table(zweit = SOEP_data$inc_kat,
-        erst = SOEP_data$sex),margin = 1),2)
+  table(zweit = econ_data$inc_kat,
+        erst = econ_data$sex),margin = 1),2)
 
 
 # In plot
 gg1 <- #objekt zuweisen
-  ggplot(data = SOEP_data) + 
+  ggplot(data = econ_data) + 
   geom_bar(aes(x = inc_kat,
                y = (..count..),
                fill = sex))+ # relative haeufigkeit + 
@@ -236,11 +235,9 @@ gg1 <- #objekt zuweisen
 gg1 #print
 ```
 
-
-
 ## Output to pdf
 ```{r,warning = FALSE,eval=FALSE}
-ggsave(filename = "results/soep_barplot.pdf",
+ggsave(filename = "results/econ_barplot.pdf",
        plot = gg1,
        device = "pdf",
        width = 10,

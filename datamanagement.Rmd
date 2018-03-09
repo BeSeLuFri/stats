@@ -12,11 +12,16 @@ knitr::opts_chunk$set(echo = TRUE,warning = FALSE)
 ```{r}
 # Laden des Datensatzes
 library(readstata13)
+library(tidyverse)
+library(magrittr)
 
 #Daten als Objekt importieren
-SOEP <- read.dta13(file="data/offline/soep/new8.dta" ,
+econ <- read.dta13(file="data/offline/econometrics.dta" ,
                    convert.factors=F,
                    nonint.factors = F)
+
+# Subsample with 5000 Observations
+econ <- econ [sample(c(1:nrow(econ)),size = 5000,replace = FALSE),]
 
 
 ```
@@ -31,58 +36,91 @@ SOEP <- read.dta13(file="data/offline/soep/new8.dta" ,
 library(car)
 
 # Variable Alter generieren
-SOEP$alter = 2003 - SOEP$gebjahr
-SOEP$alter [SOEP$alter == 2004] <- NA # entfernen der fehlerhaften
+econ$alter = 2003 - econ$gebjahr
+econ$alter [econ$alter == 2004] <- NA # entfernen der fehlerhaften
 
 #sex 
-SOEP$sex <- factor(SOEP$sex,levels = c(1,2),labels = c("männlich","weiblich"))
+econ$sex <- factor(econ$sex,levels = c(1,2),labels = c("männlich","weiblich"))
 
 # Ueberstunden recodieren 0=nein, 1=ja
-SOEP$over = recode(SOEP$tp72,"2=0;-2=NA;-1=NA; 3=NA")
+econ$over = recode(econ$tp72,"2=0;-2=NA;-1=NA; 3=NA")
 
 # Vertragliche und tatsaechliche Wochenarbeitszeit
 # Missings bereinigen
-SOEP$contract = recode(SOEP$tp7001,"-3=NA;-2=NA;-1=NA")
-SOEP$actual = recode(SOEP$tp7003,"-3=NA;-2=NA;-1=NA")
-SOEP$contract = SOEP$contract/10
-SOEP$actual = SOEP$actual/10
+econ$contract = recode(econ$tp7001,"-3=NA;-2=NA;-1=NA")
+econ$actual = recode(econ$tp7003,"-3=NA;-2=NA;-1=NA")
+econ$contract = econ$contract/10
+econ$actual = econ$actual/10
 
 # Vertrauen 
 # "Trust in people" und "Can't rely on anybody" recodieren
-SOEP$trust = recode(SOEP$tp0301,"-1=NA")
-SOEP$rely = recode(SOEP$tp0302,"-1=NA")
+econ$trust = recode(econ$tp0301,"-1=NA")
+econ$rely = recode(econ$tp0302,"-1=NA")
 
-SOEP$netinc = recode(SOEP$tp7602,"-3=NA;-2=NA;-1=NA")
+econ$netinc = recode(econ$tp7602,"-3=NA;-2=NA;-1=NA")
 
 # Nur relevante Variablen werden übernommen
-SOEP_data <- SOEP[,c("netinc","alter","sex","contract","actual","trust","rely")]
-head(SOEP_data)
+econ_data <- econ[,c("netinc","alter","sex","contract","actual","trust","rely")]
+head(econ_data)
 
 # Delete NAs
-SOEP_data <- na.omit(SOEP_data)
+econ_data <- na.omit(econ_data)
 
 # Einkommen Kategorisiert in Quartile
 
-hist(SOEP$netinc)
-quantile(SOEP_data$netinc)
+hist(econ$netinc)
+quantile(econ_data$netinc)
 
-SOEP_data$inc_kat <- NA
-SOEP_data$inc_kat [SOEP_data$netinc < quantile(SOEP_data$netinc)[2]] <- "Q1"
-SOEP_data$inc_kat [SOEP_data$netinc >= quantile(SOEP_data$netinc)[2] & SOEP_data$netinc < quantile(SOEP_data$netinc)[3]] <- "Q2"
-SOEP_data$inc_kat [SOEP_data$netinc >= quantile(SOEP_data$netinc)[3] & SOEP_data$netinc < quantile(SOEP_data$netinc)[4]] <- "Q3"
-SOEP_data$inc_kat [SOEP_data$netinc >= quantile(SOEP_data$netinc)[4] ] <- "Q4"
+econ_data$inc_kat <- NA
+econ_data$inc_kat [econ_data$netinc < quantile(econ_data$netinc)[2]] <- "Q1"
+econ_data$inc_kat [econ_data$netinc >= quantile(econ_data$netinc)[2] & econ_data$netinc < quantile(econ_data$netinc)[3]] <- "Q2"
+econ_data$inc_kat [econ_data$netinc >= quantile(econ_data$netinc)[3] & econ_data$netinc < quantile(econ_data$netinc)[4]] <- "Q3"
+econ_data$inc_kat [econ_data$netinc >= quantile(econ_data$netinc)[4] ] <- "Q4"
 
-table(SOEP_data$inc_kat)
+table(econ_data$inc_kat)
 ```
 
 
 # Advanced DM: The tidyverse
 
-last thing to do. advanced tidyverse
+Some of the most important functions when it gets to datamanagement stem from the tidyverse-packages and most notably dplyr. We can only provide you with a small overview here, but if you understand `mutate`, `summarise` and `group_by`, you should be good to go. 
 
 ## Mutate
 
+We can easily add variables (or transformed versions of others) to a knew dataset by adding a new variable through mutate. 
+
+For example, assume we wanted to add a squared age term: 
+
+```{r}
+
+econ_data <- 
+  econ_data %>% mutate(alter_squared = alter^2)
+
+head(econ_data)
+
+```
+
 ## Summarise
+
+Summarise allows us to summarise certain variables, such as certain features of netincome. 
+
+```{r}
+
+econ_data %>% 
+  summarise(mean = mean(alter,na.rm = T),
+            sd = sd(alter,na.rm = T))
+
+```
 
 ## group_by
 
+The same is also possibled for grouped structures. Say, for example, you would want to calculate seperate values for different genders: 
+
+```{r}
+
+econ_data %>% 
+  group_by() %>% 
+  summarise(mean = mean(alter,na.rm = T),
+            sd = sd(alter,na.rm = T))
+
+```

@@ -11,7 +11,7 @@
 
 
 
-<title>Linear Regression</title>
+<title>Data Viz</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,8 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -33,10 +33,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -306,7 +308,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Linear Regression</h1>
+<h1 class="title toc-ignore">Data Viz</h1>
 
 </div>
 
@@ -324,30 +326,30 @@ library(extrafont)</code></pre>
 <h1><span class="header-section-number">2</span> Laden des Datensatzes:</h1>
 <p>Hierfür verwenden wir die Daten, die wir bereits im Datamanagement-Teil eingelesen haben.</p>
 <p>Ein erster Überblick</p>
-<pre class="r"><code>str(SOEP_data)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    14481 obs. of  8 variables:
-##  $ netinc  : int  NA NA 800 NA 3600 NA NA NA NA NA ...
-##  $ alter   : num  52 NA 55 25 57 81 70 84 78 48 ...
-##  $ sex     : Factor w/ 2 levels &quot;maennlich&quot;,&quot;weiblich&quot;: 2 1 2 1 1 1 2 2 2 1 ...
-##  $ contract: num  37 NA 38.5 NA 40 NA NA NA NA NA ...
-##  $ actual  : num  37 NA 41.5 NA 42 NA NA NA NA NA ...
-##  $ trust   : int  3 NA 2 2 2 NA 2 2 3 3 ...
-##  $ rely    : int  2 NA 3 3 4 NA 4 3 2 2 ...
+<pre class="r"><code>str(econ_data)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    5000 obs. of  8 variables:
+##  $ netinc  : int  NA NA 1000 NA NA 2430 NA NA NA 627 ...
+##  $ alter   : num  43 15 34 62 52 30 24 14 68 44 ...
+##  $ sex     : Factor w/ 2 levels &quot;maennlich&quot;,&quot;weiblich&quot;: 2 2 1 2 2 1 2 1 2 2 ...
+##  $ contract: num  NA NA 40 NA NA 40 NA NA NA 19 ...
+##  $ actual  : num  NA NA 60 NA NA 40 NA NA 40 19 ...
+##  $ trust   : int  3 NA 3 3 3 2 2 NA 2 2 ...
+##  $ rely    : int  2 NA 3 1 3 4 3 NA 3 2 ...
 ##  $ inc_kat : chr  NA NA &quot;Q2&quot; NA ...</code></pre>
-<pre class="r"><code>head(SOEP_data)</code></pre>
-<pre><code>##   netinc alter       sex contract actual trust rely inc_kat
-## 1     NA    52  weiblich     37.0   37.0     3    2    &lt;NA&gt;
-## 2     NA    NA maennlich       NA     NA    NA   NA    &lt;NA&gt;
-## 3    800    55  weiblich     38.5   41.5     2    3      Q2
-## 4     NA    25 maennlich       NA     NA     2    3    &lt;NA&gt;
-## 5   3600    57 maennlich     40.0   42.0     2    4      Q4
-## 6     NA    81 maennlich       NA     NA    NA   NA    &lt;NA&gt;</code></pre>
+<pre class="r"><code>head(econ_data)</code></pre>
+<pre><code>##       netinc alter       sex contract actual trust rely inc_kat
+## 2267      NA    43  weiblich       NA     NA     3    2    &lt;NA&gt;
+## 5775      NA    15  weiblich       NA     NA    NA   NA    &lt;NA&gt;
+## 10439   1000    34 maennlich       40     60     3    3      Q2
+## 11269     NA    62  weiblich       NA     NA     3    1    &lt;NA&gt;
+## 6853      NA    52  weiblich       NA     NA     3    3    &lt;NA&gt;
+## 3878    2430    30 maennlich       40     40     2    4      Q4</code></pre>
 </div>
 <div id="einfache-scatterplots" class="section level1">
 <h1><span class="header-section-number">3</span> Einfache Scatterplots</h1>
 <div id="zusammenhang-sympathie-netincome-alter" class="section level2">
 <h2><span class="header-section-number">3.1</span> Zusammenhang Sympathie Netincome ~ Alter</h2>
-<pre class="r"><code>ggplot(data = SOEP_data,               # GGplot starten und Datensatz angeben
+<pre class="r"><code>ggplot(data = econ_data,               # GGplot starten und Datensatz angeben
        mapping = aes(x = alter,        # Specify mapping: aestethics (variable stuff)
                      y = netinc)) +  
   geom_jitter()   </code></pre>
@@ -355,7 +357,7 @@ library(extrafont)</code></pre>
 </div>
 <div id="hinzufugen-einer-regressionsgerade" class="section level2">
 <h2><span class="header-section-number">3.2</span> Hinzufügen einer Regressionsgerade</h2>
-<pre class="r"><code>ggplot(data = SOEP_data,                          
+<pre class="r"><code>ggplot(data = econ_data,                          
        mapping = aes(x = alter,        
                      y = netinc)) +  
   geom_jitter() + 
@@ -364,7 +366,7 @@ library(extrafont)</code></pre>
 </div>
 <div id="unterscheiden-nach-geschlecht-farblich" class="section level2">
 <h2><span class="header-section-number">3.3</span> Unterscheiden nach Geschlecht (farblich)</h2>
-<pre class="r"><code>ggplot(data = SOEP_data,                          
+<pre class="r"><code>ggplot(data = econ_data,                          
        mapping = aes(x = alter,        
                      y = netinc,
                      col = sex)) +  # groupieren nach Color !
@@ -374,7 +376,7 @@ library(extrafont)</code></pre>
 </div>
 <div id="die-farben-sind-optimierbar" class="section level2">
 <h2><span class="header-section-number">3.4</span> Die Farben sind optimierbar:</h2>
-<pre class="r"><code>ggplot(data = SOEP_data,                          
+<pre class="r"><code>ggplot(data = econ_data,                          
        mapping = aes(x = alter,        
                      y = netinc,
                      col = sex)) +  
@@ -388,7 +390,7 @@ library(extrafont)</code></pre>
 </div>
 <div id="achsenlabels" class="section level2">
 <h2><span class="header-section-number">3.5</span> Achsenlabels</h2>
-<pre class="r"><code>ggplot(data = SOEP_data,                          
+<pre class="r"><code>ggplot(data = econ_data,                          
        mapping = aes(x = alter,        
                      y = netinc,
                      col = sex)) +  
@@ -409,7 +411,7 @@ library(extrafont)</code></pre>
 <h2><span class="header-section-number">3.6</span> Schönes Theme</h2>
 <p>Jetzt noch ein Theme und sichern unter dem Objekt gg1</p>
 <pre class="r"><code>gg1 &lt;-  # zuweisen
-  ggplot(data = SOEP_data,                          
+  ggplot(data = econ_data,                          
        mapping = aes(x = alter,        
                      y = netinc,
                      col = sex)) +  
@@ -432,7 +434,7 @@ gg1 #print</code></pre>
 <h2><span class="header-section-number">3.7</span> Output zum Einbinden ins Paper</h2>
 <div id="entweder-pdf" class="section level3">
 <h3><span class="header-section-number">3.7.1</span> Entweder pdf</h3>
-<pre class="r"><code>ggsave(filename = &quot;results/soep_jitterplot.pdf&quot;,
+<pre class="r"><code>ggsave(filename = &quot;results/econ_jitterplot.pdf&quot;,
        plot = gg1,
        device = &quot;pdf&quot;,
        width = 10,
@@ -441,7 +443,7 @@ gg1 #print</code></pre>
 </div>
 <div id="oder-png" class="section level3">
 <h3><span class="header-section-number">3.7.2</span> oder png</h3>
-<pre class="r"><code>ggsave(filename = &quot;results/soep_jitterplot.png&quot;,
+<pre class="r"><code>ggsave(filename = &quot;results/econ_jitterplot.png&quot;,
        plot = gg1,
        device = &quot;png&quot;,
        width = 10,
@@ -457,20 +459,20 @@ gg1 #print</code></pre>
 <h1><span class="header-section-number">4</span> Barplots Einkommenskategorien</h1>
 <div id="eindimensional" class="section level2">
 <h2><span class="header-section-number">4.1</span> Eindimensional</h2>
-<pre class="r"><code>table(SOEP_data$netinc) %&gt;% head()</code></pre>
+<pre class="r"><code>table(econ_data$netinc) %&gt;% head()</code></pre>
 <pre><code>## 
-##  0 30 35 36 40 45 
-## 21  1  1  1  1  1</code></pre>
+##  0 40 81 84 87 88 
+##  5  1  1  1  1  2</code></pre>
 </div>
 <div id="haeufigkeitsverteilung-der-einkommenskategorien" class="section level2">
 <h2><span class="header-section-number">4.2</span> Haeufigkeitsverteilung der Einkommenskategorien</h2>
-<pre class="r"><code>ggplot(data = SOEP_data) + 
+<pre class="r"><code>ggplot(data = econ_data) + 
   geom_bar(aes(x = inc_kat))</code></pre>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 <div id="in-prozent" class="section level2">
 <h2><span class="header-section-number">4.3</span> In Prozent</h2>
-<pre class="r"><code>ggplot(data = SOEP_data) + 
+<pre class="r"><code>ggplot(data = econ_data) + 
   geom_bar(aes(x = inc_kat,
                y = (..count..)/sum(..count..))) # relative haeufigkeit </code></pre>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
@@ -480,17 +482,17 @@ gg1 #print</code></pre>
 <pre class="r"><code># Descriptive overview
 round(
   prop.table(
-  table(zweit = SOEP_data$inc_kat,
-        erst = SOEP_data$sex),margin = 1),2)</code></pre>
+  table(zweit = econ_data$inc_kat,
+        erst = econ_data$sex),margin = 1),2)</code></pre>
 <pre><code>##      erst
 ## zweit maennlich weiblich
-##    Q1      0.24     0.76
-##    Q2      0.41     0.59
+##    Q1      0.26     0.74
+##    Q2      0.40     0.60
 ##    Q3      0.67     0.33
-##    Q4      0.81     0.19</code></pre>
+##    Q4      0.82     0.18</code></pre>
 <pre class="r"><code># In plot
 gg1 &lt;- #objekt zuweisen
-  ggplot(data = SOEP_data) + 
+  ggplot(data = econ_data) + 
   geom_bar(aes(x = inc_kat,
                y = (..count..),
                fill = sex))+ # relative haeufigkeit + 
@@ -509,7 +511,7 @@ gg1 #print</code></pre>
 </div>
 <div id="output-to-pdf" class="section level2">
 <h2><span class="header-section-number">4.5</span> Output to pdf</h2>
-<pre class="r"><code>ggsave(filename = &quot;results/soep_barplot.pdf&quot;,
+<pre class="r"><code>ggsave(filename = &quot;results/econ_barplot.pdf&quot;,
        plot = gg1,
        device = &quot;pdf&quot;,
        width = 10,

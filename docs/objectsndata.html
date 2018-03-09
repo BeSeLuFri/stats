@@ -23,8 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -33,10 +33,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -315,10 +317,10 @@ div.tocify {
 <div id="file-names" class="section level1">
 <h1><span class="header-section-number">1</span> File names</h1>
 <p>Be sure to save all your files (especially the data input) in the folders below where you have started your project. To let R open files you have to use the forward slash (not the backward one). Example:</p>
-<pre class="r"><code>a=read.csv2(&quot;data/SOEP.csv&quot;) # reads a csv file saved in the data folder. The file is named SOEP.csv
+<pre class="r"><code>a=read.csv2(&quot;data/econometrics.csv&quot;) # reads a csv file saved in the data folder. The file is named SOEP.csv
 # everything behind a # (Hashtag) is not run by R.
 # #&#39;s are very useful for commenting and making sense out of your code. 
-a=read.csv2(&quot;data/SOEP.csv&quot;)</code></pre>
+a=read.csv2(&quot;data/econometrics.csv&quot;)</code></pre>
 </div>
 <div id="objects-in-r" class="section level1">
 <h1><span class="header-section-number">2</span> Objects in R</h1>
