@@ -318,12 +318,12 @@ div.tocify {
 <pre class="r"><code># Laden des Datensatzes
 library(readstata13)
 library(tidyverse)</code></pre>
-<pre><code>## -- Attaching packages ------------------------------------------------------------------ tidyverse 1.2.1 --</code></pre>
+<pre><code>## -- Attaching packages -------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
 <pre><code>## v ggplot2 2.2.1     v purrr   0.2.4
 ## v tibble  1.4.2     v dplyr   0.7.4
-## v tidyr   0.8.0     v stringr 1.2.0
+## v tidyr   0.8.0     v stringr 1.3.0
 ## v readr   1.1.1     v forcats 0.3.0</code></pre>
-<pre><code>## -- Conflicts --------------------------------------------------------------------- tidyverse_conflicts() --
+<pre><code>## -- Conflicts ----------------------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(magrittr)</code></pre>
@@ -383,12 +383,12 @@ econ$netinc = recode(econ$tp7602,&quot;-3=NA;-2=NA;-1=NA&quot;)
 econ_data &lt;- econ[,c(&quot;netinc&quot;,&quot;alter&quot;,&quot;sex&quot;,&quot;contract&quot;,&quot;actual&quot;,&quot;trust&quot;,&quot;rely&quot;)]
 head(econ_data)</code></pre>
 <pre><code>##       netinc alter      sex contract actual trust rely
-## 12787   1300    23 männlich     37.5   37.5     2    2
-## 5026    1405    26 männlich     38.5   50.0     2    3
-## 12446   1609    36 weiblich     40.0   42.0     3    2
-## 9742     660    44 männlich     40.0   40.0     3    2
-## 5839      NA    60 weiblich     38.5   38.5     3    2
-## 13220   4500    45 männlich     40.0   60.0     2    3</code></pre>
+## 128       NA    62 männlich       NA     NA     2    2
+## 8305     900    41 weiblich     17.5     20     1    4
+## 7776      NA    68 männlich       NA     NA     1    4
+## 10670    200    20 weiblich      5.0      5     2    4
+## 1564      NA    19 weiblich       NA     NA     3    2
+## 14180     NA    72 männlich       NA     NA     1    4</code></pre>
 <pre class="r"><code># Delete NAs
 econ_data &lt;- na.omit(econ_data)
 
@@ -397,8 +397,8 @@ econ_data &lt;- na.omit(econ_data)
 hist(econ$netinc)</code></pre>
 <p><img src="datamanagement_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <pre class="r"><code>quantile(econ_data$netinc)</code></pre>
-<pre><code>##      0%     25%     50%     75%    100% 
-##    0.00  800.00 1342.00 1896.25 7500.00</code></pre>
+<pre><code>##       0%      25%      50%      75%     100% 
+##     0.00   837.75  1365.00  1900.00 10000.00</code></pre>
 <pre class="r"><code>econ_data$inc_kat &lt;- NA
 econ_data$inc_kat [econ_data$netinc &lt; quantile(econ_data$netinc)[2]] &lt;- &quot;Q1&quot;
 econ_data$inc_kat [econ_data$netinc &gt;= quantile(econ_data$netinc)[2] &amp; econ_data$netinc &lt; quantile(econ_data$netinc)[3]] &lt;- &quot;Q2&quot;
@@ -408,7 +408,7 @@ econ_data$inc_kat [econ_data$netinc &gt;= quantile(econ_data$netinc)[4] ] &lt;- 
 table(econ_data$inc_kat)</code></pre>
 <pre><code>## 
 ##  Q1  Q2  Q3  Q4 
-## 421 453 437 437</code></pre>
+## 419 419 402 436</code></pre>
 </div>
 <div id="advanced-dm-the-tidyverse" class="section level1">
 <h1><span class="header-section-number">3</span> Advanced DM: The tidyverse</h1>
@@ -422,12 +422,12 @@ table(econ_data$inc_kat)</code></pre>
 
 head(econ_data)</code></pre>
 <pre><code>##   netinc alter      sex contract actual trust rely inc_kat alter_squared
-## 1   1300    23 männlich     37.5   37.5     2    2      Q2           529
-## 2   1405    26 männlich     38.5   50.0     2    3      Q3           676
-## 3   1609    36 weiblich     40.0   42.0     3    2      Q3          1296
-## 4    660    44 männlich     40.0   40.0     3    2      Q1          1936
-## 5   4500    45 männlich     40.0   60.0     2    3      Q4          2025
-## 6    800    29 männlich     38.0   38.0     4    1      Q2           841</code></pre>
+## 1    900    41 weiblich     17.5   20.0     1    4      Q2          1681
+## 2    200    20 weiblich      5.0    5.0     2    4      Q1           400
+## 3   1700    45 weiblich     20.0   20.0     2    4      Q3          2025
+## 4   2491    31 männlich     39.0   45.0     2    3      Q4           961
+## 5   1050    52 weiblich     30.0   30.0     2    3      Q2          2704
+## 6    550    24 weiblich     38.5   38.5     2    4      Q1           576</code></pre>
 </div>
 <div id="summarise" class="section level2">
 <h2><span class="header-section-number">3.2</span> Summarise</h2>
@@ -436,7 +436,7 @@ head(econ_data)</code></pre>
   summarise(mean = mean(alter,na.rm = T),
             sd = sd(alter,na.rm = T))</code></pre>
 <pre><code>##       mean       sd
-## 1 40.81636 11.63871</code></pre>
+## 1 40.85143 11.57321</code></pre>
 </div>
 <div id="group_by" class="section level2">
 <h2><span class="header-section-number">3.3</span> group_by</h2>
@@ -448,7 +448,7 @@ head(econ_data)</code></pre>
 <pre><code>## # A tibble: 1 x 2
 ##    mean    sd
 ##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  40.8  11.6</code></pre>
+## 1  40.9  11.6</code></pre>
 </div>
 </div>
 
