@@ -13,8 +13,8 @@ Be sure to save all your files (especially the data input) in the folders below 
 To let R open files you have to use the forward slash (not the backward one).
 Example:
 ```{r eval=FALSE}
-a=read.csv2("data/econometrics.csv") # reads a csv file saved in the data folder. The file is named SOEP.csv
-# everything behind a # (Hashtag) is not run by R.
+a=read.csv2("data/econometrics.csv") # reads a csv file saved in the data folder. The file is named econometrics.csv
+# As explained bevore everything behind a # (Hashtag) is not run by R.
 # #'s are very useful for commenting and making sense out of your code. 
 a=read.csv2("data/econometrics.csv")
 ```
