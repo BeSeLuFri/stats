@@ -81,71 +81,8 @@ seq(50)
 seq(4,20,2)
 ```
 
-dsdfsdafsdfdsfs
-# taschenrechneR
 ***
-# Objects in R
-## Basic Calculations
-We will often watn to store reuslts of calculations to reuse them later. For this, we can work with basic objects. An object has a name and a conent. We can freely choose the name of an object givan certain rules - they have to start with a letter and include only letters, numbers and some süpecial characters (".", "_", "-"). **R is case sensitive so "x" and "X" are different object names**.
-The content of an object is assigned using "<-" or "=".
-
-In order to assign the value of 5 to the object econ type
-```{r}
-x = 5
-# or
-x <- 5
-```
-If you already before had an object named x and now create it again, the old version will be overwritten. Now you can use "x" in your calculations. 
-
-Example:
-```{r}
-5*x
-```
-
-A list of currently ddefined object names can be obtained using ```ls() ```
-In R Studio all the object names are also shown in the "Workspace" window on the top right side. 
-```{r}
-# Change and Delete objects:
-rm(x) # Deletes an object
-rm(list=ls()) # all objects are removed
-```
-
-***
-## Vectors
-For statistical calculations, we obviously need to work with data sets including many numbers of instead of scalears. The simplest way we can collect many numbers (or other tpyes of information) is called a vector in R terminology (you have already been familiarized with vectors and the page before). 
-
-To define a vector, we can collect different values using ```c(value1, value2,...)```. 
-```{r}
-# Examples
-a=c(1,2,3,4)
-b=a+1
-b
-c=sqrt(b+a)
-c
-```
-
-```{r}
-# Important R functions for vectors:
-# Define vector
-(a <- c(7,2,6,9,4,1,3))
-
-# Basic functions:
-sort(a)
-length(a)
-min(a)
-max(a)
-sum(a)
-prod(a)
-
-# Creating special vectors:
-numeric(20)
-rep(1,20)
-seq(50)
-5:15
-seq(4,20,2)
-```
-***
-### Logical Operators and Lobical Vectors
+### Logical Operators and Logical Vectors
 
 ```{r eval=FALSE}
 x==y # x is equal to y
