@@ -34,7 +34,8 @@ If you already before had an object named x and now create it again, the old ver
 
 Example:
 ```{r}
-5*x
+b= 5*x
+b
 ```
 
 A list of currently ddefined object names can be obtained using ```ls() ```
