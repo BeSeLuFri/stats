@@ -11,6 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ***
 
-test
+![CV Schliebs](CV_Schliebs.pdf =100x)
 
+![CV Messerschmidt](CV_Messerschmidt.pdf)
+
+![CV Fritz](CV_Fritz.pdf=50x)
 
