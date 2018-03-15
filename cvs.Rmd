@@ -9,11 +9,11 @@ More about this website.
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-***
 
-![CV Schliebs](CV_Schliebs.pdf =100x)
+Click here for our CVs:
+[CV Schliebs](https://github.com/schliebs/Applied_Econometrics_with_R/blob/master/CV_Schliebs.pdf)
 
-![CV Messerschmidt](CV_Messerschmidt.pdf)
+[CV Messerschmidt](https://github.com/schliebs/Applied_Econometrics_with_R/blob/master/CV_Messerschmidt.pdf)
 
-![CV Fritz](CV_Fritz.pdf=50x)
+[CV Fritz](https://github.com/schliebs/Applied_Econometrics_with_R/blob/master/CV_Fritz.pdf)
 
