@@ -12,6 +12,7 @@ library(readstata13)
 # Datenrekodieren:
 library(car)
 
+a <- c(1,2,3)
 
 # Daten als Objekt importieren
 econ <- read.dta13(file="data/offline/econometrics.dta" , convert.factors=F)
