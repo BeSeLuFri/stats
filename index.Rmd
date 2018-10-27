@@ -1,7 +1,7 @@
 ---
 title: "Econometrics with R"
 author: "Benedikt Fritz & Marcel Schliebs"
-date: "1 Februar 2018"
+date: "27 October 2018"
 ---
 
 ```{r setup, include=FALSE}
