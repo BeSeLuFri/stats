@@ -167,3 +167,6 @@ Has some 60pages of introduction into R.
 [CodeSchool](http://tryr.codeschool.com/)
 A fun way to learn the basics of R. 
 
+[Cheat Sheet Base R](https://www.rstudio.com/wp-content/uploads/2016/05/base-r.pdf)
+A concise overview over the base R logic.
+
