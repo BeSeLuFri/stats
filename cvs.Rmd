@@ -1,0 +1,19 @@
+---
+title: "CVs"
+---
+
+More about this website.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Click here for our CVs:
+[CV Schliebs](https://github.com/schliebs/Applied_Econometrics_with_R/blob/master/CV_Schliebs.pdf)
+
+[CV Messerschmidt](https://github.com/schliebs/Applied_Econometrics_with_R/blob/master/CV_Messerschmidt.pdf)
+
+[CV Fritz](https://github.com/schliebs/Applied_Econometrics_with_R/blob/master/CV_Fritz.pdf)
+
