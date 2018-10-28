@@ -156,7 +156,7 @@ c(1,2,3,5) %>% mean()
 Maybe here short intro into R style or link to google style sheet. 
 
 # Important Ressources
-[Stackoberflow](https://www.stackoverflow.com/))
+[Stackoverflow](https://www.stackoverflow.com/))
 A general discussion forum for programmers, including many R users.
 Just google your question and make sure to place an "R" in the beginning of your question. Most often you will be directed to stackoverflow.
 
