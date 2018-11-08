@@ -95,6 +95,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -292,8 +295,23 @@ div.tocify {
 <li>
   <a href="dataviz.html">DataViz</a>
 </li>
-<li>
-  <a href="econometrics.html">Applied Econometrics</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Statistical Basics and Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="features_of_pdf.html">Features of Random Variables</a>
+    </li>
+    <li>
+      <a href="estimators_and_bias.html">Inference 1: Estimation</a>
+    </li>
+    <li>
+      <a href="hypothesis_tests.html">Inference 2: Hypothesis Tests</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="about.html">About</a>
@@ -346,7 +364,7 @@ div.tocify {
 <h2><span class="header-section-number">2.2</span> First Step</h2>
 <p>After having succesfully installed R and R-Studio open RStudio (<em>never open R directly, always access it through RStudio</em>), you should see something like this: <img src="Files/Screen1.png" alt="Test" /></p>
 <p>The big one on the left is called <em>Console</em> and it is the plain R execution window: You can type single lines of code in there and they are executed immediately after pressing Enter.</p>
-<p>On the right hand side you see the <em>Envivonment</em>. The Environment is just a place to store variables â a set of bindings between symbols and objects. If you start up R and make an assignment, you’re adding an entry in the global environment (we’ll come back to that shortly)</p>
+<p>On the right hand side you see the <em>Envivonment</em>. The Environment is just a place to store variables – a set of bindings between symbols and objects. If you start up R and make an assignment, you’re adding an entry in the global environment (we’ll come back to that shortly)</p>
 <p>On the lower lefthand side various informations about your current project can be retrieved (amongst them the Help section which explains functions). Also plots can be given a first view in that part.</p>
 <hr />
 </div>
@@ -381,7 +399,7 @@ div.tocify {
 <pre class="r"><code>5+(4-1)^2</code></pre>
 <pre><code>## [1] 14</code></pre>
 <pre class="r"><code># Let&#39;s try some Count Zeppelin
-# Man muÃ nur wollen und daran glauben, dann wird es gelingen. # This doesn&#39;t work because R doesn&#39;t know this text
+# Man muß nur wollen und daran glauben, dann wird es gelingen. # This doesn&#39;t work because R doesn&#39;t know this text
 #But R does know text. Text which R knows is called a function. Very intuitive functions are:
 sqrt(4)</code></pre>
 <pre><code>## [1] 2</code></pre>
@@ -422,9 +440,10 @@ c(1,2,3,5) %&gt;% mean()</code></pre>
 </div>
 <div id="important-ressources" class="section level1">
 <h1><span class="header-section-number">7</span> Important Ressources</h1>
-<p><a href="https://www.stackoverflow.com/">Stackoberflow</a>) A general discussion forum for programmers, including many R users. Just google your question and make sure to place an “R” in the beginning of your question. Most often you will be directed to stackoverflow.</p>
+<p><a href="https://www.stackoverflow.com/">Stackoverflow</a>) A general discussion forum for programmers, including many R users. Just google your question and make sure to place an “R” in the beginning of your question. Most often you will be directed to stackoverflow.</p>
 <p><a href="http://www.urfie.net/">Econometrics for R</a> Great book - this class is mainly based upon it. Has some 60pages of introduction into R.</p>
 <p><a href="http://tryr.codeschool.com/">CodeSchool</a> A fun way to learn the basics of R.</p>
+<p><a href="https://www.rstudio.com/wp-content/uploads/2016/05/base-r.pdf">Cheat Sheet Base R</a> A concise overview over the base R logic.</p>
 </div>
 
 

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Features of Probability Distributions</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Econometrics with R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Introduction</a>
+</li>
+<li>
+  <a href="objectsndata.html">Objects and Data</a>
+</li>
+<li>
+  <a href="datamanagement.html">Data Management</a>
+</li>
+<li>
+  <a href="linreg.html">Linear Regression</a>
+</li>
+<li>
+  <a href="dataviz.html">DataViz</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Statistical Basics and Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="features_of_pdf.html">Features of Random Variables</a>
+    </li>
+    <li>
+      <a href="estimators_and_bias.html">Inference 1: Estimation</a>
+    </li>
+    <li>
+      <a href="hypothesis_tests.html">Inference 2: Hypothesis Tests</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Features of Probability Distributions</h1>
+
+</div>
+
+
+<hr />
+<div id="contents-and-goals" class="section level1">
+<h1><span class="header-section-number">1</span> Contents and Goals</h1>
+<ul>
+<li>Get to know the basic features of probability distributions
+<ul>
+<li>Mean / Expected Value</li>
+<li>Variance and Standard Deviation</li>
+<li>Covariance and Correlation</li>
+<li>Standardisation</li>
+</ul></li>
+<li>Learn how they work</li>
+<li>Learn how we can manipulate them</li>
+</ul>
+<p>These features are the <strong>building blocks of statistics</strong>. Understanding how they work helps us to understand theoretical proofs.</p>
+<p>They are useful to understand the concepts of (not exclusively) <strong>Estimation</strong>, <strong>Hypothesis Tests</strong> and <strong>Regression</strong></p>
+</div>
+<div id="central-tendency-the-expected-value" class="section level1">
+<h1><span class="header-section-number">2</span> Central Tendency: The Expected Value</h1>
+<p>The most commonly used feature of a probability distribution is the <em>expected value</em>. It splits the probability under the <em>pdf</em> in half.</p>
+<p><span class="math display">\[ \mathbb{E}[X] = \sum x_i f(x) \]</span></p>
+<blockquote>
+<p>The expected value is the value from a probability distribution, for which the probabilities of another value being greater or smaller than it are exactly equal.</p>
+</blockquote>
+<p>For example, we simulate a random variable <span class="math inline">\(R\)</span> from a standard normal distribution. First, we simulate the variable and draw a histogram with the arithmetic mean:</p>
+<pre class="r"><code>library(ggplot2)
+set.seed(1337) #seed for reproducibility
+data &lt;- data.frame(R = rnorm(n = 1000000))
+
+ggplot(data, aes(x = R)) +
+  geom_histogram(aes(y = ..density..), bins = 200) + 
+  geom_vline(xintercept = mean(data$R), color=&quot;red&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="features_of_pdf_files/figure-html/unnamed-chunk-1-1.png" width="960" /></p>
+<p>It looks like the area to the left of the mean is the same size at the area on the right side. Let’s check that:</p>
+<pre class="r"><code>A &lt;- numeric() # Variable for storing the area sizes
+
+A[1] &lt;- (sum (abs (data$R[data$R &lt; mean(data$R)]))) /sum(abs(data$R)) # Area to the left of the mean in percent
+A[2] &lt;- (sum (abs (data$R[data$R &gt; mean(data$R)]))) /sum(abs(data$R)) # Area to the right of the mean in percent
+
+print(A)</code></pre>
+<pre><code>## [1] 0.5007953 0.4992047</code></pre>
+<p>As we can see (and calculate), the area sizes are very similar, meaning that half of the probability mass is on each side of the mean. Notice that since we’re in a simulation context, the areas are not <em>exactly</em> the same.</p>
+<div id="useful-rules-for-expected-values" class="section level2">
+<h2><span class="header-section-number">2.1</span> Useful Rules for Expected Values</h2>
+<p>For any constants <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> and a random variable <span class="math inline">\(X\)</span>, the following rules apply:</p>
+<ul>
+<li>The expected value of a constant is the constant <span class="math display">\[ \mathbb{E}[c] = c  \]</span></li>
+<li><p>The expected value of a linear function of a random variable is the linear function of the expected value of the variable <span class="math display">\[ \mathbb{E}[aX+b] = a\mathbb{E}[X] + b\]</span></p></li>
+<li>The expected value of a sum of random variables is the sum of the expected values of these random variables: <span class="math display">\[ \mathbb{E}\left[ \sum_{i=1}^n a_iX_i \right] = \sum_{i=1}^n \mathbb{E}[a_iX_i] = \sum_{i=1}^n a_i \mathbb{E}[X_i] \]</span></li>
+<li>For a variable <span class="math inline">\(Y\)</span> that is independent of <span class="math inline">\(X\)</span> it holds that: <span class="math display">\[ \mathbb{E}[XY] = \mathbb{E}[X] \mathbb{E}[X] \]</span></li>
+<li><p>The population mean is often denoted by <span class="math inline">\(\mu\)</span> or <span class="math inline">\(\mu_X\)</span> instead of <span class="math inline">\(\mathbb{E}[X]\)</span></p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="variability-variance-and-standard-deviation" class="section level1">
+<h1><span class="header-section-number">3</span> Variability: Variance and Standard Deviation</h1>
+<p>The central tendendcy tells us, around which value the outcomes of the random variable cluster, but it is also important to get a measure on how far they <em>spread around the mean</em>. The variance and standard deviation are measures for this.</p>
+<p>You can see this notion of <em>distance from the mean</em> in the definition of the variance:</p>
+<p><span class="math display">\[ Var[X] = \mathbb{E} \left[ \left( X - \mu_X \right) ^2  \right] \]</span></p>
+<p>The deviation from the expected value <span class="math inline">\((X - \mathbb{E}[X])\)</span> is squared in order to prevent perfect cancellation of deviations, since: <span class="math display">\[\mathbb{E} \left[(X - \mu_X) \right] = \mathbb{E}[X] - \mu_X = 0\]</span></p>
+<div id="useful-rules-for-variances" class="section level2">
+<h2><span class="header-section-number">3.1</span> Useful Rules for Variances</h2>
+<p>For any constants <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> and a random variable <span class="math inline">\(X\)</span>, the following rules apply:</p>
+<ul>
+<li>Alternative representation (see below for proof): <span class="math display">\[ Var[X] = \mathbb{E} \left[ X^2 \right] - \mu_X^2 \]</span></li>
+<li>Variance of a constant is zero: <span class="math display">\[ Var[c] = 0 \]</span></li>
+<li>Variance of a linear combination: <span class="math display">\[ Var[aX+b] = a^2 Var[X] \]</span></li>
+<li>The population variance is often denoted by <span class="math inline">\(\sigma^2\)</span> or <span class="math inline">\(\sigma_X^2\)</span> instead of <span class="math inline">\(Var[X]\)</span>.</li>
+</ul>
+</div>
+<div id="the-standard-deviation" class="section level2">
+<h2><span class="header-section-number">3.2</span> The Standard Deviation</h2>
+<p>If we change the unit of measurement of <span class="math inline">\(X\)</span> by <span class="math inline">\(a = 1000\)</span>, e.g. from kilometers to meters, the variance increases linearly by <span class="math inline">\(a^2 = 1000 * 1000\)</span> (see rules above). Since this makes it difficult to compare the variability of different variables, we use the standard deviation, which is the positive part of the square root of the variance:</p>
+<p><span class="math display">\[ sd[X] = + \sqrt{Var[X]} \]</span> For any constants <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> and a random variable <span class="math inline">\(X\)</span>, it has the following useful properties: - Standard deviation of a linear combination: <span class="math display">\[ sd[a X + b] = |a| sd[X] \]</span></p>
+<ul>
+<li><p>The variance of a sum of random variables is the sum of the evariance, <strong>given independence</strong>: <span class="math display">\[ Var\left[ \sum_{i=1}^n X_i \right] = \sum_{i=1}^n Var[X_i] = \sum_{i=1}^n Var[X_i] \]</span></p></li>
+<li><p>The standard deviation is often denoted by <span class="math inline">\(\sigma\)</span> or <span class="math inline">\(\sigma_X\)</span> instead of <span class="math inline">\(sd[X]\)</span>.</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="standardisation-of-variables" class="section level1">
+<h1><span class="header-section-number">4</span> Standardisation of Variables</h1>
+<p>Using the properties of the expected value and variance, we can transform any variable to a standardised variable with mean 0 and standard deviation 1: <span class="math display">\[ Z := \frac{X-\mu}{\sigma} \]</span></p>
+<p>We can demonstrate this with a short simulation. In the following we simulate a random variable <span class="math inline">\(X\)</span> from a normal distribution, that has mena <span class="math inline">\(3\)</span> and standard deviation <span class="math inline">\(1.5\)</span></p>
+<pre class="r"><code>library(ggplot2)
+set.seed(1337) #seed for reproducibility
+data_st &lt;- data.frame(R = rnorm(n = 10000, mean = 3, sd = 1.5))
+
+ggplot(data_st, aes(x = R)) +
+  geom_histogram(aes(y=..density..),bins = 100) + 
+  geom_vline(xintercept = mean(data_st$R), color=&quot;red&quot;) +
+  geom_vline(xintercept = 0, color=&quot;green&quot;) +
+  stat_function(fun = dnorm, color = &quot;green&quot;, args = list(mean = 0, sd = 1))+
+  stat_function(fun = dnorm, color = &quot;red&quot;, args = list(mean = 3, sd = 1.5)) +
+  xlim(c(-4,8)) +
+  theme_minimal()</code></pre>
+<pre><code>## Warning: Removed 3 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
+<p><img src="features_of_pdf_files/figure-html/unnamed-chunk-3-1.png" width="960" /></p>
+<p>The green lines indicate a standard normal distribution with <span class="math inline">\(\mu = 0\)</span> and <span class="math inline">\(\sigma = 1\)</span>. Our simulated varaible clearly deviates from it. If we now transform <span class="math inline">\(X\)</span> according to the formula above, the result yields:</p>
+<pre class="r"><code>data_st$Z &lt;- (data_st$R - mean(data_st$R)) / sd(data_st$R)
+
+ggplot(data_st, aes(x = Z)) +
+  geom_histogram(aes(y=..density..),bins = 100) + 
+  geom_vline(xintercept = mean(data_st$R), color=&quot;red&quot;) +
+  geom_vline(xintercept = 0, color=&quot;green&quot;) +
+  stat_function(fun = dnorm, color = &quot;green&quot;, args = list(mean = 0, sd = 1))+
+  stat_function(fun = dnorm, color = &quot;red&quot;, args = list(mean = 3, sd = 1.5)) +
+  xlim(c(-4,8)) +
+  theme_minimal()</code></pre>
+<p><img src="features_of_pdf_files/figure-html/unnamed-chunk-4-1.png" width="960" /></p>
+<hr />
+</div>
+<div id="association-covariance-and-correlation" class="section level1">
+<h1><span class="header-section-number">5</span> Association: Covariance and Correlation</h1>
+<p>The covariance captures the joint variation of two random variables. It allows us to get a sense of the relationship of them, e.g. <span class="math inline">\(X\)</span> is always high when <span class="math inline">\(Y\)</span> is. This can be visualised graphically:</p>
+<pre class="r"><code>library(ggplot2)
+set.seed(1337)
+data_cov &lt;- data.frame(X = 1:1000 + rnorm(1000, sd = 100),
+                       Y = 1:1000 + rnorm(1000, sd = 100))
+
+ggplot(data_cov, aes(x = X, y = Y)) + 
+  geom_point() +
+  geom_point(aes(x = mean(X), y = mean(Y)), color =&quot;red&quot;) + 
+  geom_vline(xintercept = mean(data_cov$X) + sd(data_cov$X), color = &quot;red&quot;) +
+  geom_hline(yintercept = mean(data_cov$Y) + sd(data_cov$Y), color = &quot;red&quot;)</code></pre>
+<p><img src="features_of_pdf_files/figure-html/unnamed-chunk-5-1.png" width="960" /></p>
+<p>We can easily see that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> have a strong relationship. We can stat that: when the deviation of <span class="math inline">\(X\)</span> (vertical line) from its mean (red dot) is high, the same can be said about the deviation of <span class="math inline">\(Y\)</span> (horizontal line).</p>
+<p>Expressing this relation of deviations from the mean mathematically yields us the formula of the covariance:</p>
+<p><span class="math display">\[ Cov[X,Y] = \mathbb{E} \left[ (X - \mathbb{E}[X]) (Y - \mathbb{E}{Y} ) \right] \]</span></p>
+<div id="useful-rules-for-covariances" class="section level2">
+<h2><span class="header-section-number">5.1</span> Useful Rules for Covariances</h2>
+<p>For any constants <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> and random variables <span class="math inline">\(X\)</span>, and <span class="math inline">\(Y\)</span> the following rules apply:</p>
+<ul>
+<li><p>Alternative representations (see below for proof): <span class="math display">\[ \begin{aligned}
+Cov[X,Y] &amp;= \mathbb{E}[XY] - \mathbb{E}[X] \mathbb{E}[Y] \\
+&amp;= \mathbb{E}[(X -\mathbb{E}[X])Y] \\
+&amp;= \mathbb{E}[X (Y -\mathbb{E}[Y])] \\
+\end{aligned}\]</span></p></li>
+<li><p>Covariance given independence of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>: <span class="math display">\[ \begin{aligned}
+Cov[X,Y] &amp;= \mathbb{E}[XY] - \mathbb{E}[X] \mathbb{E}[Y] \\
+&amp;= 0 &amp; \text{since } \mathbb{E}[XY] = \mathbb{E}[X] \mathbb{E}[X] 
+\end{aligned}\]</span></p></li>
+<li><p>Variance of linear combinations: <span class="math display">\[ Cov[a_1 X + b_1, a_2Y + b_2] =  a_1 a_2 Cov[X,Y]\]</span></p></li>
+<li><p>The boundary of the covariance of two random variables (its most extreme value) is given by the product of their standard deviations. This is also called the <em>Cauchy-Schwartz Inequality</em>: <span class="math display">\[ |Cov[X,Y]| \leq sd[X] sd[Y] \]</span></p></li>
+<li><p>The population covariance is usually denoted by <span class="math inline">\(\sigma_{XY}\)</span> instead of <span class="math inline">\(Cov[X,Y]\)</span></p></li>
+</ul>
+</div>
+<div id="the-correlation-coefficient" class="section level2">
+<h2><span class="header-section-number">5.2</span> The Correlation Coefficient</h2>
+<p>The variance and standard deviation are both dependent on their units of measurement. To capture the <em>pure</em> relationsip betwee two random variables, we can get rid of this by using the <em>Cauchy-Schwartz Inequality</em> to normalise the variance. This yields us the correlation coefficient:</p>
+<p><span class="math display">\[  Corr[X,Y] = \frac{Cov[X,Y]}{sd[X] sd[Y]} = \frac{\sigma_{XY}}{\sigma_X \sigma_Y}\]</span></p>
+<ul>
+<li>The population correlation coefficient is usually denoted as <span class="math inline">\(\rho\)</span> or <span class="math inline">\(\rho_{XY}\)</span> instead of <span class="math inline">\(Corr[X,Y]\)</span></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="proofs" class="section level1">
+<h1><span class="header-section-number">6</span> Proofs</h1>
+<p><strong>Proof for the alternative representation of the Variance</strong></p>
+<p><span class="math display">\[ \begin{aligned}  Var[X] &amp;= \mathbb{E} \left[ \left( X - \mu_X \right) ^2  \right] \\
+&amp;= \mathbb{E} \left[ X^2 - 2X\mu_X + \mu_X^2 \right] \\
+&amp;= \mathbb{E} \left[ X^2 \right] - \mathbb{E} \left[ 2X\mu_X \right] + \mathbb{E}\left[ \mu_X^2 \right] \\
+&amp;= \mathbb{E} \left[ X^2 \right] - 2 \mu_X \mu_X + \mu_X^2 \\
+&amp;= \mathbb{E} \left[ X^2 \right] - 2 \mu_X^2 + \mu_X^2 \\
+&amp;= \mathbb{E} \left[ X^2 \right] - \mu_X^2
+\end{aligned}\]</span></p>
+<p><strong>Proof for the alternative representation of the covariance</strong> <span class="math display">\[ \begin{aligned}  Cov[X,Y] &amp;= \mathbb{E} [ (X - \mu_X) (Y - \mu_Y) ] \\
+&amp;= \mathbb{E} [ XY - X \mu_Y - Y \mu_X + \mu_X \mu_Y ] \\
+&amp;= \mathbb{E} [ XY ] - \mathbb{E} [X \mu_Y] - \mathbb{E} [Y \mu_X] + \mathbb{E}[\mu_X \mu_Y] \\
+&amp;= \mathbb{E} [ XY ] - \mu_Y \mathbb{E}[X]  - \mu_X \mathbb{E}[Y] + \mu_X \mu_Y \\
+&amp;= \mathbb{E} [ XY ] - \mu_Y \mu_X - \mu_X \mu_Y + \mu_X \mu_Y \\
+&amp;= \mathbb{E} [ XY ] - \mu_X \mu_Y
+\end{aligned}\]</span></p>
+<p><strong>Proof for the second alternative representation of the covariance</strong> <span class="math display">\[ \begin{aligned}
+Cov[X,Y] &amp;= \mathbb{E}[XY] -\mu_X \mu_Y \\
+&amp;= \mathbb{E}[XY] - \mu_X\mathbb{E}[Y] \\
+&amp;= \mathbb{E}[XY] - \mathbb{E}[\mu_XY] \\
+&amp;= \mathbb{E}[ XY - \mu_X Y] \\
+&amp;= \mathbb{E} [(X - \mu_X) Y]
+\end{aligned}
+\]</span></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -22,8 +22,16 @@ navbar:
     href: linreg.html
   - text: DataViz
     href: dataviz.html
-  - text: Applied Econometrics
-    href: econometrics.html
+  - text: Statistical Basics and Inference
+    menu:
+      - text: "Features of Random Variables"
+        href: features_of_pdf.html
+      - text: "Inference 1: Estimation"
+        href: estimators_and_bias.html
+      - text: "Inference 2: Hypothesis Tests"
+        href: hypothesis_tests.html
+#  - text: Applied Econometrics
+#    href: econometrics.html
   - text: About
     href: about.html
 

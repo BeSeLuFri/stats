@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Inference 1 - Estimators and Bias</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Econometrics with R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Introduction</a>
+</li>
+<li>
+  <a href="objectsndata.html">Objects and Data</a>
+</li>
+<li>
+  <a href="datamanagement.html">Data Management</a>
+</li>
+<li>
+  <a href="linreg.html">Linear Regression</a>
+</li>
+<li>
+  <a href="dataviz.html">DataViz</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Statistical Basics and Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="features_of_pdf.html">Features of Random Variables</a>
+    </li>
+    <li>
+      <a href="estimators_and_bias.html">Inference 1: Estimation</a>
+    </li>
+    <li>
+      <a href="hypothesis_tests.html">Inference 2: Hypothesis Tests</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Inference 1 - Estimators and Bias</h1>
+
+</div>
+
+
+<hr />
+<div id="contents" class="section level1">
+<h1><span class="header-section-number">1</span> Contents</h1>
+<p>Using our knowledge of random variables and their features, we are now able to conduct some basic inference. This means that we can utilise the <em>information from a random sample</em> of i.i.d. variables to learn something about the <em>population</em> of these variables.</p>
+<p>In this part we’re going to:</p>
+<ul>
+<li>Learn what an estimator is</li>
+<li>Take a a look at the properties of our estimators</li>
+<li>Derive properties of our estimators</li>
+<li>Bias / Unbiasedness</li>
+<li>Sampling Distribution</li>
+<li>Introduce Interval Estimation</li>
+</ul>
+<hr />
+</div>
+<div id="simulated-population" class="section level1">
+<h1><span class="header-section-number">2</span> Simulated Population</h1>
+<p>Let’s look at an example. Suppose know the population of ZU students income:</p>
+<pre class="r"><code>library(ggplot2)
+set.seed(11) # seed for reproducibility
+
+n &lt;- 1200
+inc &lt;- rnorm(n, mean = 1000, sd = 200) # simulate a vector of incomes</code></pre>
+<pre class="r"><code>ggplot() +
+  geom_histogram(aes(x = inc, y = ..density..),binwidth = 60,alpha = 0.8) +
+  geom_density(aes(x = inc, y = ..density..),col = &quot;#99CC00&quot;,size = 2) +
+  labs(title = &quot;Population of Income of ZU Students&quot;) +
+  geom_vline(xintercept = mean(inc),color = &quot;#00CC33&quot;,size = 2) +
+  geom_vline(xintercept = mean(inc) + 200,color = &quot;#009900&quot;,size = 2) +
+  geom_vline(xintercept = mean(inc) - 200,color = &quot;#009900&quot;,size = 2) +
+  theme_minimal()</code></pre>
+<p><img src="estimators_and_bias_files/figure-html/unnamed-chunk-2-1.png" width="960" /></p>
+<p>Since we have simulated the population, we are in a position where we know:</p>
+<ul>
+<li>The true population mean <span class="math inline">\(\mu_{inc} = 1000€\)</span></li>
+<li>The true population variance <span class="math inline">\(\sigma_{inc}^2\)</span> and standard deviation <span class="math inline">\(\sigma_{inc} = 200\)</span></li>
+<li>The distribution of inc: <span class="math inline">\(inc \sim N(\mu_{inc},\sigma_{inc})\)</span></li>
+</ul>
+<p>Suppose now we are interested in the mean of the population (the green line). Given a sample from this distribution, our task now is to estimate the population mean as good as we can.</p>
+<hr />
+</div>
+<div id="point-estimation" class="section level1">
+<h1><span class="header-section-number">3</span> Point Estimation</h1>
+<p>Often we don’t have knowledge of our population, but have a sample.</p>
+<p>From these samples, we can derive knowledge about our population. E.g. its basic moments: the mean and the variance.</p>
+<p>Using a sample to derive a moment (or parameter) is called <strong>Estimation</strong></p>
+<p>Generally:</p>
+<ul>
+<li>If we have a random sample <span class="math inline">\({X_1, \dots, X_n}\)</span>,</li>
+<li>from a population that depends on some parameter <span class="math inline">\(\theta\)</span></li>
+<li>an estimator <span class="math inline">\(W = f(X)\)</span> is a rule to calculate a certain value</li>
+<li>for <em>each</em> possible outcome of the sample</li>
+</ul>
+<p>E.g. we can estimate the parameter <span class="math inline">\(\mu\)</span> by calculating the arithemtic mean from a sample.</p>
+<div id="estimating-the-first-moment-expected-value" class="section level2">
+<h2><span class="header-section-number">3.1</span> Estimating the First Moment / Expected Value</h2>
+<p>Given a random sample <span class="math inline">\(\{X_1, X_2, \dots, X_n\}\)</span> we can calculate the <strong>sample mean</strong> by:</p>
+<p><span class="math display">\[ \bar{X} = \frac{1}{n} \sum_{i=1}^n X_i  \qquad \text{sample estimator for } \mu_{inc}\]</span></p>
+<p>which is also known as the <em>arithmetic mean</em>. Let’s simulate a random sample from our ZU students income and calculate the arithmetic mean (with <code>mean()</code>:</p>
+<pre class="r"><code>library(tidyverse)
+set.seed(24)
+sample_1 &lt;- sample(x = inc, size = 50, replace = F) # draw a sample from the simulated population
+x_bar &lt;- mean(sample_1)
+
+ggplot() +
+geom_histogram(aes(x = sample_1,
+y = ..density..),binwidth = 50,alpha = 0.8) +
+labs(title = &quot;SAMPLE Histogram Income ZU Students&quot;,
+subtitle = paste0(&quot;green = population mean, &quot;,
+                  &quot;red = SAMPLE mean:&quot;,
+                  x_bar %&gt;% round(2))) +
+geom_vline(xintercept = x_bar,color = &quot;red&quot;,size = 2) + # this draws the sample mean as red line
+  geom_vline(xintercept = mean(inc),color = &quot;#00CC33&quot;,size = 2)+
+theme_minimal()</code></pre>
+<p><img src="estimators_and_bias_files/figure-html/unnamed-chunk-3-1.png" width="960" /></p>
+<p>But how can we draw an inference about the <strong>population mean</strong> <span class="math inline">\(\mu_X\)</span> from this? It could well be that our proposed <span class="math inline">\(\bar{X}\)</span> is a very bad estimator for <span class="math inline">\(\mu_X\)</span>.</p>
+</div>
+<div id="introducing-unbiasedness" class="section level2">
+<h2><span class="header-section-number">3.2</span> Introducing Unbiasedness</h2>
+<ul>
+<li>We can analyse many samples of ZU student income</li>
+<li>If our estimator <span class="math inline">\(\bar{X}\)</span> is any good, it should predict the true mean if we do that</li>
+</ul>
+<p>Unbiasedness means that our <strong>estimator derived from a random sample on average predicts the population parameter</strong>. In our case we expect the <em>arithmetic mean</em> (red line) from our sample to predict, on average, the <em>population mean</em> (green line), i.e. that <span class="math inline">\(\bar{X}\)</span> would have a distribution so that: <span class="math display">\[ \mathbb{E}[\bar{X}] = \mu_X \]</span></p>
+<p>Notice how we now treat our <span class="math inline">\(\bar{X}\)</span> as if it were a random variable – thats because it is! Since it is a linear combination of random variables <span class="math inline">\(X_i\)</span> with a constant <span class="math inline">\(n^{-1}\)</span>, we can treat it just like we would treat any other random variable.</p>
+<p>The bias of our estimator is then given by: <span class="math display">\[ \begin{aligned}
+Bias[\bar{X}] &amp;= \mathbb{E}[\bar{X}] - \mu_X \\
+&amp;= 0 &amp; \text{if the estimator is unbiased}
+\end{aligned}
+\]</span></p>
+<p>So if <span class="math inline">\(\mathbb{E}[\bar{X}]\)</span> is equal to <span class="math inline">\(\mu_X\)</span>, our arithmetic mean would be unbiased. Lets prove this:</p>
+<p><span class="math display">\[\begin{aligned}
+\mathbb{E}[\bar{X}] &amp;= \mathbb{E} \left[ \frac{1}{n} \sum_{i=1}^n X_i \right] \\
+&amp;= \frac{1}{n} \mathbb{E} \left[ \sum_{i=1}^n X_i \right] \\
+&amp;= \frac{1}{n} \sum_{i=1}^n \mathbb{E} [X_i] \\
+&amp;= \frac{1}{n} \sum_{i=1}^n \mu_X \\
+&amp;= \frac{1}{n} n \mu_X \\
+&amp;= \mu_X
+\end{aligned}
+\]</span></p>
+</div>
+<div id="introducing-the-sampling-variance" class="section level2">
+<h2><span class="header-section-number">3.3</span> Introducing the Sampling Variance</h2>
+<p><strong>Not to be confused with the SAMPLE variance</strong>: here we calculate the variance of an estimator <em>derived from</em> the sample, not the variance <em>of the</em> sample itself!</p>
+<p>Knowing that our arithmetic mean, on average, hits the population mean is good to know. But how often (or by how much) does it deviate from it? It would be nice to know the variability or spread of our estimator. As we learned, the variability of a random variable can be calculated as the variance.</p>
+<p>The variance of an estimator is called the <em>sampling variance</em> and is in our case given by:</p>
+<p><span class="math display">\[ Var[\bar{X}] = \frac{\sigma_X^2}{n} \]</span></p>
+<p>The proof of this is very similar to the proof above, you might want to give it a try yourself.</p>
+<p>The <em>sampling standard deviation</em> is then given by the square root of the sampling variance: <span class="math display">\[ sd[\bar{X}] = \frac{\sigma_X}{\sqrt{n}} \]</span></p>
+</div>
+<div id="the-distribution-of-our-estimator" class="section level2">
+<h2><span class="header-section-number">3.4</span> The distribution of our Estimator</h2>
+<p>Since we now know the first two moments of our sample mean <span class="math inline">\(\bar{X}\)</span>, we can draw its distribution (given that is it is normally distributed):</p>
+<p><span class="math display">\[ \mathbb{E}[\bar{inc}] = \mu_{inc} = 1000 \]</span> <span class="math display">\[sd[\bar{inc}]= \frac{\sigma_{inc}}{\sqrt{n}} = \frac{200}{\sqrt{50}} = 28.28\]</span></p>
+<p>So we know now that our sample mean is distributed normally with mean <span class="math inline">\(1000\)</span> and standard deviation <span class="math inline">\(28.28\)</span>. This is crucial: now we <em>know</em> how our estimator for the mean is distributed:</p>
+<pre class="r"><code>ggplot(data =  data.frame(inc_bar = 900:1100), aes(x=inc_bar)) +
+  stat_function(fun = dnorm, args = list(mean = 1000, sd = 200/sqrt(50)), size = 2) +
+  geom_vline(xintercept = mean(sample_1), color = &quot;red&quot;, size = 1.5) +
+  geom_vline(xintercept = 1000, color = &quot;#00CC33&quot;, size = 1.5) +
+  geom_vline(xintercept = 910, color = &quot;blue&quot;, size = 1.5) +
+  labs(title = &quot;PDF of our sample mean income&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="estimators_and_bias_files/figure-html/unnamed-chunk-4-1.png" width="960" /></p>
+<ul>
+<li>Observing a mean ZU student income of <span class="math inline">\(\bar{X} = 998.4€\)</span> from a random sample seems to be very likely</li>
+<li>A mean income of <span class="math inline">\(910€\)</span> (blue line), is observed less often. Maybe the sample was from another (not private) university? ;)</li>
+</ul>
+</div>
+<div id="short-recap" class="section level2">
+<h2><span class="header-section-number">3.5</span> Short Recap</h2>
+<p><strong>What have we learned so far?</strong></p>
+<ul>
+<li>We can use a function of observations from a sample to estimate parameters from the population
+<ul>
+<li>E.g. we can use a function like <span class="math inline">\(\sum_{i=1}^n X_i\)</span> to estimate <span class="math inline">\(\mu_X\)</span></li>
+</ul></li>
+<li>These estimators have a distribution. If the expected value of the estimator is equal to the estimated parameter, we call it <em>unbiased</em>
+<ul>
+<li>E.g. if <span class="math inline">\(\mathbb{E}[\bar{X}] = \mu_X + 50€\)</span> we would overestimate ZU student income</li>
+</ul></li>
+<li>If we know the population standard deviation <span class="math inline">\(\sigma\)</span>, we can calculate the sampling variation of our estimator and tell how likely the sample is from the population</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="interval-estimation" class="section level1">
+<h1><span class="header-section-number">4</span> Interval estimation</h1>
+<p>Given that we know the population mean and variance, we can construct an interval around our estimated mean student income that contains the population mean income with a certain probability.</p>
+<p>How? since we know that our sample mean is distributed normally, we can standardise it:</p>
+<p><span class="math display">\[ Z= \frac{X - \mu_X}{\sigma_X} \qquad \text{general z-standardisation formula} \]</span> <span class="math display">\[ Z_{\bar{inc}} = \frac{\bar{inc} - \mu_{inc}}{\sigma_{inc} / \sqrt{n}} = \frac{998.4 -1000}{28.28} = - 0.056\]</span></p>
+<p>and take the fact that <span class="math inline">\(95 \%\)</span> of the values of a standard normal variable lie in the interval <span class="math inline">\([-1.96, 1.96]\)</span> (see <a href="http://www.z-table.com/">z-table</a> to see how likely our sampled mean income is from our population:</p>
+<pre class="r"><code>ggplot(data =  data.frame(Z_inc_bar = -4:4), aes(x=Z_inc_bar)) +
+  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), size = 2) +
+  stat_function(fun = dnorm, xlim = c(-1.96,1.96), geom = &quot;area&quot;, fill = &quot;darkgrey&quot;, alpha=0.5) +
+  stat_function(fun = dnorm, xlim = c(-4,-1.96), geom = &quot;area&quot;, fill = &quot;black&quot;, alpha=0.5) +
+   stat_function(fun = dnorm, xlim = c(1.96,4), geom = &quot;area&quot;, fill = &quot;black&quot;, alpha=0.5) +
+  geom_vline(xintercept = (mean(sample_1) - 1000) / (200/sqrt(50)), color = &quot;red&quot;, size = 1.5) +
+geom_vline(xintercept = (910 - 1000) / (200/sqrt(50)), color = &quot;blue&quot;, size = 1.5) +
+  geom_vline(xintercept = 0, color = &quot;green&quot;, size = 1.5) +
+  labs(title = &quot;PDF of our standardised sample mean income&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="estimators_and_bias_files/figure-html/unnamed-chunk-5-1.png" width="960" /></p>
+<p>Only in <span class="math inline">\(5\%\)</span> of cases we observe sample means in the dark grey area. That means, if we have an income sample and calculate a mean income of <span class="math inline">\(910€\)</span>, we can conclude that the sample is very unlikely to be from the ZU students population.</p>
+<div id="confidence-interval" class="section level2">
+<h2><span class="header-section-number">4.1</span> Confidence Interval</h2>
+<p>We can also construct an interval around our sampled mean income <span class="math inline">\(\bar{inc}\)</span> that contains <span class="math inline">\(\mu_{inc}\)</span> in <span class="math inline">\(95 \%\)</span> of cases:</p>
+<p><span class="math display">\[ \left[ \bar{x} - \frac{1.96 \sigma_X }{\sqrt{n}}, \bar{x} + \frac{1.96 \sigma_X }{\sqrt{n}}   \right]  \qquad \text{general confidence interval formula}\]</span> <span class="math display">\[ \left[ \bar{inc} - \frac{1.96 \sigma_{inc} }{\sqrt{n}}, \bar{inc} + \frac{1.96 \sigma_{inc} }{\sqrt{n}}   \right]  = \left[ 998.4 - \frac{1.96 *200 }{\sqrt{50}}, 998.4 + \frac{1.96 *200 }{\sqrt{50}}   \right] = [942.96,1053,84] \]</span></p>
+<pre class="r"><code>ggplot(data =  data.frame(inc_bar = 900:1100), aes(x=inc_bar)) +
+  stat_function(fun = dnorm, args = list(mean = 1000, sd = 200/sqrt(50)), size = 2) +
+  geom_vline(xintercept = mean(sample_1), color = &quot;red&quot;, size = 1.5) +
+  geom_vline(xintercept = 1000, color = &quot;green&quot;, size = 1.5) +
+  geom_vline(xintercept = mean(sample_1) - (1.96 * 200 /sqrt(50)), color = &quot;darkred&quot;, size = 1.5) +
+  geom_vline(xintercept = mean(sample_1) + (1.96 * 200 /sqrt(50)), color = &quot;darkred&quot;, size = 1.5) +
+  labs(title = &quot;PDF of our sample mean income&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="estimators_and_bias_files/figure-html/unnamed-chunk-6-1.png" width="960" /> In <span class="math inline">\(95 \%\)</span> of samples we draw we draw the constructed interval would contain <span class="math inline">\(\mu_{inc}\)</span>, in this case denoted by the red lines, <span class="math inline">\([987,1009]\)</span>. But we could also observe in, <span class="math inline">\(5\%\)</span> of cases, interval estimates that don’t contain the true mean ZU student income:</p>
+<pre class="r"><code>ggplot(data =  data.frame(inc_bar = 900:1100), aes(x=inc_bar)) +
+  stat_function(fun = dnorm, args = list(mean = 1000, sd = 200/sqrt(50)), size = 2) +
+  geom_vline(xintercept = 910, color = &quot;blue&quot;, size = 1.5) +
+  geom_vline(xintercept = 1000, color = &quot;green&quot;, size = 1.5) +
+  geom_vline(xintercept = 910 - (1.96 * 200 /sqrt(50)), color = &quot;darkblue&quot;, size = 1.5) +
+  geom_vline(xintercept = 910 + (1.96 * 200 /sqrt(50)), color = &quot;darkblue&quot;, size = 1.5) +
+  labs(title = &quot;PDF of our sample mean income&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="estimators_and_bias_files/figure-html/unnamed-chunk-7-1.png" width="960" /></p>
+</div>
+<div id="confidence-intervals-the-whole-picture" class="section level2">
+<h2><span class="header-section-number">4.2</span> Confidence intervals: The Whole Picture</h2>
+<p>If we take 500 samples and construct their confidence intervals for <span class="math inline">\(95\%\)</span> we get a nice visualisation of this:</p>
+<pre class="r"><code>library(tidyverse)
+nn &lt;- 500
+set.seed(11)
+samples &lt;- map(.x = 1:1000,
+               .f = ~ sample(inc,size = 50,replace = FALSE))
+means &lt;- map_dbl(samples[1:nn],~mean(.x))
+se &lt;- map_dbl(samples[1:nn],~ sd(.x)/sqrt(length(.x)))
+lower = means-1.96*se
+upper = means+1.96*se
+df &lt;- data.frame(means,lower,upper)[order(means),] %&gt;%
+  mutate(order = 1:nrow(.),
+         coll = ifelse(upper &lt; 1000 | lower &gt; 1000,&quot;missed&quot;,&quot;ok&quot;))
+ggplot(df) +
+  geom_point(aes(x = order,
+                 y = means,
+                 col = coll)) +
+  geom_segment(aes(x = order-0.02,xend = order + 0.02,
+                   y = lower,yend = upper,col = coll)) +
+  labs(title = &quot;500 Sample 95% confidence interval&quot;) +
+  scale_color_discrete(name = &quot;everything ok?&quot;)+
+  geom_hline(aes(yintercept =1000)) +
+  theme_minimal()</code></pre>
+<p><img src="estimators_and_bias_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
+<p>Here we can clearly see that our interval estimate doesnt directly tell us something of our <em>specific sample</em>, but about our <em>sampling procedure</em> itself.</p>
+<p>(Props to Marcel Schliebs for this visualisation)</p>
+</div>
+<div id="summary-of-interval-estimation" class="section level2">
+<h2><span class="header-section-number">4.3</span> Summary of Interval Estimation</h2>
+<ul>
+<li>Standardising our estimator helps us to calculate probabilities
+<ul>
+<li>In our case, <span class="math inline">\(\bar{X}\)</span> became distributed standard normal after standardisation, because <span class="math inline">\(X\)</span> is normal distributed</li>
+</ul></li>
+<li>We can easily look up z-values in a z-table or with <code>qnorm</code></li>
+<li>We can construct confidence intervals around our estimates that are derived from our sampling procedure
+<ul>
+<li>The population parameter is (for this one sample) contained within this interval with a certain probability</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="estimating-the-second-moment-variance" class="section level1">
+<h1><span class="header-section-number">5</span> Estimating the Second Moment / Variance</h1>
+<p>Estimating the variance of the sample is useful, e.g. if we would like to calculate the <em>sampling variance</em> described just above. An unbiased estimator of the first moment – the <em>sample variance</em> – is given by:</p>
+<p><span class="math display">\[ S^2 = \frac{1}{n-1} \sum_{i=1}^2 (X_i - \bar{X})^2 \]</span></p>
+<p>We divide by <span class="math inline">\(\frac{1}{n-1}\)</span> because we use <span class="math inline">\(\bar{X}\)</span> and not <span class="math inline">\(\mu_X\)</span>. The details can be looked up <a href="https://en.wikipedia.org/wiki/Variance#Sample_variance">here</a>.</p>
+<p>The sample standard deviation is given by: <span class="math display">\[ S = \sqrt{S^2} \]</span></p>
+<p>This estimator is not unbiased. However it is a <em>consistent</em> estimator for <span class="math inline">\(\sigma\)</span> and we can still use it. For the sake of brevity we will skip the discussion of consistency here.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Inference 2 - Hypothesis Tests</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Econometrics with R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Introduction</a>
+</li>
+<li>
+  <a href="objectsndata.html">Objects and Data</a>
+</li>
+<li>
+  <a href="datamanagement.html">Data Management</a>
+</li>
+<li>
+  <a href="linreg.html">Linear Regression</a>
+</li>
+<li>
+  <a href="dataviz.html">DataViz</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Statistical Basics and Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="features_of_pdf.html">Features of Random Variables</a>
+    </li>
+    <li>
+      <a href="estimators_and_bias.html">Inference 1: Estimation</a>
+    </li>
+    <li>
+      <a href="hypothesis_tests.html">Inference 2: Hypothesis Tests</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Inference 2 - Hypothesis Tests</h1>
+
+</div>
+
+
+<hr />
+<div id="contents" class="section level1">
+<h1><span class="header-section-number">1</span> Contents</h1>
+<p>This section covers a fundamental part of inference: hypothesis testing.</p>
+<p>Tests of hypotheses are frequently applied in econometrics, e.g. t-tests for OLS parameters or in tests for heteroscedasticity.</p>
+<p>In this section we will:</p>
+<ul>
+<li>Take a look at the general hypothesis testing procedure</li>
+<li>Derive hypothesis testing with a simulation</li>
+<li>Learn how to do hypothesis testing in R</li>
+</ul>
+<p>In the previous part I assumed that we know the population. Actually – in practice – we don’t. We use hypothesis testing because we don’t much about our populations.</p>
+<p><strong>We actually don’t know</strong>:</p>
+<ul>
+<li>The population mean <span class="math inline">\(\mu_X\)</span> (our parameter of interest)</li>
+<li>The population variance <span class="math inline">\(\sigma^2_X\)</span> and standard deviation <span class="math inline">\(\sigma_X\)</span></li>
+<li>The true distribution of the population <span class="math inline">\(X \sim ?(?)\)</span></li>
+</ul>
+<p>In this scenario (which is the realistic scenario) we do the following:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Assume the population distribution and a value for our parameter of interest</strong></li>
+<li><strong>Then estimate the unknown parameters from a sample</strong></li>
+<li><strong>Test if our assumptions are reasonable</strong></li>
+</ol>
+</div>
+<div id="formal-hypothesis-testing-procedure" class="section level1">
+<h1><span class="header-section-number">2</span> Formal Hypothesis Testing Procedure</h1>
+<p>Assume that the distribution of the population is normal (e.g. because it is reasonably from theory)</p>
+<ol style="list-style-type: decimal">
+<li>Formulate a hypothesis about our population parameter (e.g. <span class="math inline">\(H_0:\mu_X = 1000\)</span>) 1.1 Also the alternative hypothesis <span class="math inline">\(H_1: \mu_X \neq 1000\)</span></li>
+<li>Estimate the parameter
+<ul>
+<li>In this case with the arithmetic mean <span class="math inline">\(\bar{X}\)</span></li>
+</ul></li>
+<li>Estimate the variance and derive the sample standard deviation <span class="math inline">\(S_X\)</span></li>
+<li>Standardise <span class="math inline">\(\bar{X}\)</span> using our estimated <span class="math inline">\(S_X\)</span> and the assumed <span class="math inline">\(\mu_X\)</span></li>
+<li>Calculate the probability that our observed <span class="math inline">\(\bar{X}\)</span> is from the population, given a specific level of certainty (e.g. <span class="math inline">\(95 \%\)</span>)</li>
+</ol>
+<hr />
+</div>
+<div id="simulated-population" class="section level1">
+<h1><span class="header-section-number">3</span> Simulated Population</h1>
+<p>We take again our sample from a simulated population of ZU student income:</p>
+<pre class="r"><code>library(ggplot2)
+library(tidyverse)
+set.seed(11) # seed for reproducibility
+
+n &lt;- 1200
+inc &lt;- rnorm(n, mean = 1000, sd = 200)
+
+ggplot() +
+geom_histogram(aes(x = inc,
+y = ..density..),binwidth = 60,alpha = 0.8) +
+geom_density(aes(x = inc,
+y = ..density..),col = &quot;red&quot;,size = 2,alpha = 0.8) +
+labs(title = &quot;Income of ZU Students&quot;) +
+theme_minimal()</code></pre>
+<p><img src="hypothesis_tests_files/figure-html/unnamed-chunk-1-1.png" width="960" /></p>
+<div id="sample" class="section level2">
+<h2><span class="header-section-number">3.1</span> Sample</h2>
+<p>We draw a random sample with size <code>50</code> from our population:</p>
+<pre class="r"><code>set.seed(24)
+sample_n &lt;- 50
+sample &lt;- sample(x = inc, size = sample_n, replace = F)</code></pre>
+<pre class="r"><code>ggplot() +
+geom_histogram(aes(x = sample,
+y = ..density..),binwidth = 50,alpha = 0.8) +
+labs(title = &quot;SAMPLE Histogram Income ZU Students&quot;) +
+theme_minimal()</code></pre>
+<p><img src="hypothesis_tests_files/figure-html/unnamed-chunk-3-1.png" width="960" /></p>
+<hr />
+</div>
+</div>
+<div id="hypothesis-testing-procedure" class="section level1">
+<h1><span class="header-section-number">4</span> Hypothesis Testing Procedure</h1>
+<p>Given the assumption that our population is distributed normally we:</p>
+<div id="formulate-the-null-hypothesis-that-mean-student-income-is-less-then-940" class="section level2">
+<h2><span class="header-section-number">4.1</span> Formulate the Null-Hypothesis that mean student income is less then <span class="math inline">\(940 €\)</span></h2>
+<p><span class="math display">\[ H_0 : \mu_{inc} &lt; 940  \]</span> Which leaves us with the alternative Hypothesis that the mean income is more or equal to <span class="math inline">\(940€\)</span>: <span class="math display">\[ H_1: \mu_{inc} \geq 940 \]</span></p>
+<pre class="r"><code>mu_inc = 940
+mu_inc</code></pre>
+<pre><code>## [1] 940</code></pre>
+</div>
+<div id="estimate-the-mean-with-the-sample-mean-barx" class="section level2">
+<h2><span class="header-section-number">4.2</span> Estimate the mean with the sample mean <span class="math inline">\(\bar{X}\)</span></h2>
+<pre class="r"><code>inc_bar &lt;- mean(sample)
+inc_bar</code></pre>
+<pre><code>## [1] 998.3979</code></pre>
+</div>
+<div id="estimate-the-sampling-standard-deviation-s-sqrtn" class="section level2">
+<h2><span class="header-section-number">4.3</span> Estimate the sampling standard deviation <span class="math inline">\(S / \sqrt{n}\)</span></h2>
+<pre class="r"><code>S_inc_bar &lt;- sqrt(var(sample)/(sample_n))
+S_inc_bar</code></pre>
+<pre><code>## [1] 27.27298</code></pre>
+<p>At this state we would expect our sample mean to be distributed like this:</p>
+<pre class="r"><code>ggplot(data =  data.frame(X_bar = 850:1030), aes(x=X_bar)) +
+  stat_function(fun = dnorm, args = list(mean = mu_inc, sd = S_inc_bar), size = 2) +
+  geom_vline(xintercept = inc_bar, color = &quot;red&quot;, size = 1.5) +
+  geom_vline(xintercept = mu_inc, color = &quot;green&quot;, size = 1.5) +
+  labs(title = &quot;Assumed PDF of our sample mean under H0&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="hypothesis_tests_files/figure-html/unnamed-chunk-7-1.png" width="960" /></p>
+</div>
+<div id="standardise-barx-so-we-can-easily-calculate-probabilities" class="section level2">
+<h2><span class="header-section-number">4.4</span> Standardise <span class="math inline">\(\bar{X}\)</span> so we can easily calculate probabilities</h2>
+<pre class="r"><code>Z_inc_bar &lt;- (inc_bar - 940) / (S_inc_bar)
+Z_inc_bar</code></pre>
+<pre><code>## [1] 2.141236</code></pre>
+<p>Our standardised income is also called the <em>test statistic</em>.</p>
+<pre class="r"><code>ggplot(data =  data.frame(Z_inc_bar = -4:4), aes(x=Z_inc_bar)) +
+  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), size = 2) +
+  geom_vline(xintercept = Z_inc_bar, color = &quot;red&quot;, size = 1.5) +
+  geom_vline(xintercept = 0, color = &quot;green&quot;, size = 1.5) +
+  labs(title = &quot;Assumed PDF of our standardised sample mean under H0&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="hypothesis_tests_files/figure-html/unnamed-chunk-9-1.png" width="960" /></p>
+</div>
+<div id="calculate-probability-of-barx-occuring-at-5-significance-level" class="section level2">
+<h2><span class="header-section-number">4.5</span> Calculate probability of <span class="math inline">\(\bar{X}\)</span> occuring at 5% significance level</h2>
+<p>Look up the critical <span class="math inline">\(z-value\)</span> for <span class="math inline">\(1-5\% = 95\%\)</span>, e.g. in this <a href="http://www.z-table.com/">table</a>.</p>
+<p><span class="math display">\[ c = z_{95 \%} \approx 1.65 \]</span></p>
+<p>Or in R:</p>
+<pre class="r"><code>qnorm(0.95)</code></pre>
+<pre><code>## [1] 1.644854</code></pre>
+<p>Lets visualise this:</p>
+<pre class="r"><code>ggplot(data =  data.frame(Z_inc_bar = -4:4), aes(x=Z_inc_bar)) +
+  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), size = 2) +
+    stat_function(fun = dnorm, xlim = c(-4,1.65), geom = &quot;area&quot;, fill = &quot;grey&quot;, alpha=0.5) +
+  stat_function(fun = dnorm, xlim = c(1.65,4), geom = &quot;area&quot;, fill = &quot;black&quot;, alpha=0.5) +
+  geom_vline(xintercept = Z_inc_bar, color = &quot;red&quot;, size = 1.5) +
+  geom_vline(xintercept = 0, color = &quot;green&quot;, size = 1.5) +
+  labs(title = &quot;Assumed PDF of our standardised sample mean under H0&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="hypothesis_tests_files/figure-html/unnamed-chunk-11-1.png" width="960" /></p>
+<div id="hypothesis-test" class="section level3">
+<h3><span class="header-section-number">4.5.1</span> Hypothesis Test:</h3>
+<p>Check whether our standardised estimator <span class="math inline">\(Z_{\bar{inc}}\)</span> is larger than our critical value <span class="math inline">\(c\)</span>.</p>
+<ul>
+<li>Critical value <span class="math inline">\(c\)</span>: quantile of the standard normal cdf with <span class="math inline">\(P(z &gt; c) = 95 \%\)</span></li>
+<li>Test statistic: our standardised estimator <span class="math inline">\(Z_{\bar{inc}}\)</span></li>
+</ul>
+<p>Remember our <span class="math inline">\(H_0: \mu_{inc} &lt; 940€\)</span> and <span class="math inline">\(H_1: \mu_{inc} \geq 940€\)</span>. Lets test that in R:</p>
+<pre class="r"><code>Z_inc_bar &gt;= qnorm(0.95)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>We now can make the following statements:</p>
+<ul>
+<li>If the <span class="math inline">\(H_0\)</span> is true, samples with a <span class="math inline">\(Z_\bar{inc}\)</span> in the dark grey area only occur <span class="math inline">\(5\%\)</span> of the time
+<ul>
+<li>We call that area the rejection region</li>
+</ul></li>
+<li>We showed that our observed sample mean (in standardised form) falls into the rejection region</li>
+<li>In conclusion, we have some evidence against our initial assumption that mean student income is at most <span class="math inline">\(940 €\)</span></li>
+<li>This means that we can be optimistic that our sample is not one of the <span class="math inline">\(5 \%\)</span> of outliers in the world of <span class="math inline">\(H_0\)</span>, but that the <span class="math inline">\(H_0\)</span> is wrong</li>
+</ul>
+<p>Generally we can make the statement: “we can reject the null hypothesis that mean ZU student income is less than <span class="math inline">\(940€\)</span> at a significance level of <span class="math inline">\(5\%\)</span>”</p>
+</div>
+<div id="hypothesis-test---other-possible-variants" class="section level3">
+<h3><span class="header-section-number">4.5.2</span> Hypothesis Test - Other Possible Variants</h3>
+<p>What we did was only the <em>right-sided</em> hypothesis test.</p>
+<p>We could also test other hypotheses:</p>
+<ul>
+<li>Left-sided: <span class="math inline">\(H_0: \mu_{inc} &gt; 940€\)</span> and <span class="math inline">\(H_1: \mu_{inc} \leq 940€\)</span>
+<ul>
+<li>Test: <span class="math inline">\(\mu_{inc} \leq c\)</span></li>
+</ul></li>
+<li>Both-sided: <span class="math inline">\(H_0: \mu_{inc} = 940€\)</span> and <span class="math inline">\(H_1: \mu_{inc} \neq 940€\)</span>
+<ul>
+<li>Test :<span class="math inline">\(|\mu_{inc}| &gt; c\)</span></li>
+</ul></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="p-values" class="section level2">
+<h2><span class="header-section-number">4.6</span> P-Values</h2>
+<p>So called <em>p-values</em> are often used and reported in statistical work. They indicate the highest level of significance at which we can reject the <span class="math inline">\(H_0\)</span>.</p>
+<p>In our example, we could not only reject the <span class="math inline">\(H_0\)</span> at the <span class="math inline">\(5\%\)</span> level, but also at the <span class="math inline">\(2.5\%\)</span> level:</p>
+<pre class="r"><code>ggplot(data =  data.frame(Z_inc_bar = -4:4), aes(x=Z_inc_bar)) +
+  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), size = 2) +
+    stat_function(fun = dnorm, xlim = c(-4,1.65), geom = &quot;area&quot;, fill = &quot;grey&quot;, alpha=0.5) +
+  stat_function(fun = dnorm, xlim = c(1.65,1.96), geom = &quot;area&quot;, fill = &quot;darkgrey&quot;, alpha=0.5) +
+  stat_function(fun = dnorm, xlim = c(1.96,4), geom = &quot;area&quot;, fill = &quot;black&quot;, alpha=0.5) +
+  geom_vline(xintercept = Z_inc_bar, color = &quot;red&quot;, size = 1.5) +
+  geom_vline(xintercept = 0, color = &quot;green&quot;, size = 1.5) +
+  labs(title = &quot;Assumed PDF of our standardised sample mean under H0&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="hypothesis_tests_files/figure-html/unnamed-chunk-13-1.png" width="960" /></p>
+<p>But at most, we could reject it at the level of our test-statistic. So we just need to look up the corresponding value for <span class="math inline">\(Z_\bar{inc}\)</span> in the <a href="http://www.z-table.com/">z- table</a> or with r:</p>
+<pre class="r"><code>1- pnorm(Z_inc_bar)</code></pre>
+<pre><code>## [1] 0.01612751</code></pre>
+<p>This is our p-value. It tells us that we can reject the <span class="math inline">\(H_0\)</span> at most at a significance level of <span class="math inline">\(\approx 1.6 \%\)</span>.</p>
+<hr />
+</div>
+</div>
+<div id="t-test-function-in-r" class="section level1">
+<h1><span class="header-section-number">5</span> T-Test Function in R</h1>
+<p>In R we can conduct this procedure with the <code>t.test</code> function:</p>
+<pre class="r"><code>t.test(sample, mu = 940, alternative = &quot;greater&quot;)</code></pre>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  sample
+## t = 2.1412, df = 49, p-value = 0.01863
+## alternative hypothesis: true mean is greater than 940
+## 95 percent confidence interval:
+##  952.6733      Inf
+## sample estimates:
+## mean of x 
+##  998.3979</code></pre>
+<p>The different p-value is due to the fact that <code>t.test</code> used the <strong>Students t-distribution</strong> instead of the standard normal distribution. We used the standard normal for ease of explanation, but actually our test statistic is distributed in the Student-t way.</p>
+<p>If we calculate our p-value for the Student-t distribution, we get the same result:</p>
+<pre class="r"><code>1- pt(Z_inc_bar, 49) # degrees of freedom = sample size -1 </code></pre>
+<pre><code>## [1] 0.01862729</code></pre>
+<p>For large samples (<span class="math inline">\(n &gt; 120\)</span>) the t-distribution and the standard normal distribution are almost equivalent.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

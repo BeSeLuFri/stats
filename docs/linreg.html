@@ -93,6 +93,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -290,8 +293,23 @@ div.tocify {
 <li>
   <a href="dataviz.html">DataViz</a>
 </li>
-<li>
-  <a href="econometrics.html">Applied Econometrics</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Statistical Basics and Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="features_of_pdf.html">Features of Random Variables</a>
+    </li>
+    <li>
+      <a href="estimators_and_bias.html">Inference 1: Estimation</a>
+    </li>
+    <li>
+      <a href="hypothesis_tests.html">Inference 2: Hypothesis Tests</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="about.html">About</a>
@@ -458,8 +476,8 @@ summary(model3)</code></pre>
 <pre class="r"><code>library(stargazer)</code></pre>
 <pre><code>## 
 ## Please cite as:</code></pre>
-<pre><code>##  Hlavac, Marek (2015). stargazer: Well-Formatted Regression and Summary Statistics Tables.</code></pre>
-<pre><code>##  R package version 5.2. http://CRAN.R-project.org/package=stargazer</code></pre>
+<pre><code>##  Hlavac, Marek (2018). stargazer: Well-Formatted Regression and Summary Statistics Tables.</code></pre>
+<pre><code>##  R package version 5.2.2. https://CRAN.R-project.org/package=stargazer</code></pre>
 <pre class="r"><code># Nice Apa-Ready Output: 
 
 stargazer(model1,model2,model3,  #regression models 
