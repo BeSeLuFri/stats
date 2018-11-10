@@ -24,12 +24,16 @@ navbar:
     href: dataviz.html
   - text: Statistical Basics and Inference
     menu:
+      - text: "Random Variables and Distributions"
+        href: random-variables.html
       - text: "Features of Random Variables"
         href: features_of_pdf.html
       - text: "Inference 1: Estimation"
         href: estimators_and_bias.html
       - text: "Inference 2: Hypothesis Tests"
         href: hypothesis_tests.html
+      - text: "Simple Linear Regression and OLS"
+        href: slr-and-ols.html
 #  - text: Applied Econometrics
 #    href: econometrics.html
   - text: About
