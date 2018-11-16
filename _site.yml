@@ -19,7 +19,7 @@ navbar:
   - text: Data Management
     href: datamanagement.html
   - text: Linear Regression
-    href: linreg.html
+    href: lm-function.html
   - text: DataViz
     href: dataviz.html
   - text: Statistical Basics and Inference

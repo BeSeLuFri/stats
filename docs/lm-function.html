@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Linear Modelling</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="site_libs/viz-0.3/viz.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/grViz-binding-1.0.0/grViz.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Econometrics with R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Introduction</a>
+</li>
+<li>
+  <a href="objectsndata.html">Objects and Data</a>
+</li>
+<li>
+  <a href="datamanagement.html">Data Management</a>
+</li>
+<li>
+  <a href="lm-function.html">Linear Regression</a>
+</li>
+<li>
+  <a href="dataviz.html">DataViz</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Statistical Basics and Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="random-variables.html">Random Variables and Distributions</a>
+    </li>
+    <li>
+      <a href="features_of_pdf.html">Features of Random Variables</a>
+    </li>
+    <li>
+      <a href="estimators_and_bias.html">Inference 1: Estimation</a>
+    </li>
+    <li>
+      <a href="hypothesis_tests.html">Inference 2: Hypothesis Tests</a>
+    </li>
+    <li>
+      <a href="slr-and-ols.html">Simple Linear Regression and OLS</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Linear Modelling</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<div id="workflow" class="section level2">
+<h2><span class="header-section-number">1.1</span> Workflow</h2>
+<div id="htmlwidget-76db77b38cff744a2c25" style="width:800px;height:400px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-76db77b38cff744a2c25">{"x":{"diagram":"digraph {\n\n  rankdir=LR\n\n  # a \"graph\" statement\n  node[shape = note margin=0.25]\n  graph [overlap = true, fontsize = 10]\n\n   formula [label = \"Model Formula\"]\n\n  node[shape = hexagon]\n    lm [label = \"Fit Model \\n lm()\"]\n  \n  node [shape = cylinder]\n    data [label = \"Data\"]\n    \n    out [label = \"lm - Output\"]\n    \n  node [shape = box]\n  \n    inspect [label = \"Inspect & Plot\"]\n    evaluate [label = \"Evaluate\"]\n    export [label = \"Display & Export\"]\n\n  data -> lm\n  formula -> lm\n  \n  lm -> out\n  \n  out -> evaluate\n  out -> inspect\n  out -> export\n\n\n  # several \"edge\" statements\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="the-lm-function" class="section level2">
+<h2><span class="header-section-number">1.2</span> The <code>lm</code> Function</h2>
+<pre class="r"><code>lm(formula,
+   data,
+   subset,
+   na.action)</code></pre>
+<p><code>formula</code> - Specification of our regression model</p>
+<p><code>data</code> - The dataset containing the variables of the regression</p>
+<p><code>subset</code> - An option to subset the data</p>
+<p><code>na.action</code> - Option that specifies how to deal with missing values</p>
+</div>
+<div id="the-formula-argument" class="section level2">
+<h2><span class="header-section-number">1.3</span> The <code>formula</code> Argument</h2>
+<ul>
+<li>Behind the scenes, OLS-estimation is linear algebra. E.g. The linear regression parameters are derived by <span class="math inline">\(\boldsymbol{\beta} = \boldsymbol{(X&#39;X)^{-1}X&#39;y}\)</span></li>
+<li>In order to keep our interaction with R short and simple (and without linear algebra), R offers the <em>formula method</em></li>
+</ul>
+<p>We can write our models using the following syntax:</p>
+<pre class="r"><code>model = formula(regressand ~ regressors)</code></pre>
+<p>Where <code>regressand</code> is just our dependent variable / response usually denoted by <span class="math inline">\(y\)</span> and <code>model</code> is our formula of independent variables / regressors, e.g.:</p>
+<pre class="r"><code>happy_model = formula(happiness ~ age + income + n_children + married)</code></pre>
+<hr />
+<p>We can construct formulas with the following syntax:</p>
+<ul>
+<li>Adding variables with <code>+</code></li>
+</ul>
+<pre class="r"><code>formula(y ~ a + b)</code></pre>
+<ul>
+<li>Interactions with <code>:</code></li>
+</ul>
+<pre class="r"><code>formula(y ~ a + b + a:b)</code></pre>
+<ul>
+<li>Crossing: <code>a * b</code> is equivalent to <code>a + b + a:b</code></li>
+</ul>
+<pre class="r"><code>formula(y ~ a + b + a:b) # and
+formula(y ~ a*b) # are equivalent</code></pre>
+<hr />
+<ul>
+<li>Transformations with <code>I()</code></li>
+</ul>
+<pre class="r"><code>formula(y ~ a + I(a^2)) # quadratic term must be in I() to evaluate correctly
+formula(y ~ log(a)) # log can stay by itself</code></pre>
+<ul>
+<li>Include all variables in your data with <code>.</code></li>
+</ul>
+<pre class="r"><code>formula(y ~ .) # is equivalent to
+formula(y ~ a + b + ... + z) # for a dataset with variables from a to z</code></pre>
+<ul>
+<li>Exclude variables with <code>-</code></li>
+</ul>
+<pre class="r"><code>formula(y ~ .-a ) # is equivalent to
+formula(y ~ b + c + ... + z)# for a dataset with variables from a to z</code></pre>
+</div>
+<div id="the-subset-argument" class="section level2">
+<h2><span class="header-section-number">1.4</span> The <code>subset</code> Argument</h2>
+<ul>
+<li>Sometimes, we want to run our model on a subset of our data</li>
+<li>We can specify subsets of certain variables as follows:</li>
+</ul>
+<pre class="r"><code>lm(formula,
+   data,
+   subset = age &lt; 30)</code></pre>
+<ul>
+<li>Connect muliple subset arguments with logical operators:</li>
+</ul>
+<pre class="r"><code>lm(formula,
+   data,
+   subset = age &lt; 30 &amp; height &gt; 180)</code></pre>
+<p>Note that although this works, a best-practice is to subset your data prior to the estimation. By keeping these steps distinct, your code will be much easier for someone else to understand.</p>
+</div>
+<div id="the-na.action-argument" class="section level2">
+<h2><span class="header-section-number">1.5</span> The <code>na.action</code> Argument</h2>
+<p>If the data contains missing values, <code>lm</code> automatically deletes the whole observation.</p>
+<ul>
+<li>Specify <code>na.action = na.fail</code> if you want an error when the data contains missing values</li>
+</ul>
+<p>Again, it is a best-practice to look for missing values in your data prior to the estimation to keep your code transparent.</p>
+<ul>
+<li>You can use the <code>missmap</code> function from the <code>Amelia</code> package to get a nice visualisation of missing values in your data</li>
+</ul>
+</div>
+<div id="example-call-of-lm-with-wage-data" class="section level2">
+<h2><span class="header-section-number">1.6</span> Example Call of <code>lm</code> with Wage Data</h2>
+<pre class="r"><code>wage_data &lt;- read.csv2(&quot;data/offline/wages2.csv&quot;)
+
+head(wage_data)</code></pre>
+<pre><code>##   WAGE HOURS  IQ SCORES EDUC EXPER TENURE AGE MARRIED BLACK SOUTH URBAN
+## 1  769    40  93     35   12    11      2  31       1     0     0     1
+## 2  808    50 119     41   18    11     16  37       1     0     0     1
+## 3  825    40 108     46   14    11      9  33       1     0     0     1
+## 4  650    40  96     32   12    13      7  32       1     0     0     1
+## 5  562    40  74     27   11    14      5  34       1     0     0     1
+## 6 1400    40 116     43   16    14      2  35       1     1     0     1</code></pre>
+<pre class="r"><code>m1 &lt;- formula(WAGE ~ EDUC + EXPER)
+
+model&lt;- lm(formula = m1,
+           data = wage_data)</code></pre>
+</div>
+<div id="output-of-lm" class="section level2">
+<h2><span class="header-section-number">1.7</span> Output of <code>lm</code></h2>
+<p>The <code>lm</code> function returns a list. Relevant components of this list are:</p>
+<ul>
+<li><code>call</code> - the function call that generated the output</li>
+<li><code>coefficients</code> the OLS coefficients</li>
+<li><code>residuals</code></li>
+<li><code>fitted.values</code> The estimates for our dpendent variable (WAGE)</li>
+<li><code>model</code> The model matrix used for estimation</li>
+</ul>
+<p>The full list of outputs can be looked up via</p>
+<ul>
+<li><code>?lm()</code></li>
+<li><code>str(model)</code> where model is our saved output from <code>lm</code></li>
+<li>the <code>$</code> operator and <code>tab</code>, e.g. <code>model$...</code></li>
+</ul>
+<hr />
+<p>Lets look up our coefficients <span class="math inline">\(\beta\)</span>, fitted values <span class="math inline">\(\hat{y}\)</span> and OLS residuals <span class="math inline">\(\varepsilon\)</span></p>
+<pre class="r"><code>model$coefficients</code></pre>
+<pre><code>## (Intercept)        EDUC       EXPER 
+##  -272.52786    76.21639    17.63777</code></pre>
+<pre class="r"><code>model$fitted.values[1:7] # first 7 fitted values</code></pre>
+<pre><code>##         1         2         3         4         5         6         7 
+##  836.0843 1293.3826  988.5170  871.3598  812.7812 1193.8631  718.9270</code></pre>
+<pre class="r"><code>model$residuals[1:7] # first 7 residuals</code></pre>
+<pre><code>##          1          2          3          4          5          6 
+##  -67.08427 -485.38260 -163.51705 -221.35981 -250.78119  206.13686 
+##          7 
+## -118.92703</code></pre>
+<hr />
+<p>We can visualise the results very simply with <code>hist</code> or <code>plot</code>:</p>
+<pre class="r"><code>hist(model$residuals, breaks = 30)</code></pre>
+<p><img src="lm-function_files/figure-html/unnamed-chunk-18-1.png" width="960" /></p>
+<hr />
+<pre class="r"><code>hist(model$fitted.values, breaks = 30)</code></pre>
+<p><img src="lm-function_files/figure-html/unnamed-chunk-19-1.png" width="960" /></p>
+</div>
+<div id="output-of-lm-with-the-summary-function" class="section level2">
+<h2><span class="header-section-number">1.8</span> Output of <code>lm</code> with the <code>summary()</code> function</h2>
+<pre><code>## 
+## Call:
+## lm(formula = m1, data = wage_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -924.38 -252.74  -40.88  198.16 2165.70 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -272.528    107.263  -2.541   0.0112 *  
+## EDUC          76.216      6.297  12.104  &lt; 2e-16 ***
+## EXPER         17.638      3.162   5.578 3.18e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 376.3 on 932 degrees of freedom
+## Multiple R-squared:  0.1359, Adjusted R-squared:  0.134 
+## F-statistic: 73.26 on 2 and 932 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="display-and-export-tables-with-stargazer" class="section level2">
+<h2><span class="header-section-number">1.9</span> Display and Export Tables with <code>stargazer()</code></h2>
+<pre class="r"><code>stargazer::stargazer(model, type = &quot;text&quot;, style = &quot;asr&quot; )</code></pre>
+<pre><code>## 
+## -------------------------------------------
+##                              WAGE          
+## -------------------------------------------
+## EDUC                       76.216***       
+## EXPER                      17.638***       
+## Constant                   -272.528*       
+## N                             935          
+## R2                           0.136         
+## Adjusted R2                  0.134         
+## Residual Std. Error   376.295 (df = 932)   
+## F Statistic         73.260*** (df = 2; 932)
+## -------------------------------------------
+## *p &lt; .05; **p &lt; .01; ***p &lt; .001</code></pre>
+<div id="export-stargazer-output-to-file" class="section level3">
+<h3><span class="header-section-number">1.9.1</span> Export Stargazer Output to File</h3>
+<pre class="r"><code>stargazer::stargazer(model,
+                     type = &quot;html&quot;,
+                     out = &quot;model.html&quot;)</code></pre>
+</div>
+</div>
+<div id="compare-different-models" class="section level2">
+<h2><span class="header-section-number">1.10</span> Compare different Models</h2>
+<pre class="r"><code>model2 &lt;- lm(WAGE ~ EDUC + EXPER + IQ + SCORES, data = wage_data)
+stargazer::stargazer(model, model2, type = &quot;text&quot;, style = &quot;asr&quot;)</code></pre>
+<pre><code>## 
+## -------------------------------------------------------------------
+##                                          WAGE                      
+##                               (1)                     (2)          
+## -------------------------------------------------------------------
+## EDUC                       76.216***               47.472***       
+## EXPER                      17.638***               13.733***       
+## IQ                                                 3.795***        
+## SCORES                                             8.736***        
+## Constant                   -272.528*              -536.848***      
+## N                             935                     935          
+## R2                           0.136                   0.182         
+## Adjusted R2                  0.134                   0.179         
+## Residual Std. Error   376.295 (df = 932)      366.466 (df = 930)   
+## F Statistic         73.260*** (df = 2; 932) 51.788*** (df = 4; 930)
+## -------------------------------------------------------------------
+## *p &lt; .05; **p &lt; .01; ***p &lt; .001</code></pre>
+<p>Specify the folder and file were your table should be saved as <code>&quot;path/name.type&quot;</code></p>
+<ol style="list-style-type: decimal">
+<li>Output as <code>.html</code> : Open the file in your web browser and copy it into Word</li>
+<li>Output as <code>.tex</code> : Include in LaTeX</li>
+</ol>
+</div>
+</div>
+<div id="f-test" class="section level1">
+<h1><span class="header-section-number">2</span> F-Test</h1>
+<div id="motivation-of-the-f-test" class="section level2">
+<h2><span class="header-section-number">2.1</span> Motivation of the F-Test</h2>
+<p>We can test for significance of <strong>single</strong> parameters with t-tests</p>
+<ul>
+<li>E.g. we can test if <code>EDUC</code> has an influence on <code>WAGE</code></li>
+<li>We can see if the effect of <code>EDUC</code> changes when more variables are added</li>
+</ul>
+<p>We can test for joint significance of a group of variables with F-tests</p>
+<ul>
+<li>E.g. are work-related variables like <code>TENURE</code>, <code>EXPER</code> and <code>SCORES</code> significant, once we control for personal variables like <code>IQ</code> and <code>EDUC</code></li>
+</ul>
+<pre class="r"><code>model3 &lt;- lm(WAGE ~ IQ + EDUC, data = wage_data)
+model4 &lt;- lm(WAGE ~ IQ + EDUC + TENURE + EXPER + SCORES, data = wage_data)</code></pre>
+</div>
+<div id="model-comparison" class="section level2">
+<h2><span class="header-section-number">2.2</span> Model Comparison</h2>
+<pre class="r"><code>stargazer::stargazer(model3, model4, type = &quot;text&quot;, style = &quot;asr&quot;)</code></pre>
+<pre><code>## 
+## -------------------------------------------------------------------
+##                                          WAGE                      
+##                               (1)                     (2)          
+## -------------------------------------------------------------------
+## IQ                         5.138***                3.697***        
+## EDUC                       42.058***               47.270***       
+## TENURE                                              6.247*         
+## EXPER                                              11.859***       
+## SCORES                                             8.270***        
+## Constant                   -128.890               -531.039***      
+## N                             935                     935          
+## R2                           0.134                   0.188         
+## Adjusted R2                  0.132                   0.183         
+## Residual Std. Error   376.730 (df = 932)      365.393 (df = 929)   
+## F Statistic         72.015*** (df = 2; 932) 42.967*** (df = 5; 929)
+## -------------------------------------------------------------------
+## *p &lt; .05; **p &lt; .01; ***p &lt; .001</code></pre>
+</div>
+<div id="procedure-of-the-f-test" class="section level2">
+<h2><span class="header-section-number">2.3</span> Procedure of the F-Test</h2>
+<ul>
+<li>Set up the models:
+<ul>
+<li>Restricted model: <span class="math inline">\(WAGE = \beta_0 + \beta_{1}IQ + \beta_{2}EDUC\)</span></li>
+<li>Unrestricted model:</li>
+</ul></li>
+</ul>
+<p><span class="math inline">\(WAGE = \beta_0 + \beta_{1}IQ + \beta_{2}EDUC + \beta_{3}TENURE + \beta_{4}EXPER + \beta_{5}SCORES\)</span></p>
+<ul>
+<li>State the Hypotheses that the <em>joint effect</em> of <code>TENURE</code>, <code>EXPER</code> and <code>SCORES</code> is zero:</li>
+</ul>
+<p><span class="math display">\[ H_0: \beta_{3} = \beta_{4} = \beta_{5} = 0 \\
+   H_1: H_0 \text{ is not true}\]</span></p>
+<hr />
+<p>Since OLS minimises the <span class="math inline">\(SSR\)</span>, the <span class="math inline">\(SSR\)</span> always increases if we drop variables. The question is, if that increase is significant.</p>
+<ul>
+<li>Calculate the test statistic:</li>
+</ul>
+<p><span class="math display">\[ F = \frac{SSR_r - SSR_{ur}/q}{SSR_{ur} / (n-k-1)} \sim F_{q, n-k-1} \\
+q = \text{number of restrictions} \\
+k = \text{number of parameters}\]</span></p>
+<p>If the <span class="math inline">\(H_0\)</span> is true, our test statistic follows the <span class="math inline">\(F-Distribution\)</span> and we can calculate p-values for our test.</p>
+</div>
+<div id="f-test-in-r" class="section level2">
+<h2><span class="header-section-number">2.4</span> F-Test in R</h2>
+<pre class="r"><code>anova(model3, model4)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: WAGE ~ IQ + EDUC
+## Model 2: WAGE ~ IQ + EDUC + TENURE + EXPER + SCORES
+##   Res.Df       RSS Df Sum of Sq      F    Pr(&gt;F)    
+## 1    932 132274591                                  
+## 2    929 124032931  3   8241660 20.576 6.495e-13 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
