@@ -1,7 +1,7 @@
 ---
-title: "Econometrics with R"
-author: "Benedikt Fritz & Marcel Schliebs"
-date: "27 October 2018"
+title: "Applied and Advanced Statistics with R"
+author: "Luca Messerschmidt (Credits: Marcel Schliebs and Benedikt Fritz)"
+date: "June 2019"
 ---
 
 ```{r setup, include=FALSE}
