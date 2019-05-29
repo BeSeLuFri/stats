@@ -10,9 +10,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ***
 # Hello
 
-Hi everyone from Benedikt and Marcel and welcome to this introductory **Applied Econometrics with R** tutorial. The following paragraphs shall get you familiar with R and hopefully make you full-fledged data scientists in no time. So let's get started. 
+Hi everyone and welcome to this introductory **Applied Econometrics with R** tutorial. The following paragraphs shall get you familiar with R and hopefully make you full-fledged data scientists in no time. So let's get started. Credits to my best friends Marcel Schliebs and Benedikt Fritz for this great Intro.
 
-R is a powerful prgramming language that is expecially well-suited for statistical analyses and the creation of graphics. It is one of the most widely used software packages in Econometrics and Applied Statistics.
+R is a powerful programming language that is expecially well-suited for statistical analyses and the creation of graphics. It is one of the most widely used software packages in Econometrics and Applied Statistics.
 It is free and constantly adjusted and extended by a large user community which is why it is always up to date when it comes to the latest statistical developments. 
 
 
@@ -93,7 +93,7 @@ There must be a better way around this.
 ***
 # R Scripts
 Of course there is - RScripts!
-An RRScript contains all commands including those for reading the reaw data, data manipulation, estimation, post-estimation analyses, and the creation of graphs and tables. We can ask R to run all or some ot the commands listed in the R script at once. 
+An RScript contains all commands including those for reading the reaw data, data manipulation, estimation, post-estimation analyses, and the creation of graphs and tables. We can ask R to run all or some ot the commands listed in the R script at once. 
 This is key becaus the key feature of every scientific methods is reproducibility. When relying on R Scripts we can backtrack all the changes we made to our data and the assumptions we were relying on in our analysis with a simple mouse click. 
 
 To open the editor for creating a new R script click on the symbol in the top left corner and choose open a new R script. Be sure to save it in the same folder where also your RProject is saved. 
@@ -155,7 +155,7 @@ c(1,2,3,5) %>% mean()
 
 Maybe here short intro into R style or link to google style sheet. 
 
-# Important Ressources
+# Important Resources
 [Stackoverflow](https://www.stackoverflow.com/))
 A general discussion forum for programmers, including many R users.
 Just google your question and make sure to place an "R" in the beginning of your question. Most often you will be directed to stackoverflow.
